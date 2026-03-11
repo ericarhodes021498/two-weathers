@@ -26,6 +26,7 @@ const fonts = {
 // SHARED COMPONENTS
 // ═══════════════════════════════════════════════════════════════
 function Nav({ active, setActive }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const tabs = [
     { id: "home", label: "Home", icon: "◉" },
     { id: "screening", label: "Screening", icon: "◎" },
@@ -35,28 +36,62 @@ function Nav({ active, setActive }) {
     { id: "body", label: "Body", icon: "◯" },
     { id: "substance", label: "Substance Use", icon: "◆" },
     { id: "find-help", label: "Find Help", icon: "◇" },
+    { id: "about", label: "About", icon: "♡" },
   ];
+  const pick = (id) => { setActive(id); setMenuOpen(false); };
   return (
-    <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.92)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`, padding: "0 20px" }}>
-      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => setActive("home")}>
+    <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.95)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56, padding: "0 20px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => pick("home")}>
           <span style={{ fontSize: 20, color: C.accent }}>⬡</span>
           <span style={{ fontFamily: fonts.display, fontSize: 17, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>Two Weathers</span>
         </div>
-        <div style={{ display: "flex", gap: 2 }}>
+        {/* Desktop nav */}
+        <div style={{ display: "flex", gap: 1, flexWrap: "wrap" }} className="desktop-nav">
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setActive(t.id)} style={{
-              padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
+            <button key={t.id} onClick={() => pick(t.id)} style={{
+              padding: "7px 10px", borderRadius: 8, border: "none", cursor: "pointer",
               background: active === t.id ? C.accentLight : "transparent",
               color: active === t.id ? C.accent : C.textMid,
-              fontSize: 13, fontWeight: active === t.id ? 700 : 500,
+              fontSize: 12.5, fontWeight: active === t.id ? 700 : 500,
               fontFamily: fonts.body, transition: "all 0.2s",
-              display: "flex", alignItems: "center", gap: 5,
+              display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap",
             }}>
-              <span style={{ fontSize: 10 }}>{t.icon}</span> {t.label}
+              <span style={{ fontSize: 9 }}>{t.icon}</span> {t.label}
             </button>
           ))}
         </div>
+        {/* Mobile hamburger */}
+        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
+          display: "none", background: "none", border: "none", cursor: "pointer",
+          fontSize: 24, color: C.text, padding: "4px 8px",
+        }}>
+          {menuOpen ? "✕" : "☰"}
+        </button>
+      </div>
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="mobile-dropdown" style={{
+          position: "absolute", top: 56, left: 0, right: 0, background: "rgba(250,250,248,0.98)",
+          backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`,
+          padding: "8px 20px 16px", boxShadow: C.shadow,
+        }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => pick(t.id)} style={{
+              display: "block", width: "100%", textAlign: "left", padding: "12px 14px",
+              borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 2,
+              background: active === t.id ? C.accentLight : "transparent",
+              color: active === t.id ? C.accent : C.text,
+              fontSize: 15, fontWeight: active === t.id ? 700 : 500,
+              fontFamily: fonts.body, transition: "all 0.15s",
+            }}>
+              <span style={{ marginRight: 8, fontSize: 12 }}>{t.icon}</span>{t.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </nav>
+  );        </div>
       </div>
     </nav>
   );
@@ -1031,6 +1066,75 @@ function SubstancePage() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// ABOUT PAGE
+// ═══════════════════════════════════════════════════════════════
+function AboutPage() {
+  return (
+    <Section style={{ paddingTop: 60, paddingBottom: 60 }}>
+      <div style={{ maxWidth: 600, margin: "0 auto" }}>
+        <Badge color={C.accent}>Why This Exists</Badge>
+        <h2 style={{ fontFamily: fonts.display, fontSize: 32, fontWeight: 700, color: C.text, margin: "14px 0 24px", lineHeight: 1.2 }}>About Two Weathers</h2>
+
+        <div style={{ fontSize: 16, color: C.textMid, lineHeight: 1.8, fontFamily: fonts.body }}>
+          <p style={{ marginBottom: 20 }}>
+            I spent years working with my therapist friend Maxine trying to figure out what might actually be helpful to people suffering from bipolar disorder. Not the clinical version that reads like a textbook. Not the watered-down version that says "talk to your doctor" and leaves it at that. The version that answers the questions you're really asking at 2 AM when you can't sleep and you don't know what's happening to you.
+          </p>
+          <p style={{ marginBottom: 20 }}>
+            I come from a family with this history. I know what it looks like when someone doesn't get help early enough. I know how much harder everything becomes when the diagnosis comes years too late — after the relationships have been damaged, after the jobs have been lost, after the substances have become the coping mechanism instead of actual treatment.
+          </p>
+          <p style={{ marginBottom: 20 }}>
+            I also know that figuring all of this out shouldn't be this hard. The information exists. The research is there. The screening tools are validated. The medication data is published. But it's scattered across hundreds of journal articles, clinical guidelines, and medical websites that weren't written for the person who's actually going through it.
+          </p>
+          <p style={{ marginBottom: 20 }}>
+            That's what Two Weathers is — everything I wish had existed in one place when my family needed it. A screening tool that actually tells you which type you might have. A medication guide that includes what real patients say, not just what the label says. Therapy pages that explain what CBT and DBT actually do in plain language. An honest page about substance use that leads with compassion instead of shame. And real links to find real help.
+          </p>
+          <p style={{ marginBottom: 0, color: C.text, fontWeight: 500 }}>
+            None of this replaces a psychiatrist or therapist. But it can be the thing that helps you get to one. And that's enough.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 36, padding: "24px", background: "#faf5f0", borderRadius: 14, border: "1px solid #e8ddd2" }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>About the Name</h3>
+          <p style={{ fontSize: 14.5, color: C.textMid, lineHeight: 1.7, margin: 0, fontFamily: fonts.body }}>
+            "Two Weathers" comes from the experience of living with bipolar disorder — the sense that you carry two climates inside you, and you never quite know which one is coming. It's also about the two perspectives that matter: the person living with the condition, and the person standing beside them trying to understand. Both weathers are real. Both deserve to be seen.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 24, padding: "20px 24px", background: C.card, borderRadius: 14, border: `1px solid ${C.border}` }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>How This Was Built</h3>
+          <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.65, margin: "0 0 10px", fontFamily: fonts.body }}>
+            Every page on this site is sourced from peer-reviewed research, clinical guidelines, and validated assessment tools. Sources include:
+          </p>
+          {[
+            "The Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000",
+            "CANMAT/ISBD 2018 and VA/DoD 2023 Bipolar Treatment Guidelines",
+            "JAMA Psychiatry, PLOS One, Frontiers in Psychiatry, BMC Medicine, PMC",
+            "FDA prescribing information for all medications listed",
+            "NIMH, NAMI, WHO, and SAMHSA clinical resources",
+            "Drugs.com and WebMD patient review databases (over 1,000 patient accounts reviewed)",
+            "Cleveland Clinic, Cedars-Sinai, and Feinstein Institute (vagus nerve research)",
+          ].map((s, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, marginBottom: 5, fontSize: 12.5, fontFamily: fonts.body }}>
+              <span style={{ color: C.teal, fontWeight: 700, flexShrink: 0 }}>◈</span>
+              <span style={{ color: C.textMid, lineHeight: 1.5 }}>{s}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 24, textAlign: "center" }}>
+          <p style={{ fontSize: 13, color: C.textLight, fontFamily: fonts.body }}>
+            If this site helped you, share it with someone who might need it.
+          </p>
+          <p style={{ fontSize: 15, color: C.accent, fontWeight: 600, fontFamily: fonts.body, marginTop: 4 }}>
+            two-weathers.vercel.app
+          </p>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
@@ -1049,6 +1153,14 @@ export default function App() {
         * { box-sizing: border-box; margin: 0; }
         a { color: ${C.accent}; }
         ::selection { background: ${C.accent}30; }
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: block !important; }
+        }
+        @media (min-width: 769px) {
+          .mobile-menu-btn { display: none !important; }
+          .mobile-dropdown { display: none !important; }
+        }
       `}</style>
       <Nav active={active} setActive={setActive} />
       {active === "home" && <HomePage setActive={setActive} />}
@@ -1059,6 +1171,7 @@ export default function App() {
       {active === "body" && <BodyPage />}
       {active === "substance" && <SubstancePage />}
       {active === "find-help" && <FindHelpPage />}
+      {active === "about" && <AboutPage />}
 
       {/* Footer */}
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "24px 20px", textAlign: "center", marginTop: 40 }}>
