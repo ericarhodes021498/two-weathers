@@ -1123,7 +1123,7 @@ function AboutPage() {
             If this site helped you, share it with someone who might need it.
           </p>
           <p style={{ fontSize: 15, color: C.accent, fontWeight: 600, fontFamily: fonts.body, marginTop: 4 }}>
-            two-weathers.vercel.app
+            twoweathers.com
           </p>
         </div>
       </div>
