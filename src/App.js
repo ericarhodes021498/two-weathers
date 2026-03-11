@@ -1069,46 +1069,52 @@ function AboutPage() {
   return (
     <Section style={{ paddingTop: 60, paddingBottom: 60 }}>
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
+
+        {/* Under Construction Banner */}
+        <div style={{ padding: "14px 20px", background: "#fef3c7", border: "1.5px solid #f59e0b40", borderRadius: 12, marginBottom: 28, display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 20 }}>🔨</span>
+          <p style={{ fontSize: 13.5, color: "#92400e", lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>
+            <strong>This site is under active development.</strong> New content, features, and improvements are being added regularly. If you notice anything that needs correcting, please reach out.
+          </p>
+        </div>
+
         <Badge color={C.accent}>Why This Exists</Badge>
         <h2 style={{ fontFamily: fonts.display, fontSize: 32, fontWeight: 700, color: C.text, margin: "14px 0 24px", lineHeight: 1.2 }}>About Two Weathers</h2>
 
-        <div style={{ fontSize: 16, color: C.textMid, lineHeight: 1.8, fontFamily: fonts.body }}>
-          <p style={{ marginBottom: 20 }}>
-            I spent years working with my therapist friend Maxine trying to figure out what might actually be helpful to people suffering from bipolar disorder. Not the clinical version that reads like a textbook. Not the watered-down version that says "talk to your doctor" and leaves it at that. The version that answers the questions you're really asking at 2 AM when you can't sleep and you don't know what's happening to you.
+        <div style={{ fontSize: 15.5, color: C.textMid, lineHeight: 1.75, fontFamily: fonts.body }}>
+          <p style={{ marginBottom: 18 }}>
+            Two Weathers was developed in collaboration with Maxine, a licensed therapist, over several years of research and conversation about what people affected by bipolar disorder actually need — and what most available resources fail to provide.
           </p>
-          <p style={{ marginBottom: 20 }}>
-            I come from a family with this history. I know what it looks like when someone doesn't get help early enough. I know how much harder everything becomes when the diagnosis comes years too late — after the relationships have been damaged, after the jobs have been lost, after the substances have become the coping mechanism instead of actual treatment.
+          <p style={{ marginBottom: 18 }}>
+            As someone with a family history of bipolar disorder, I have seen firsthand how a delayed or missed diagnosis changes the trajectory of a person's life. The earlier someone understands what they are experiencing, the better the outcomes. The research is clear on this. The problem is that the research is not accessible to the people who need it most.
           </p>
-          <p style={{ marginBottom: 20 }}>
-            I also know that figuring all of this out shouldn't be this hard. The information exists. The research is there. The screening tools are validated. The medication data is published. But it's scattered across hundreds of journal articles, clinical guidelines, and medical websites that weren't written for the person who's actually going through it.
-          </p>
-          <p style={{ marginBottom: 20 }}>
-            That's what Two Weathers is — everything I wish had existed in one place when my family needed it. A screening tool that actually tells you which type you might have. A medication guide that includes what real patients say, not just what the label says. Therapy pages that explain what CBT and DBT actually do in plain language. An honest page about substance use that leads with compassion instead of shame. And real links to find real help.
+          <p style={{ marginBottom: 18 }}>
+            This site brings together validated screening tools, peer-reviewed medication data, evidence-based therapy education, and practical resources for finding professional help — written in plain language for real people navigating a complex diagnosis.
           </p>
           <p style={{ marginBottom: 0, color: C.text, fontWeight: 500 }}>
-            None of this replaces a psychiatrist or therapist. But it can be the thing that helps you get to one. And that's enough.
+            None of this replaces professional evaluation or treatment. But it can be the bridge that helps someone get there.
           </p>
         </div>
 
-        <div style={{ marginTop: 36, padding: "24px", background: "#faf5f0", borderRadius: 14, border: "1px solid #e8ddd2" }}>
-          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>About the Name</h3>
-          <p style={{ fontSize: 14.5, color: C.textMid, lineHeight: 1.7, margin: 0, fontFamily: fonts.body }}>
-            "Two Weathers" comes from the experience of living with bipolar disorder — the sense that you carry two climates inside you, and you never quite know which one is coming. It's also about the two perspectives that matter: the person living with the condition, and the person standing beside them trying to understand. Both weathers are real. Both deserve to be seen.
+        <div style={{ marginTop: 32, padding: "24px", background: "#faf5f0", borderRadius: 14, border: "1px solid #e8ddd2" }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>About the Name</h3>
+          <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.7, margin: 0, fontFamily: fonts.body }}>
+            The name refers to the experience of carrying two climates inside you — the shifts between states that define bipolar disorder. It also reflects the two perspectives this project aims to serve: the person living with the condition, and the person standing beside them.
           </p>
         </div>
 
-        <div style={{ marginTop: 24, padding: "20px 24px", background: C.card, borderRadius: 14, border: `1px solid ${C.border}` }}>
-          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>How This Was Built</h3>
-          <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.65, margin: "0 0 10px", fontFamily: fonts.body }}>
-            Every page on this site is sourced from peer-reviewed research, clinical guidelines, and validated assessment tools. Sources include:
+        <div style={{ marginTop: 20, padding: "20px 24px", background: C.card, borderRadius: 14, border: `1px solid ${C.border}` }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>Sources & Methodology</h3>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 10px", fontFamily: fonts.body }}>
+            All content is sourced from peer-reviewed research, clinical guidelines, and validated assessment tools:
           </p>
           {[
-            "The Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000",
+            "Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000",
             "CANMAT/ISBD 2018 and VA/DoD 2023 Bipolar Treatment Guidelines",
-            "JAMA Psychiatry, PLOS One, Frontiers in Psychiatry, BMC Medicine, PMC",
-            "FDA prescribing information for all medications listed",
+            "JAMA Psychiatry, PLOS One, Frontiers in Psychiatry, BMC Medicine",
+            "FDA prescribing information for all medications referenced",
             "NIMH, NAMI, WHO, and SAMHSA clinical resources",
-            "Drugs.com and WebMD patient review databases (over 1,000 patient accounts reviewed)",
+            "Patient experience databases (Drugs.com, WebMD — over 1,000 accounts reviewed)",
             "Cleveland Clinic, Cedars-Sinai, and Feinstein Institute (vagus nerve research)",
           ].map((s, i) => (
             <div key={i} style={{ display: "flex", gap: 8, marginBottom: 5, fontSize: 12.5, fontFamily: fonts.body }}>
@@ -1116,6 +1122,23 @@ function AboutPage() {
               <span style={{ color: C.textMid, lineHeight: 1.5 }}>{s}</span>
             </div>
           ))}
+        </div>
+
+        {/* Disclaimer */}
+        <div style={{ marginTop: 20, padding: "20px 24px", background: "#fdf2f2", borderRadius: 14, border: "1.5px solid #e8c4c4" }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.red, margin: "0 0 8px" }}>Medical Disclaimer</h3>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
+            The information provided on this website is for educational and informational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition.
+          </p>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
+            The bipolar disorder screening tool on this site is based on the validated Mood Disorder Questionnaire (MDQ) and is intended for educational self-assessment only. A positive or negative screening result does not constitute a diagnosis. Only a licensed psychiatrist or psychologist can diagnose bipolar disorder through comprehensive clinical evaluation.
+          </p>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
+            Medication information is provided as a general reference and should not be used to make treatment decisions without consulting your prescribing physician. Individual responses to medication vary significantly.
+          </p>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>
+            If you are experiencing a mental health crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> by calling or texting <strong>988</strong>, or go to your nearest emergency room.
+          </p>
         </div>
 
         <div style={{ marginTop: 24, textAlign: "center" }}>
