@@ -91,9 +91,6 @@ function Nav({ active, setActive }) {
         </div>
       )}
     </nav>
-  );        </div>
-      </div>
-    </nav>
   );
 }
 
