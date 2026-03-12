@@ -26,38 +26,72 @@ const fonts = {
 // SHARED COMPONENTS
 // ═══════════════════════════════════════════════════════════════
 function Nav({ active, setActive }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const tabs = [
     { id: "home", label: "Home", icon: "◉" },
-    { id: "screening", label: "Screening", icon: "◎" },
+    { id: "depression", label: "Depression", icon: "◈" },
+    { id: "anxiety", label: "Anxiety", icon: "◎" },
+    { id: "bipolar", label: "Bipolar", icon: "△" },
     { id: "medications", label: "Meds", icon: "◈" },
     { id: "cbt", label: "CBT", icon: "△" },
     { id: "dbt", label: "DBT", icon: "▽" },
     { id: "body", label: "Body", icon: "◯" },
     { id: "substance", label: "Substance Use", icon: "◆" },
     { id: "find-help", label: "Find Help", icon: "◇" },
+    { id: "about", label: "About", icon: "♡" },
   ];
+  const pick = (id) => { setActive(id); setMenuOpen(false); };
   return (
-    <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.92)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`, padding: "0 20px" }}>
-      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => setActive("home")}>
-          <span style={{ fontSize: 20, color: C.accent }}>⬡</span>
-          <span style={{ fontFamily: fonts.display, fontSize: 17, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>Two Weathers</span>
+    <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.95)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56, padding: "0 20px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => pick("home")}>
+          <span style={{ fontSize: 20 }}>⛅</span>
+          <span style={{ fontFamily: fonts.display, fontSize: 17, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>Brain Weather</span>
         </div>
-        <div style={{ display: "flex", gap: 2 }}>
+        {/* Desktop nav */}
+        <div style={{ display: "flex", gap: 1, flexWrap: "wrap" }} className="desktop-nav">
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setActive(t.id)} style={{
-              padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
+            <button key={t.id} onClick={() => pick(t.id)} style={{
+              padding: "7px 10px", borderRadius: 8, border: "none", cursor: "pointer",
               background: active === t.id ? C.accentLight : "transparent",
               color: active === t.id ? C.accent : C.textMid,
-              fontSize: 13, fontWeight: active === t.id ? 700 : 500,
+              fontSize: 12.5, fontWeight: active === t.id ? 700 : 500,
               fontFamily: fonts.body, transition: "all 0.2s",
-              display: "flex", alignItems: "center", gap: 5,
+              display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap",
             }}>
-              <span style={{ fontSize: 10 }}>{t.icon}</span> {t.label}
+              <span style={{ fontSize: 9 }}>{t.icon}</span> {t.label}
             </button>
           ))}
         </div>
+        {/* Mobile hamburger */}
+        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
+          display: "none", background: "none", border: "none", cursor: "pointer",
+          fontSize: 24, color: C.text, padding: "4px 8px",
+        }}>
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </div>
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="mobile-dropdown" style={{
+          position: "absolute", top: 56, left: 0, right: 0, background: "rgba(250,250,248,0.98)",
+          backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`,
+          padding: "8px 20px 16px", boxShadow: C.shadow,
+        }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => pick(t.id)} style={{
+              display: "block", width: "100%", textAlign: "left", padding: "12px 14px",
+              borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 2,
+              background: active === t.id ? C.accentLight : "transparent",
+              color: active === t.id ? C.accent : C.text,
+              fontSize: 15, fontWeight: active === t.id ? 700 : 500,
+              fontFamily: fonts.body, transition: "all 0.15s",
+            }}>
+              <span style={{ marginRight: 8, fontSize: 12 }}>{t.icon}</span>{t.label}
+            </button>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
@@ -108,17 +142,17 @@ function HomePage({ setActive }) {
         <div style={{ position: "absolute", top: -80, left: "50%", transform: "translateX(-50%)", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, #c25e3008 0%, transparent 70%)", pointerEvents: "none" }} />
         <Section>
           <div style={{ animation: "fadeUp 0.8s ease both" }}>
-            <Badge>Understanding Bipolar Disorder</Badge>
+            <Badge>Mental Health, Simplified</Badge>
             <h1 style={{ fontFamily: fonts.display, fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 700, color: C.text, margin: "20px 0 16px", lineHeight: 1.15, letterSpacing: "-0.025em" }}>
-              You are not your diagnosis.<br />
-              <span style={{ color: C.accent }}>You are a whole person.</span>
+              Check your forecast.<br />
+              <span style={{ color: C.accent }}>Understand your brain weather.</span>
             </h1>
-            <p style={{ fontFamily: fonts.body, fontSize: 17, color: C.textMid, maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.7 }}>
-              Bipolar disorder affects 2.8% of adults in the U.S. — yet it takes an average of <strong>7 to 10 years</strong> to receive a correct diagnosis. This site exists to close that gap. Simple tools. Real research. No judgment.
+            <p style={{ fontFamily: fonts.body, fontSize: 17, color: C.textMid, maxWidth: 580, margin: "0 auto 32px", lineHeight: 1.7 }}>
+              Depression, anxiety, and bipolar disorder affect over <strong>1 billion people worldwide</strong>. Most wait years for the right diagnosis. This site brings together real research, medication guides, therapy education, and practical resources — written in plain language for people who need answers, not jargon.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <Btn variant="accent" onClick={() => setActive("screening")} style={{ fontSize: 16, padding: "14px 32px" }}>Take the Screening →</Btn>
-              <Btn variant="outline" onClick={() => setActive("medications")}>Medication Guide</Btn>
+              <Btn variant="accent" onClick={() => setActive("medications")} style={{ fontSize: 16, padding: "14px 32px" }}>Medication Guide</Btn>
+              <Btn variant="outline" onClick={() => setActive("find-help")}>Find Help</Btn>
             </div>
           </div>
         </Section>
@@ -128,10 +162,10 @@ function HomePage({ setActive }) {
       <Section style={{ paddingBottom: 48 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {[
-            { num: "46M+", label: "People worldwide live with bipolar disorder", src: "WHO, 2023" },
-            { num: "25-50%", label: "Will attempt suicide at some point in their lifetime", src: "APA Clinical Guidelines" },
-            { num: "69%", label: "Are initially misdiagnosed — most often as unipolar depression", src: "Hirschfeld et al., 2003" },
-            { num: "4.4 yrs", label: "Average delay from first episode to first treatment", src: "NIMH epidemiological data" },
+            { num: "1 in 5", label: "U.S. adults experience mental illness in any given year", src: "NIMH, 2023" },
+            { num: "280M+", label: "People worldwide live with depression", src: "WHO, 2023" },
+            { num: "301M+", label: "People worldwide live with an anxiety disorder", src: "WHO, 2023" },
+            { num: "~60%", label: "Of people with mental illness receive no treatment", src: "NIMH epidemiological data" },
           ].map((s, i) => (
             <Card key={i} style={{ textAlign: "center", padding: "20px 16px", animation: `fadeUp 0.6s ease ${0.1 + i * 0.08}s both` }}>
               <div style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: C.accent }}>{s.num}</div>
@@ -142,25 +176,26 @@ function HomePage({ setActive }) {
         </div>
       </Section>
 
-      {/* The Three Types */}
+      {/* The Big Three */}
       <Section style={{ paddingBottom: 48 }}>
-        <h2 style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: C.text, marginBottom: 8 }}>The Bipolar Spectrum</h2>
-        <p style={{ fontFamily: fonts.body, fontSize: 15, color: C.textMid, marginBottom: 24, maxWidth: 600 }}>Bipolar disorder isn't one thing. It exists on a spectrum. Understanding which type you may have changes everything about treatment.</p>
+        <h2 style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: C.text, marginBottom: 8 }}>The Big Three</h2>
+        <p style={{ fontFamily: fonts.body, fontSize: 15, color: C.textMid, marginBottom: 24, maxWidth: 600 }}>These three conditions account for the majority of mental health diagnoses worldwide. They frequently overlap, they're commonly misdiagnosed as each other, and understanding the differences changes everything about treatment.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           {[
-            { type: "Bipolar I", color: "#c23030", desc: "Full manic episodes lasting 7+ days (or any duration if hospitalized). May include psychotic features. The 'classic' form. Depressive episodes are common but not required for diagnosis.", symptoms: "Extreme euphoria or irritability, little need for sleep, racing thoughts, grandiosity, reckless behavior, possible hallucinations or delusions", treatment: "Lithium (gold standard), antipsychotics, mood stabilizers. Long-term maintenance is essential." },
-            { type: "Bipolar II", color: "#b8510d", desc: "Hypomanic episodes (4+ days, less severe) alternating with major depressive episodes. Often misdiagnosed as depression. The depressive burden is typically heavier than in Bipolar I.", symptoms: "Increased energy and productivity, decreased sleep need, elevated mood, increased talking — but able to maintain functioning. Severe depressive episodes are the hallmark.", treatment: "Lithium, lamotrigine (especially for depression), quetiapine, careful SSRI use. Antidepressants alone can trigger hypomania." },
-            { type: "Cyclothymia", color: "#3563b0", desc: "Chronic (2+ years) fluctuating mood with hypomanic and depressive symptoms that never meet full criteria for either pole. Often dismissed as 'just moody.' Can progress to Bipolar I or II.", symptoms: "Mild highs and lows that cycle frequently, periods of normal mood lasting no more than 2 months, persistent instability that affects relationships and work.", treatment: "Mood stabilizers, psychotherapy (especially CBT), lifestyle management. Early treatment may prevent progression to more severe forms." },
+            { type: "Depression", color: "#3563b0", id: "depression", stats: "280M+ affected globally", desc: "More than sadness. A neurobiological condition that hijacks your ability to feel pleasure, find motivation, think clearly, or imagine a future. Highly treatable — but most people never get treatment.", symptoms: "Persistent low mood, anhedonia, fatigue, sleep changes, appetite changes, worthlessness, difficulty concentrating, thoughts of death", treatment: "SSRIs/SNRIs, CBT, combination therapy. Exercise has antidepressant effects comparable to medication for mild-to-moderate cases." },
+            { type: "Anxiety", color: "#2d6a4f", id: "anxiety", stats: "301M+ affected globally", desc: "Your brain's threat detection system stuck on. The most common mental health condition on earth. Ranges from persistent worry to full panic attacks. Lives in the body as much as the mind.", symptoms: "Racing heart, shortness of breath, muscle tension, restlessness, excessive worry, avoidance, insomnia, GI problems, dizziness", treatment: "CBT (gold standard), SSRIs/SNRIs, vagus nerve exercises, exposure therapy. Benzodiazepines for short-term bridge only." },
+            { type: "Bipolar Disorder", color: "#c25e30", id: "bipolar", stats: "46M+ affected globally", desc: "Not just mood swings. A spectrum of conditions involving episodes of mania/hypomania and depression. Highest comorbid substance use rate of any psychiatric diagnosis. Takes 7-10 years to diagnose correctly.", symptoms: "Manic: euphoria, no sleep needed, racing thoughts, grandiosity, reckless behavior. Depressive: all symptoms of depression. 69% initially misdiagnosed.", treatment: "Lithium (gold standard), mood stabilizers, atypical antipsychotics. Antidepressants alone can trigger mania. Long-term maintenance essential." },
           ].map((t, i) => (
-            <Card key={i} hover style={{ borderTop: `3px solid ${t.color}`, animation: `fadeUp 0.6s ease ${0.15 + i * 0.1}s both` }}>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: t.color, margin: "0 0 8px" }}>{t.type}</h3>
+            <Card key={i} hover style={{ borderTop: `3px solid ${t.color}`, cursor: "pointer", animation: `fadeUp 0.6s ease ${0.15 + i * 0.1}s both` }} onClick={() => setActive(t.id)}>
+              <Badge color={t.color}>{t.stats}</Badge>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: t.color, margin: "8px 0 8px" }}>{t.type}</h3>
               <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, margin: "0 0 14px", fontFamily: fonts.body }}>{t.desc}</p>
               <div style={{ marginBottom: 12 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.textLight, marginBottom: 4, fontFamily: fonts.body }}>Key Symptoms</div>
                 <p style={{ fontSize: 12.5, color: C.text, lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>{t.symptoms}</p>
               </div>
               <div style={{ padding: "10px 12px", background: `${t.color}08`, borderRadius: 8 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: t.color, marginBottom: 3, fontFamily: fonts.body }}>Treatment Approach</div>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: t.color, marginBottom: 3, fontFamily: fonts.body }}>Treatment</div>
                 <p style={{ fontSize: 12, color: C.textMid, lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>{t.treatment}</p>
               </div>
             </Card>
@@ -174,9 +209,9 @@ function HomePage({ setActive }) {
           <h2 style={{ fontFamily: fonts.display, fontSize: 22, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>Where to Start</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
-              { step: "1", title: "Screen Yourself", desc: "Take our 5-minute screening based on the validated MDQ. It won't diagnose you, but it tells you if you should see a professional.", action: "Take Screening", page: "screening" },
+              { step: "1", title: "Learn About Your Condition", desc: "Read about depression, anxiety, or bipolar disorder — symptoms, causes, what gets misdiagnosed, and what treatment actually works.", action: "Start Reading", page: "depression" },
               { step: "2", title: "Understand the Meds", desc: "Learn what each medication does, how long it takes to work, what the side effects are, and what real patients say about them.", action: "Medication Guide", page: "medications" },
-              { step: "3", title: "Find a Professional", desc: "Use our directory links to find a psychiatrist or therapist near you who specializes in bipolar disorder.", action: "Find Help", page: "find-help" },
+              { step: "3", title: "Find a Professional", desc: "Use our directory links to find a psychiatrist or therapist near you. Includes what to look for and what to say at your first appointment.", action: "Find Help", page: "find-help" },
             ].map((s, i) => (
               <div key={i} style={{ cursor: "pointer" }} onClick={() => setActive(s.page)}>
                 <div style={{ fontFamily: fonts.display, fontSize: 32, fontWeight: 700, color: C.accent, opacity: 0.3 }}>{s.step}</div>
@@ -278,11 +313,11 @@ function ScreeningPage() {
     if (maCount >= 3 && maCount < 7) cy += 2; if (depCount >= 3 && depCount < 5) cy += 2; if (cycPat) cy += 4; if (chronic) cy += 2; if (funcOk) cy += 1; if (!psychotic && !hosp && !dur7) cy += 1;
 
     const mx = Math.max(b1, b2, cy);
-    if (mx <= 3 && maCount < 5) return { type: "Low Risk", color: C.teal, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses do not strongly suggest a bipolar spectrum disorder. If you're experiencing mood difficulties, discussing them with a professional is still worthwhile." };
-    if (b1 >= b2 && b1 >= cy && b1 > 5) return { type: "Bipolar I — Possible", color: C.red, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses suggest features most consistent with Bipolar I Disorder: full manic episodes, potentially with psychotic features, significant functional impairment, and/or hospitalization history." };
-    if (b2 > cy && b2 > 4) return { type: "Bipolar II — Possible", color: C.warm, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses suggest Bipolar II Disorder: hypomanic episodes alternating with significant depression, maintained functioning during highs, and depression as the dominant burden." };
-    if (cy > 4) return { type: "Cyclothymia — Possible", color: C.blue, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses suggest Cyclothymic Disorder: chronic mild mood fluctuations without reaching full mania or major depression, persisting over 2+ years." };
-    return { type: "Borderline / Subthreshold", color: "#7c3aed", b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses show some bipolar spectrum features but don't clearly fit one type. A thorough clinical evaluation with mood charting would help clarify the picture." };
+    if (mx <= 3 && maCount < 5) return { type: "Low Screening Indication", color: C.teal, b1, b2, cy, maCount, depCount, mdqPos, desc: "Based on your responses, this screening does not strongly suggest a bipolar spectrum disorder. However, this does not rule it out. If you are experiencing mood difficulties, discussing them with a mental health professional is always recommended." };
+    if (b1 >= b2 && b1 >= cy && b1 > 5) return { type: "Features Consistent with Bipolar I", color: C.red, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses include features that are commonly associated with Bipolar I Disorder, such as intense manic episodes, significant functional impairment, and/or psychotic features. This is not a diagnosis. Please discuss these results with a psychiatrist for proper evaluation." };
+    if (b2 > cy && b2 > 4) return { type: "Features Consistent with Bipolar II", color: C.warm, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses include features commonly associated with Bipolar II Disorder, such as hypomanic episodes alternating with significant depression and generally maintained functioning during highs. This is not a diagnosis. Please discuss these results with a psychiatrist for proper evaluation." };
+    if (cy > 4) return { type: "Features Consistent with Cyclothymia", color: C.blue, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses include features commonly associated with Cyclothymic Disorder, such as chronic mild mood fluctuations persisting over two or more years without reaching full mania or major depression. This is not a diagnosis. Please discuss these results with a mental health professional." };
+    return { type: "Mixed or Subthreshold Features", color: "#7c3aed", b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses show some features associated with bipolar spectrum conditions but do not clearly align with one specific type. This is common and does not mean you do or do not have a bipolar disorder. A comprehensive clinical evaluation would help clarify the picture." };
   }
 
   const r = step === 6 ? getResults() : null;
@@ -328,11 +363,17 @@ function ScreeningPage() {
 
       {step === 0 && (
         <div style={{ textAlign: "center", maxWidth: 540, margin: "0 auto" }}>
-          <Badge color={C.teal}>Clinically Validated Screening</Badge>
+          <Badge color={C.teal}>Educational Screening Tool</Badge>
           <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "16px 0 12px" }}>Bipolar Disorder Screening</h2>
-          <p style={{ fontSize: 15, color: C.textMid, lineHeight: 1.7, margin: "0 0 12px", fontFamily: fonts.body }}>Based on the <strong>Mood Disorder Questionnaire (MDQ)</strong> by Dr. Robert Hirschfeld, combined with DSM-5 criteria to differentiate Bipolar I, Bipolar II, and Cyclothymia.</p>
+          <p style={{ fontSize: 15, color: C.textMid, lineHeight: 1.7, margin: "0 0 12px", fontFamily: fonts.body }}>This screening incorporates questions from the <strong>Mood Disorder Questionnaire (MDQ)</strong>, a validated tool developed by Dr. Robert Hirschfeld, along with additional questions informed by DSM-5 criteria.</p>
           <Card style={{ textAlign: "left", margin: "20px 0" }}>
-            <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>This takes about <strong>5–8 minutes</strong>. Answer based on your <strong>lifetime experiences</strong>, not just today. There are no right or wrong answers. This is a screening tool — not a diagnosis. Only a qualified mental health professional can diagnose bipolar disorder.</p>
+            <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>This takes about <strong>5–8 minutes</strong>. Answer based on your <strong>lifetime experiences</strong>, not just how you feel today. There are no right or wrong answers.</p>
+          </Card>
+          <Card style={{ textAlign: "left", margin: "0 0 0 0", background: "#fdf2f2", borderColor: "#e8c4c4" }}>
+            <p style={{ fontSize: 13, color: "#7a3030", lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body, fontWeight: 700 }}>Important — Please Read Before Proceeding</p>
+            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 6px", fontFamily: fonts.body }}>This is an <strong>educational screening tool, not a diagnostic instrument</strong>. Only a licensed psychiatrist or psychologist can diagnose bipolar disorder through comprehensive clinical evaluation.</p>
+            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 6px", fontFamily: fonts.body }}>The MDQ questions (Part 1) are clinically validated. The additional questions used to suggest which type of bipolar disorder your symptoms may align with are <strong>educational approximations informed by DSM-5 criteria</strong>, not a separately validated diagnostic tool.</p>
+            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>A positive screen means you should <strong>discuss these results with a qualified mental health professional</strong>. A negative screen does not rule out bipolar disorder.</p>
           </Card>
         </div>
       )}
@@ -380,7 +421,7 @@ function ScreeningPage() {
       {step === 6 && r && (
         <div>
           <Card style={{ borderTop: `3px solid ${r.color}`, marginBottom: 20 }}>
-            <Badge color={r.color}>Screening Result</Badge>
+            <Badge color={r.color}>Screening Indication — Not a Diagnosis</Badge>
             <h2 style={{ fontFamily: fonts.display, fontSize: 24, fontWeight: 700, color: r.color, margin: "10px 0 10px" }}>{r.type}</h2>
             <p style={{ fontSize: 14.5, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>{r.desc}</p>
           </Card>
@@ -406,8 +447,10 @@ function ScreeningPage() {
               </div>
             </div>
           ))}
-          <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", marginTop: 20 }}>
-            <p style={{ fontSize: 12.5, color: "#92400e", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Important:</strong> This is a screening tool, not a diagnosis. Based on the MDQ (Hirschfeld et al., Am J Psychiatry, 2000) and DSM-5 criteria. A positive screen means you should discuss results with a psychiatrist. If you're in crisis, call or text <strong>988</strong>.</p>
+          <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginTop: 20 }}>
+            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}><strong>This screening does not constitute a medical diagnosis.</strong> The MDQ component (Part 1) is clinically validated (Hirschfeld et al., Am J Psychiatry, 2000). The type-differentiation scoring is an educational tool informed by DSM-5 criteria and is not a separately validated diagnostic instrument.</p>
+            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}>A positive or negative result should be discussed with a licensed psychiatrist or psychologist who can conduct a comprehensive evaluation. Many conditions share symptoms with bipolar disorder, including ADHD, borderline personality disorder, thyroid disorders, and substance-induced mood changes.</p>
+            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>If you are in crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> by calling or texting <strong>988</strong>.</p>
           </Card>
         </div>
       )}
@@ -460,7 +503,7 @@ const MEDS = [
     rating: "6.5/10", reviews: "Commonly used but mixed tolerability", notes: "Weight gain is the #1 complaint. Some patients find it more tolerable than lithium for acute mania. Critical warning: do NOT use during pregnancy." },
   { name: "Lorazepam", brand: "Ativan", cls: "Benzodiazepine (Adjunct)", color: "#6366f1", approved: false,
     uses: "OFF-LABEL adjunct for acute manic agitation, insomnia, and anxiety during bipolar episodes. Used as a bridge while mood stabilizers/antipsychotics reach therapeutic levels. 79% of bipolar mania trial participants received lorazepam.",
-    dose: "1–2mg every 4–6 hours as needed, max 6–8mg/day. Short-term use only (2–4 weeks max). Works by enhancing GABA-A receptor activity.",
+    dose: "Typical range: 1–2mg every 4–6 hours as needed, as prescribed by a physician. Short-term use only (generally limited to 2–4 weeks). Works by enhancing GABA-A receptor activity. All dosing must be determined by your prescribing doctor.",
     onset: "Oral: 15–30 minutes. One of the fastest-acting psychiatric medications.",
     sides: "Sedation, cognitive impairment, dizziness, dependence risk (HIGH — physical dependence develops in 2–4 weeks). Not a mood stabilizer. Does not prevent future episodes.",
     rating: "N/A for bipolar", reviews: "Valued as rescue medication", notes: "Patients describe it as providing immediate relief from the intensity of mania. Critical: this is a bridge, not a treatment. Must be used short-term alongside proper mood stabilizers." },
@@ -472,7 +515,10 @@ function MedicationsPage() {
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.teal}>Evidence-Based</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Medication Guide</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 600, lineHeight: 1.65, fontFamily: fonts.body }}>What each medication does, how long it takes to work, side effects, and what real patients report. All information sourced from peer-reviewed research, FDA labels, and patient databases.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 12px", maxWidth: 600, lineHeight: 1.65, fontFamily: fonts.body }}>General information about medications commonly used in bipolar disorder. Dosages listed are typical ranges from FDA labeling and clinical guidelines — they are not recommendations. All medication decisions should be made with your prescribing physician.</p>
+      <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginBottom: 20, padding: "14px 20px" }}>
+        <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Medical Disclaimer:</strong> This information is for educational purposes only. Individual responses to medication vary significantly. Never start, stop, or adjust any medication without direct guidance from your prescribing physician. Dosing, side effects, and interactions depend on your specific health profile.</p>
+      </Card>
 
       {MEDS.map((m, i) => (
         <Card key={i} hover style={{ marginBottom: 12, cursor: "pointer", borderLeft: `3px solid ${m.color}`, transition: "all 0.3s" }} onClick={() => setExpanded(expanded === i ? null : i)}>
@@ -1031,6 +1077,251 @@ function SubstancePage() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// ABOUT PAGE
+// ═══════════════════════════════════════════════════════════════
+function AboutPage() {
+  return (
+    <Section style={{ paddingTop: 60, paddingBottom: 60 }}>
+      <div style={{ maxWidth: 600, margin: "0 auto" }}>
+
+        {/* Under Construction Banner */}
+        <div style={{ padding: "14px 20px", background: "#fef3c7", border: "1.5px solid #f59e0b40", borderRadius: 12, marginBottom: 28, display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 20 }}>🔨</span>
+          <p style={{ fontSize: 13.5, color: "#92400e", lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>
+            <strong>This site is under active development.</strong> New content, features, and improvements are being added regularly. If you notice anything that needs correcting, please reach out.
+          </p>
+        </div>
+
+        <Badge color={C.accent}>Why This Exists</Badge>
+        <h2 style={{ fontFamily: fonts.display, fontSize: 32, fontWeight: 700, color: C.text, margin: "14px 0 24px", lineHeight: 1.2 }}>About Brain Weather</h2>
+
+        <div style={{ fontSize: 15.5, color: C.textMid, lineHeight: 1.75, fontFamily: fonts.body }}>
+          <p style={{ marginBottom: 18 }}>
+            Brain Weather was developed in collaboration with Maxine, a licensed therapist, over several years of research and conversation about what people affected by mental illness actually need — and what most available resources fail to provide.
+          </p>
+          <p style={{ marginBottom: 18 }}>
+            As someone with a family history of bipolar disorder, I have seen firsthand how a delayed or missed diagnosis changes the trajectory of a person's life. That experience extended into a broader realization: whether it's depression, anxiety, or bipolar disorder, the earlier someone understands what they are experiencing, the better the outcomes. The research is clear on this. The problem is that the research is not accessible to the people who need it most.
+          </p>
+          <p style={{ marginBottom: 18 }}>
+            This site brings together evidence-based information on the three most common mental health conditions, medication guides, therapy education, and practical resources for finding professional help — written in plain language for real people navigating complex diagnoses.
+          </p>
+          <p style={{ marginBottom: 0, color: C.text, fontWeight: 500 }}>
+            None of this replaces professional evaluation or treatment. But it can be the bridge that helps someone get there.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 32, padding: "24px", background: "#faf5f0", borderRadius: 14, border: "1px solid #e8ddd2" }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>About the Name</h3>
+          <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.7, margin: 0, fontFamily: fonts.body }}>
+            Your brain has weather. Some days are clear. Some days storm. Some days the forecast changes by the hour. "Brain Weather" is about understanding your own patterns — learning to read the clouds before they break, and knowing that a rough forecast doesn't define your whole climate.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 20, padding: "20px 24px", background: C.card, borderRadius: 14, border: `1px solid ${C.border}` }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>Sources & Methodology</h3>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 10px", fontFamily: fonts.body }}>
+            All content is sourced from peer-reviewed research, clinical guidelines, and validated assessment tools:
+          </p>
+          {[
+            "Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000",
+            "CANMAT/ISBD 2018 and VA/DoD 2023 Bipolar Treatment Guidelines",
+            "JAMA Psychiatry, PLOS One, Frontiers in Psychiatry, BMC Medicine",
+            "FDA prescribing information for all medications referenced",
+            "NIMH, NAMI, WHO, and SAMHSA clinical resources",
+            "Patient experience databases (Drugs.com, WebMD — over 1,000 accounts reviewed)",
+            "Cleveland Clinic, Cedars-Sinai, and Feinstein Institute (vagus nerve research)",
+          ].map((s, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, marginBottom: 5, fontSize: 12.5, fontFamily: fonts.body }}>
+              <span style={{ color: C.teal, fontWeight: 700, flexShrink: 0 }}>◈</span>
+              <span style={{ color: C.textMid, lineHeight: 1.5 }}>{s}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Disclaimer */}
+        <div style={{ marginTop: 20, padding: "20px 24px", background: "#fdf2f2", borderRadius: 14, border: "1.5px solid #e8c4c4" }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.red, margin: "0 0 8px" }}>Medical Disclaimer</h3>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
+            The information provided on this website is for educational and informational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition.
+          </p>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
+            The bipolar disorder screening tool on this site is based on the validated Mood Disorder Questionnaire (MDQ) and is intended for educational self-assessment only. A positive or negative screening result does not constitute a diagnosis. Only a licensed psychiatrist or psychologist can diagnose bipolar disorder through comprehensive clinical evaluation.
+          </p>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
+            Medication information is provided as a general reference and should not be used to make treatment decisions without consulting your prescribing physician. Individual responses to medication vary significantly.
+          </p>
+          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>
+            If you are experiencing a mental health crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> by calling or texting <strong>988</strong>, or go to your nearest emergency room.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 24, textAlign: "center" }}>
+          <p style={{ fontSize: 13, color: C.textLight, fontFamily: fonts.body }}>
+            If this site helped you, share it with someone who might need it.
+          </p>
+          <p style={{ fontSize: 15, color: C.accent, fontWeight: 600, fontFamily: fonts.body, marginTop: 4 }}>
+            brainweather.com
+          </p>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DEPRESSION PAGE
+// ═══════════════════════════════════════════════════════════════
+function DepressionPage() {
+  return (<Section style={{ paddingTop: 40, paddingBottom: 60 }}>
+    <Badge color={C.blue}>Understanding Depression</Badge>
+    <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Depression (Major Depressive Disorder)</h2>
+    <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 24px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Depression is not sadness. Sadness is a normal human emotion with a cause. Depression is a neurobiological condition that hijacks your brain's ability to feel pleasure, find motivation, think clearly, or imagine a future. It is the leading cause of disability worldwide.</p>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 28 }}>
+      {[{ num: "280M+", label: "People affected globally", src: "WHO, 2023" }, { num: "~60%", label: "Never receive treatment", src: "NIMH" }, { num: "2×", label: "More common in women than men", src: "Epidemiological data" }, { num: "88%", label: "PHQ-9 sensitivity at score ≥10", src: "Kroenke et al., 2001" }].map((s, i) => (
+        <Card key={i} style={{ textAlign: "center", padding: "16px 14px" }}>
+          <div style={{ fontFamily: fonts.display, fontSize: 24, fontWeight: 700, color: C.blue }}>{s.num}</div>
+          <div style={{ fontSize: 12, color: C.textMid, lineHeight: 1.5, marginTop: 4, fontFamily: fonts.body }}>{s.label}</div>
+          <div style={{ fontSize: 10, color: C.textLight, marginTop: 3, fontFamily: fonts.body }}>{s.src}</div>
+        </Card>))}
+    </div>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>The Nine Symptoms (DSM-5)</h3>
+    <Card style={{ marginBottom: 20 }}>
+      <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 12px", fontFamily: fonts.body }}>Major depression requires five or more symptoms for at least two weeks, with at least one being depressed mood or loss of interest:</p>
+      {["Depressed mood most of the day, nearly every day", "Markedly diminished interest or pleasure in almost all activities", "Significant weight loss or gain, or change in appetite", "Insomnia or hypersomnia nearly every day", "Psychomotor agitation or retardation observable by others", "Fatigue or loss of energy nearly every day", "Feelings of worthlessness or excessive guilt", "Diminished ability to think, concentrate, or make decisions", "Recurrent thoughts of death or suicidal ideation"].map((s, i) => (
+        <div key={i} style={{ display: "flex", gap: 10, marginBottom: 6, fontSize: 13.5, fontFamily: fonts.body }}>
+          <span style={{ color: C.blue, fontWeight: 700, flexShrink: 0 }}>{i + 1}.</span>
+          <span style={{ color: C.textMid, lineHeight: 1.55 }}>{s}</span>
+        </div>))}
+    </Card>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>What Most People Get Wrong</h3>
+    <Card style={{ marginBottom: 20 }}>
+      {[{ myth: "\"Everyone gets sad sometimes.\"", reality: "Depression is not proportional sadness. The hallmark is anhedonia — inability to feel pleasure — which is fundamentally different from sadness. It can occur without any identifiable cause." },
+        { myth: "\"Just exercise / think positive / try harder.\"", reality: "Depression involves measurable changes in brain chemistry, neural connectivity, and inflammatory markers. You cannot think your way out of a neurobiological condition." },
+        { myth: "\"Antidepressants change who you are.\"", reality: "When properly prescribed, antidepressants restore baseline function. Most patients describe feeling like themselves again, not like a different person." },
+        { myth: "\"If you can still function, it's not real.\"", reality: "High-functioning depression is extremely common and often more dangerous because it delays treatment. Someone can hold a job while being profoundly depressed." }].map((m, i) => (
+        <div key={i} style={{ padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: C.text, margin: "0 0 4px", fontFamily: fonts.body, fontStyle: "italic" }}>{m.myth}</p>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{m.reality}</p>
+        </div>))}
+    </Card>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Treatment That Works</h3>
+    <Card style={{ marginBottom: 20 }}>
+      {[{ name: "SSRIs / SNRIs", desc: "First-line medications. Sertraline (Zoloft), escitalopram (Lexapro), duloxetine (Cymbalta). Take 2-6 weeks for full effect. 60-70% respond to the first medication tried." },
+        { name: "CBT", desc: "As effective as medication for mild-to-moderate depression. Combines thought restructuring with behavioral activation. 12-20 sessions typical." },
+        { name: "Combination therapy", desc: "Medication + therapy together outperforms either alone, especially for moderate-to-severe depression." },
+        { name: "Exercise", desc: "30 minutes of moderate exercise 3-5 times per week has antidepressant effects comparable to medication for mild-to-moderate depression." }].map((t, i) => (
+        <div key={i} style={{ padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+          <h4 style={{ fontSize: 14, fontWeight: 700, color: C.blue, margin: "0 0 4px", fontFamily: fonts.body }}>{t.name}</h4>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{t.desc}</p>
+        </div>))}
+    </Card>
+    <Card style={{ background: "#fef3c7", borderColor: "#f59e0b40" }}>
+      <p style={{ fontSize: 13, color: "#92400e", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Important:</strong> If antidepressants make you feel worse, more agitated, or trigger unusual energy, this may indicate bipolar disorder rather than unipolar depression. Tell your prescriber immediately — the treatment approach is fundamentally different.</p>
+    </Card>
+  </Section>);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANXIETY PAGE
+// ═══════════════════════════════════════════════════════════════
+function AnxietyPage() {
+  return (<Section style={{ paddingTop: 40, paddingBottom: 60 }}>
+    <Badge color={C.teal}>Understanding Anxiety</Badge>
+    <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Anxiety Disorders</h2>
+    <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 24px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Anxiety is your brain's threat detection system stuck in the "on" position. Everyone feels anxious sometimes — that's healthy. Anxiety disorders are when the alarm keeps ringing after the danger has passed, or when there was never any danger to begin with. It is the most common mental health condition in the world.</p>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 28 }}>
+      {[{ num: "301M+", label: "People affected globally", src: "WHO, 2023" }, { num: "31%", label: "U.S. adults will experience anxiety in their lifetime", src: "NIMH" }, { num: "60%+", label: "Also have comorbid depression", src: "Comorbidity research" }, { num: "7 Qs", label: "GAD-7 takes under 2 minutes", src: "Spitzer et al., 2006" }].map((s, i) => (
+        <Card key={i} style={{ textAlign: "center", padding: "16px 14px" }}>
+          <div style={{ fontFamily: fonts.display, fontSize: 24, fontWeight: 700, color: C.teal }}>{s.num}</div>
+          <div style={{ fontSize: 12, color: C.textMid, lineHeight: 1.5, marginTop: 4, fontFamily: fonts.body }}>{s.label}</div>
+          <div style={{ fontSize: 10, color: C.textLight, marginTop: 3, fontFamily: fonts.body }}>{s.src}</div>
+        </Card>))}
+    </div>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Types of Anxiety Disorders</h3>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 24 }}>
+      {[{ name: "Generalized Anxiety (GAD)", desc: "Persistent, excessive worry about multiple areas of life that is difficult to control. Present more days than not for 6+ months.", symptoms: "Restlessness, fatigue, difficulty concentrating, irritability, muscle tension, sleep disturbance" },
+        { name: "Panic Disorder", desc: "Recurrent unexpected panic attacks — sudden surges of intense fear peaking within minutes. Fear of the next attack becomes its own problem.", symptoms: "Racing heart, chest pain, shortness of breath, dizziness, tingling, derealization, fear of dying" },
+        { name: "Social Anxiety", desc: "Intense fear of social situations where you might be scrutinized. Far beyond shyness — can be completely debilitating.", symptoms: "Avoidance, physical symptoms before/during social events, fear of embarrassment, difficulty speaking" },
+        { name: "Specific Phobias", desc: "Intense, irrational fear of a specific object or situation. Fear is disproportionate to actual danger.", symptoms: "Immediate anxiety response, avoidance behavior, recognition fear is excessive but inability to control it" }].map((t, i) => (
+        <Card key={i} hover style={{ borderLeft: `3px solid ${C.teal}` }}>
+          <h4 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.teal, margin: "0 0 6px" }}>{t.name}</h4>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 10px", fontFamily: fonts.body }}>{t.desc}</p>
+          <div style={{ padding: "8px 10px", background: C.tealLight, borderRadius: 8 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.teal, marginBottom: 2, fontFamily: fonts.body }}>Symptoms</div>
+            <p style={{ fontSize: 12, color: C.textMid, lineHeight: 1.5, margin: 0, fontFamily: fonts.body }}>{t.symptoms}</p>
+          </div>
+        </Card>))}
+    </div>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Anxiety Lives in Your Body</h3>
+    <Card style={{ marginBottom: 20 }}>
+      <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body }}>The physical symptoms are often what bring people to the ER thinking they're having a heart attack:</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
+        {[{ area: "Heart", symptoms: "Racing, pounding, skipping, chest tightness" }, { area: "Lungs", symptoms: "Shortness of breath, hyperventilation, suffocation feeling" }, { area: "Stomach", symptoms: "Nausea, diarrhea, loss of appetite, butterflies" }, { area: "Muscles", symptoms: "Tension, trembling, jaw clenching, headaches" }, { area: "Nervous System", symptoms: "Dizziness, tingling, numbness, hot flashes, sweating" }, { area: "Brain", symptoms: "Racing thoughts, difficulty concentrating, derealization, insomnia" }].map((b, i) => (
+          <div key={i} style={{ padding: "10px 12px", background: "#fafaf8", borderRadius: 8 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, fontFamily: fonts.body }}>{b.area}</div>
+            <p style={{ fontSize: 12, color: C.textMid, lineHeight: 1.5, margin: "2px 0 0", fontFamily: fonts.body }}>{b.symptoms}</p>
+          </div>))}
+      </div>
+      <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "12px 0 0", fontFamily: fonts.body }}>This is why the <strong>Body</strong> page exists — vagus nerve exercises that talk directly to your nervous system, because when anxiety is physical, thinking alone isn't enough.</p>
+    </Card>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Treatment That Works</h3>
+    <Card>
+      {[{ name: "CBT", desc: "Gold standard for anxiety. Teaches you to identify distorted threat assessments and gradually face feared situations. Exposure therapy is key for phobias and panic." },
+        { name: "SSRIs / SNRIs", desc: "First-line medications: sertraline, escitalopram, venlafaxine, duloxetine. Take 2-4 weeks to work. Effective for GAD, panic, social anxiety, and PTSD." },
+        { name: "Benzodiazepines (short-term)", desc: "Lorazepam, clonazepam. Fast-acting but carry dependence risk. Used as a bridge while SSRIs take effect, not as long-term treatment." },
+        { name: "Vagus nerve exercises", desc: "Extended exhale breathing, cold water exposure, progressive muscle relaxation. Directly activate the parasympathetic nervous system to counteract fight-or-flight." }].map((t, i) => (
+        <div key={i} style={{ padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+          <h4 style={{ fontSize: 14, fontWeight: 700, color: C.teal, margin: "0 0 4px", fontFamily: fonts.body }}>{t.name}</h4>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{t.desc}</p>
+        </div>))}
+    </Card>
+  </Section>);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BIPOLAR LANDING PAGE (links to existing screening + deep content)
+// ═══════════════════════════════════════════════════════════════
+function BipolarPage({ setActive }) {
+  return (<Section style={{ paddingTop: 40, paddingBottom: 60 }}>
+    <Badge color={C.accent}>Understanding Bipolar Disorder</Badge>
+    <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Bipolar Disorder</h2>
+    <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 24px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Not just mood swings. A spectrum of conditions involving distinct episodes of mania or hypomania and depression. Has the highest rate of comorbid substance use of any psychiatric diagnosis. Takes an average of 7-10 years to diagnose correctly because most people seek help during depression, not mania.</p>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 28 }}>
+      {[{ num: "46M+", label: "People worldwide", src: "WHO, 2023" }, { num: "25-50%", label: "Will attempt suicide", src: "APA" }, { num: "69%", label: "Initially misdiagnosed", src: "Hirschfeld, 2003" }, { num: "~60%", label: "Lifetime substance use disorder", src: "ECA Study" }].map((s, i) => (
+        <Card key={i} style={{ textAlign: "center", padding: "16px 14px" }}>
+          <div style={{ fontFamily: fonts.display, fontSize: 24, fontWeight: 700, color: C.accent }}>{s.num}</div>
+          <div style={{ fontSize: 12, color: C.textMid, lineHeight: 1.5, marginTop: 4, fontFamily: fonts.body }}>{s.label}</div>
+          <div style={{ fontSize: 10, color: C.textLight, marginTop: 3, fontFamily: fonts.body }}>{s.src}</div>
+        </Card>))}
+    </div>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>The Spectrum</h3>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 24 }}>
+      {[{ type: "Bipolar I", color: C.red, desc: "Full manic episodes (7+ days or any duration if hospitalized). May include psychotic features. Depressive episodes common but not required for diagnosis." },
+        { type: "Bipolar II", color: C.warm, desc: "Hypomanic episodes (4+ days, less severe, no psychosis) alternating with major depressive episodes. Often misdiagnosed as unipolar depression. Depression is the dominant burden." },
+        { type: "Cyclothymia", color: C.blue, desc: "Chronic (2+ years) mild mood fluctuations that never meet full criteria for either pole. Can progress to Bipolar I or II. Often dismissed as personality." }].map((t, i) => (
+        <Card key={i} hover style={{ borderTop: `3px solid ${t.color}` }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: t.color, margin: "0 0 8px" }}>{t.type}</h3>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{t.desc}</p>
+        </Card>))}
+    </div>
+    <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>How It's Different from Depression</h3>
+    <Card style={{ marginBottom: 20 }}>
+      {[{ q: "Why does the distinction matter?", a: "Treatment is fundamentally different. Antidepressants alone can trigger mania or rapid cycling in bipolar. Mood stabilizers like lithium are the foundation, but aren't used for unipolar depression." },
+        { q: "Why is it missed so often?", a: "People seek help during depression, not during mania. Hypomania goes unreported because it feels productive. Clinicians who don't ask about past highs will diagnose depression." },
+        { q: "Red flags to watch for", a: "Antidepressants making you agitated or wired. Periods of distinctly elevated mood, decreased sleep need, racing thoughts, impulsive behavior. Family history of bipolar. These change the entire diagnostic picture." }].map((item, i) => (
+        <div key={i} style={{ padding: "12px 0", borderBottom: i < 2 ? `1px solid ${C.border}` : "none" }}>
+          <h4 style={{ fontSize: 14, fontWeight: 700, color: C.accent, margin: "0 0 4px", fontFamily: fonts.body }}>{item.q}</h4>
+          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{item.a}</p>
+        </div>))}
+    </Card>
+    <Card style={{ background: C.accentLight, borderColor: C.accent + "30", cursor: "pointer" }} onClick={() => setActive("screening")}>
+      <p style={{ fontSize: 14, color: C.accent, lineHeight: 1.6, margin: 0, fontFamily: fonts.body, fontWeight: 600 }}>Take the Bipolar Screening →</p>
+      <p style={{ fontSize: 12.5, color: C.textMid, lineHeight: 1.6, margin: "6px 0 0", fontFamily: fonts.body }}>Based on the Mood Disorder Questionnaire (MDQ) with DSM-5 criteria. Educational screening tool — not a diagnosis. 5-8 minutes.</p>
+    </Card>
+  </Section>);
+}
+
+// ═══════════════════════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
@@ -1049,9 +1340,20 @@ export default function App() {
         * { box-sizing: border-box; margin: 0; }
         a { color: ${C.accent}; }
         ::selection { background: ${C.accent}30; }
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: block !important; }
+        }
+        @media (min-width: 769px) {
+          .mobile-menu-btn { display: none !important; }
+          .mobile-dropdown { display: none !important; }
+        }
       `}</style>
       <Nav active={active} setActive={setActive} />
       {active === "home" && <HomePage setActive={setActive} />}
+      {active === "depression" && <DepressionPage />}
+      {active === "anxiety" && <AnxietyPage />}
+      {active === "bipolar" && <BipolarPage setActive={setActive} />}
       {active === "screening" && <ScreeningPage />}
       {active === "medications" && <MedicationsPage />}
       {active === "cbt" && <CBTPage />}
@@ -1059,13 +1361,14 @@ export default function App() {
       {active === "body" && <BodyPage />}
       {active === "substance" && <SubstancePage />}
       {active === "find-help" && <FindHelpPage />}
+      {active === "about" && <AboutPage />}
 
       {/* Footer */}
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "24px 20px", textAlign: "center", marginTop: 40 }}>
         <p style={{ fontSize: 12, color: C.textLight, lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: fonts.body }}>
-          This site is for educational purposes only and does not provide medical advice, diagnosis, or treatment. Always seek the advice of a qualified health provider. Screening based on the MDQ (Hirschfeld et al., Am J Psychiatry, 2000). Medication data from FDA labels, PubMed, and Drugs.com patient databases.
+          This site is for educational and informational purposes only and does not provide medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider. The screening tool incorporates the validated MDQ (Hirschfeld et al., Am J Psychiatry, 2000); type-differentiation scoring is educational, not independently validated. Medication information is sourced from FDA labels and peer-reviewed literature and should not be used to make treatment decisions without consulting your physician. This site is under active development.
         </p>
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Built with care. You are a whole, complete person. ⬡</p>
+        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>© {new Date().getFullYear()} Brain Weather</p>
       </footer>
     </div>
   );
