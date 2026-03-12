@@ -1,8 +1,8 @@
 {
   "name": "two-weathers",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "A bipolar disorder resource site — screening, medication guide, therapy education, and provider finder.",
+  "description": "Brain Weather — mental health resource site covering depression, anxiety, and bipolar disorder.",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
