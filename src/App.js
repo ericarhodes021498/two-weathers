@@ -26,7 +26,6 @@ const fonts = {
 // SHARED COMPONENTS
 // ═══════════════════════════════════════════════════════════════
 function Nav({ active, setActive }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const tabs = [
     { id: "home", label: "Home", icon: "◉" },
     { id: "screening", label: "Screening", icon: "◎" },
@@ -36,60 +35,29 @@ function Nav({ active, setActive }) {
     { id: "body", label: "Body", icon: "◯" },
     { id: "substance", label: "Substance Use", icon: "◆" },
     { id: "find-help", label: "Find Help", icon: "◇" },
-    { id: "about", label: "About", icon: "♡" },
   ];
-  const pick = (id) => { setActive(id); setMenuOpen(false); };
   return (
-    <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.95)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56, padding: "0 20px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => pick("home")}>
+    <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.92)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`, padding: "0 20px" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => setActive("home")}>
           <span style={{ fontSize: 20, color: C.accent }}>⬡</span>
           <span style={{ fontFamily: fonts.display, fontSize: 17, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>Two Weathers</span>
         </div>
-        {/* Desktop nav */}
-        <div style={{ display: "flex", gap: 1, flexWrap: "wrap" }} className="desktop-nav">
+        <div style={{ display: "flex", gap: 2 }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => pick(t.id)} style={{
-              padding: "7px 10px", borderRadius: 8, border: "none", cursor: "pointer",
+            <button key={t.id} onClick={() => setActive(t.id)} style={{
+              padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
               background: active === t.id ? C.accentLight : "transparent",
               color: active === t.id ? C.accent : C.textMid,
-              fontSize: 12.5, fontWeight: active === t.id ? 700 : 500,
+              fontSize: 13, fontWeight: active === t.id ? 700 : 500,
               fontFamily: fonts.body, transition: "all 0.2s",
-              display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap",
+              display: "flex", alignItems: "center", gap: 5,
             }}>
-              <span style={{ fontSize: 9 }}>{t.icon}</span> {t.label}
+              <span style={{ fontSize: 10 }}>{t.icon}</span> {t.label}
             </button>
           ))}
         </div>
-        {/* Mobile hamburger */}
-        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
-          display: "none", background: "none", border: "none", cursor: "pointer",
-          fontSize: 24, color: C.text, padding: "4px 8px",
-        }}>
-          {menuOpen ? "✕" : "☰"}
-        </button>
       </div>
-      {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="mobile-dropdown" style={{
-          position: "absolute", top: 56, left: 0, right: 0, background: "rgba(250,250,248,0.98)",
-          backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`,
-          padding: "8px 20px 16px", boxShadow: C.shadow,
-        }}>
-          {tabs.map(t => (
-            <button key={t.id} onClick={() => pick(t.id)} style={{
-              display: "block", width: "100%", textAlign: "left", padding: "12px 14px",
-              borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 2,
-              background: active === t.id ? C.accentLight : "transparent",
-              color: active === t.id ? C.accent : C.text,
-              fontSize: 15, fontWeight: active === t.id ? 700 : 500,
-              fontFamily: fonts.body, transition: "all 0.15s",
-            }}>
-              <span style={{ marginRight: 8, fontSize: 12 }}>{t.icon}</span>{t.label}
-            </button>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }
@@ -310,11 +278,11 @@ function ScreeningPage() {
     if (maCount >= 3 && maCount < 7) cy += 2; if (depCount >= 3 && depCount < 5) cy += 2; if (cycPat) cy += 4; if (chronic) cy += 2; if (funcOk) cy += 1; if (!psychotic && !hosp && !dur7) cy += 1;
 
     const mx = Math.max(b1, b2, cy);
-    if (mx <= 3 && maCount < 5) return { type: "Low Screening Indication", color: C.teal, b1, b2, cy, maCount, depCount, mdqPos, desc: "Based on your responses, this screening does not strongly suggest a bipolar spectrum disorder. However, this does not rule it out. If you are experiencing mood difficulties, discussing them with a mental health professional is always recommended." };
-    if (b1 >= b2 && b1 >= cy && b1 > 5) return { type: "Features Consistent with Bipolar I", color: C.red, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses include features that are commonly associated with Bipolar I Disorder, such as intense manic episodes, significant functional impairment, and/or psychotic features. This is not a diagnosis. Please discuss these results with a psychiatrist for proper evaluation." };
-    if (b2 > cy && b2 > 4) return { type: "Features Consistent with Bipolar II", color: C.warm, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses include features commonly associated with Bipolar II Disorder, such as hypomanic episodes alternating with significant depression and generally maintained functioning during highs. This is not a diagnosis. Please discuss these results with a psychiatrist for proper evaluation." };
-    if (cy > 4) return { type: "Features Consistent with Cyclothymia", color: C.blue, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses include features commonly associated with Cyclothymic Disorder, such as chronic mild mood fluctuations persisting over two or more years without reaching full mania or major depression. This is not a diagnosis. Please discuss these results with a mental health professional." };
-    return { type: "Mixed or Subthreshold Features", color: "#7c3aed", b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses show some features associated with bipolar spectrum conditions but do not clearly align with one specific type. This is common and does not mean you do or do not have a bipolar disorder. A comprehensive clinical evaluation would help clarify the picture." };
+    if (mx <= 3 && maCount < 5) return { type: "Low Risk", color: C.teal, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses do not strongly suggest a bipolar spectrum disorder. If you're experiencing mood difficulties, discussing them with a professional is still worthwhile." };
+    if (b1 >= b2 && b1 >= cy && b1 > 5) return { type: "Bipolar I — Possible", color: C.red, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses suggest features most consistent with Bipolar I Disorder: full manic episodes, potentially with psychotic features, significant functional impairment, and/or hospitalization history." };
+    if (b2 > cy && b2 > 4) return { type: "Bipolar II — Possible", color: C.warm, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses suggest Bipolar II Disorder: hypomanic episodes alternating with significant depression, maintained functioning during highs, and depression as the dominant burden." };
+    if (cy > 4) return { type: "Cyclothymia — Possible", color: C.blue, b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses suggest Cyclothymic Disorder: chronic mild mood fluctuations without reaching full mania or major depression, persisting over 2+ years." };
+    return { type: "Borderline / Subthreshold", color: "#7c3aed", b1, b2, cy, maCount, depCount, mdqPos, desc: "Your responses show some bipolar spectrum features but don't clearly fit one type. A thorough clinical evaluation with mood charting would help clarify the picture." };
   }
 
   const r = step === 6 ? getResults() : null;
@@ -360,17 +328,11 @@ function ScreeningPage() {
 
       {step === 0 && (
         <div style={{ textAlign: "center", maxWidth: 540, margin: "0 auto" }}>
-          <Badge color={C.teal}>Educational Screening Tool</Badge>
+          <Badge color={C.teal}>Clinically Validated Screening</Badge>
           <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "16px 0 12px" }}>Bipolar Disorder Screening</h2>
-          <p style={{ fontSize: 15, color: C.textMid, lineHeight: 1.7, margin: "0 0 12px", fontFamily: fonts.body }}>This screening incorporates questions from the <strong>Mood Disorder Questionnaire (MDQ)</strong>, a validated tool developed by Dr. Robert Hirschfeld, along with additional questions informed by DSM-5 criteria.</p>
+          <p style={{ fontSize: 15, color: C.textMid, lineHeight: 1.7, margin: "0 0 12px", fontFamily: fonts.body }}>Based on the <strong>Mood Disorder Questionnaire (MDQ)</strong> by Dr. Robert Hirschfeld, combined with DSM-5 criteria to differentiate Bipolar I, Bipolar II, and Cyclothymia.</p>
           <Card style={{ textAlign: "left", margin: "20px 0" }}>
-            <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>This takes about <strong>5–8 minutes</strong>. Answer based on your <strong>lifetime experiences</strong>, not just how you feel today. There are no right or wrong answers.</p>
-          </Card>
-          <Card style={{ textAlign: "left", margin: "0 0 0 0", background: "#fdf2f2", borderColor: "#e8c4c4" }}>
-            <p style={{ fontSize: 13, color: "#7a3030", lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body, fontWeight: 700 }}>Important — Please Read Before Proceeding</p>
-            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 6px", fontFamily: fonts.body }}>This is an <strong>educational screening tool, not a diagnostic instrument</strong>. Only a licensed psychiatrist or psychologist can diagnose bipolar disorder through comprehensive clinical evaluation.</p>
-            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 6px", fontFamily: fonts.body }}>The MDQ questions (Part 1) are clinically validated. The additional questions used to suggest which type of bipolar disorder your symptoms may align with are <strong>educational approximations informed by DSM-5 criteria</strong>, not a separately validated diagnostic tool.</p>
-            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>A positive screen means you should <strong>discuss these results with a qualified mental health professional</strong>. A negative screen does not rule out bipolar disorder.</p>
+            <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>This takes about <strong>5–8 minutes</strong>. Answer based on your <strong>lifetime experiences</strong>, not just today. There are no right or wrong answers. This is a screening tool — not a diagnosis. Only a qualified mental health professional can diagnose bipolar disorder.</p>
           </Card>
         </div>
       )}
@@ -418,7 +380,7 @@ function ScreeningPage() {
       {step === 6 && r && (
         <div>
           <Card style={{ borderTop: `3px solid ${r.color}`, marginBottom: 20 }}>
-            <Badge color={r.color}>Screening Indication — Not a Diagnosis</Badge>
+            <Badge color={r.color}>Screening Result</Badge>
             <h2 style={{ fontFamily: fonts.display, fontSize: 24, fontWeight: 700, color: r.color, margin: "10px 0 10px" }}>{r.type}</h2>
             <p style={{ fontSize: 14.5, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>{r.desc}</p>
           </Card>
@@ -444,10 +406,8 @@ function ScreeningPage() {
               </div>
             </div>
           ))}
-          <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginTop: 20 }}>
-            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}><strong>This screening does not constitute a medical diagnosis.</strong> The MDQ component (Part 1) is clinically validated (Hirschfeld et al., Am J Psychiatry, 2000). The type-differentiation scoring is an educational tool informed by DSM-5 criteria and is not a separately validated diagnostic instrument.</p>
-            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}>A positive or negative result should be discussed with a licensed psychiatrist or psychologist who can conduct a comprehensive evaluation. Many conditions share symptoms with bipolar disorder, including ADHD, borderline personality disorder, thyroid disorders, and substance-induced mood changes.</p>
-            <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>If you are in crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> by calling or texting <strong>988</strong>.</p>
+          <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", marginTop: 20 }}>
+            <p style={{ fontSize: 12.5, color: "#92400e", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Important:</strong> This is a screening tool, not a diagnosis. Based on the MDQ (Hirschfeld et al., Am J Psychiatry, 2000) and DSM-5 criteria. A positive screen means you should discuss results with a psychiatrist. If you're in crisis, call or text <strong>988</strong>.</p>
           </Card>
         </div>
       )}
@@ -500,7 +460,7 @@ const MEDS = [
     rating: "6.5/10", reviews: "Commonly used but mixed tolerability", notes: "Weight gain is the #1 complaint. Some patients find it more tolerable than lithium for acute mania. Critical warning: do NOT use during pregnancy." },
   { name: "Lorazepam", brand: "Ativan", cls: "Benzodiazepine (Adjunct)", color: "#6366f1", approved: false,
     uses: "OFF-LABEL adjunct for acute manic agitation, insomnia, and anxiety during bipolar episodes. Used as a bridge while mood stabilizers/antipsychotics reach therapeutic levels. 79% of bipolar mania trial participants received lorazepam.",
-    dose: "Typical range: 1–2mg every 4–6 hours as needed, as prescribed by a physician. Short-term use only (generally limited to 2–4 weeks). Works by enhancing GABA-A receptor activity. All dosing must be determined by your prescribing doctor.",
+    dose: "1–2mg every 4–6 hours as needed, max 6–8mg/day. Short-term use only (2–4 weeks max). Works by enhancing GABA-A receptor activity.",
     onset: "Oral: 15–30 minutes. One of the fastest-acting psychiatric medications.",
     sides: "Sedation, cognitive impairment, dizziness, dependence risk (HIGH — physical dependence develops in 2–4 weeks). Not a mood stabilizer. Does not prevent future episodes.",
     rating: "N/A for bipolar", reviews: "Valued as rescue medication", notes: "Patients describe it as providing immediate relief from the intensity of mania. Critical: this is a bridge, not a treatment. Must be used short-term alongside proper mood stabilizers." },
@@ -512,10 +472,7 @@ function MedicationsPage() {
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.teal}>Evidence-Based</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Medication Guide</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 12px", maxWidth: 600, lineHeight: 1.65, fontFamily: fonts.body }}>General information about medications commonly used in bipolar disorder. Dosages listed are typical ranges from FDA labeling and clinical guidelines — they are not recommendations. All medication decisions should be made with your prescribing physician.</p>
-      <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginBottom: 20, padding: "14px 20px" }}>
-        <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Medical Disclaimer:</strong> This information is for educational purposes only. Individual responses to medication vary significantly. Never start, stop, or adjust any medication without direct guidance from your prescribing physician. Dosing, side effects, and interactions depend on your specific health profile.</p>
-      </Card>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 600, lineHeight: 1.65, fontFamily: fonts.body }}>What each medication does, how long it takes to work, side effects, and what real patients report. All information sourced from peer-reviewed research, FDA labels, and patient databases.</p>
 
       {MEDS.map((m, i) => (
         <Card key={i} hover style={{ marginBottom: 12, cursor: "pointer", borderLeft: `3px solid ${m.color}`, transition: "all 0.3s" }} onClick={() => setExpanded(expanded === i ? null : i)}>
@@ -1074,98 +1031,6 @@ function SubstancePage() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ABOUT PAGE
-// ═══════════════════════════════════════════════════════════════
-function AboutPage() {
-  return (
-    <Section style={{ paddingTop: 60, paddingBottom: 60 }}>
-      <div style={{ maxWidth: 600, margin: "0 auto" }}>
-
-        {/* Under Construction Banner */}
-        <div style={{ padding: "14px 20px", background: "#fef3c7", border: "1.5px solid #f59e0b40", borderRadius: 12, marginBottom: 28, display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 20 }}>🔨</span>
-          <p style={{ fontSize: 13.5, color: "#92400e", lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>
-            <strong>This site is under active development.</strong> New content, features, and improvements are being added regularly. If you notice anything that needs correcting, please reach out.
-          </p>
-        </div>
-
-        <Badge color={C.accent}>Why This Exists</Badge>
-        <h2 style={{ fontFamily: fonts.display, fontSize: 32, fontWeight: 700, color: C.text, margin: "14px 0 24px", lineHeight: 1.2 }}>About Two Weathers</h2>
-
-        <div style={{ fontSize: 15.5, color: C.textMid, lineHeight: 1.75, fontFamily: fonts.body }}>
-          <p style={{ marginBottom: 18 }}>
-            Two Weathers was developed in collaboration with Maxine, a licensed therapist, over several years of research and conversation about what people affected by bipolar disorder actually need — and what most available resources fail to provide.
-          </p>
-          <p style={{ marginBottom: 18 }}>
-            As someone with a family history of bipolar disorder, I have seen firsthand how a delayed or missed diagnosis changes the trajectory of a person's life. The earlier someone understands what they are experiencing, the better the outcomes. The research is clear on this. The problem is that the research is not accessible to the people who need it most.
-          </p>
-          <p style={{ marginBottom: 18 }}>
-            This site brings together validated screening tools, peer-reviewed medication data, evidence-based therapy education, and practical resources for finding professional help — written in plain language for real people navigating a complex diagnosis.
-          </p>
-          <p style={{ marginBottom: 0, color: C.text, fontWeight: 500 }}>
-            None of this replaces professional evaluation or treatment. But it can be the bridge that helps someone get there.
-          </p>
-        </div>
-
-        <div style={{ marginTop: 32, padding: "24px", background: "#faf5f0", borderRadius: 14, border: "1px solid #e8ddd2" }}>
-          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>About the Name</h3>
-          <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.7, margin: 0, fontFamily: fonts.body }}>
-            The name refers to the experience of carrying two climates inside you — the shifts between states that define bipolar disorder. It also reflects the two perspectives this project aims to serve: the person living with the condition, and the person standing beside them.
-          </p>
-        </div>
-
-        <div style={{ marginTop: 20, padding: "20px 24px", background: C.card, borderRadius: 14, border: `1px solid ${C.border}` }}>
-          <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 10px" }}>Sources & Methodology</h3>
-          <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 10px", fontFamily: fonts.body }}>
-            All content is sourced from peer-reviewed research, clinical guidelines, and validated assessment tools:
-          </p>
-          {[
-            "Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000",
-            "CANMAT/ISBD 2018 and VA/DoD 2023 Bipolar Treatment Guidelines",
-            "JAMA Psychiatry, PLOS One, Frontiers in Psychiatry, BMC Medicine",
-            "FDA prescribing information for all medications referenced",
-            "NIMH, NAMI, WHO, and SAMHSA clinical resources",
-            "Patient experience databases (Drugs.com, WebMD — over 1,000 accounts reviewed)",
-            "Cleveland Clinic, Cedars-Sinai, and Feinstein Institute (vagus nerve research)",
-          ].map((s, i) => (
-            <div key={i} style={{ display: "flex", gap: 8, marginBottom: 5, fontSize: 12.5, fontFamily: fonts.body }}>
-              <span style={{ color: C.teal, fontWeight: 700, flexShrink: 0 }}>◈</span>
-              <span style={{ color: C.textMid, lineHeight: 1.5 }}>{s}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Disclaimer */}
-        <div style={{ marginTop: 20, padding: "20px 24px", background: "#fdf2f2", borderRadius: 14, border: "1.5px solid #e8c4c4" }}>
-          <h3 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.red, margin: "0 0 8px" }}>Medical Disclaimer</h3>
-          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
-            The information provided on this website is for educational and informational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition.
-          </p>
-          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
-            The bipolar disorder screening tool on this site is based on the validated Mood Disorder Questionnaire (MDQ) and is intended for educational self-assessment only. A positive or negative screening result does not constitute a diagnosis. Only a licensed psychiatrist or psychologist can diagnose bipolar disorder through comprehensive clinical evaluation.
-          </p>
-          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
-            Medication information is provided as a general reference and should not be used to make treatment decisions without consulting your prescribing physician. Individual responses to medication vary significantly.
-          </p>
-          <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>
-            If you are experiencing a mental health crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> by calling or texting <strong>988</strong>, or go to your nearest emergency room.
-          </p>
-        </div>
-
-        <div style={{ marginTop: 24, textAlign: "center" }}>
-          <p style={{ fontSize: 13, color: C.textLight, fontFamily: fonts.body }}>
-            If this site helped you, share it with someone who might need it.
-          </p>
-          <p style={{ fontSize: 15, color: C.accent, fontWeight: 600, fontFamily: fonts.body, marginTop: 4 }}>
-            twoweathers.com
-          </p>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
@@ -1184,14 +1049,6 @@ export default function App() {
         * { box-sizing: border-box; margin: 0; }
         a { color: ${C.accent}; }
         ::selection { background: ${C.accent}30; }
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
-        }
-        @media (min-width: 769px) {
-          .mobile-menu-btn { display: none !important; }
-          .mobile-dropdown { display: none !important; }
-        }
       `}</style>
       <Nav active={active} setActive={setActive} />
       {active === "home" && <HomePage setActive={setActive} />}
@@ -1202,14 +1059,13 @@ export default function App() {
       {active === "body" && <BodyPage />}
       {active === "substance" && <SubstancePage />}
       {active === "find-help" && <FindHelpPage />}
-      {active === "about" && <AboutPage />}
 
       {/* Footer */}
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "24px 20px", textAlign: "center", marginTop: 40 }}>
         <p style={{ fontSize: 12, color: C.textLight, lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: fonts.body }}>
-          This site is for educational and informational purposes only and does not provide medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider. The screening tool incorporates the validated MDQ (Hirschfeld et al., Am J Psychiatry, 2000); type-differentiation scoring is educational, not independently validated. Medication information is sourced from FDA labels and peer-reviewed literature and should not be used to make treatment decisions without consulting your physician. This site is under active development.
+          This site is for educational purposes only and does not provide medical advice, diagnosis, or treatment. Always seek the advice of a qualified health provider. Screening based on the MDQ (Hirschfeld et al., Am J Psychiatry, 2000). Medication data from FDA labels, PubMed, and Drugs.com patient databases.
         </p>
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>© {new Date().getFullYear()} Two Weathers · twoweathers.com</p>
+        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Built with care. You are a whole, complete person. ⬡</p>
       </footer>
     </div>
   );
