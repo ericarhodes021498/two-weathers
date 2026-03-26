@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Analytics } from '@vercel/analytics/react';
 
 const C = {
   bg:"#fafaf8",card:"#fff",border:"#e8e5df",text:"#2a2520",mid:"#5c564e",light:"#8a847a",
@@ -577,6 +578,7 @@ export default function App(){
         <p style={{fontSize:12,color:C.light,lineHeight:1.6,maxWidth:600,margin:"0 auto",fontFamily:F.b}}>For educational purposes only. Not medical advice, diagnosis, or treatment. Screenings use validated instruments (PHQ-9, GAD-7, MDQ) for educational self-assessment. Consult a qualified healthcare provider. Under active development.</p>
         <p style={{fontSize:11,color:C.light,marginTop:8,fontFamily:F.b}}>© {new Date().getFullYear()} Brain Weather</p>
       </footer>
+      <Analytics />
     </div>
   );
 }
