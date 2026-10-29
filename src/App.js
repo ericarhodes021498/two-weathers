@@ -439,13 +439,13 @@ function ScreeningPage() {
 // ═══════════════════════════════════════════════════════════════
 const MED_TYPES = [
   { type: "Lithium", kind: "Mood stabilizer", color: C.teal,
-    usedFor: "Treating mania and preventing future manic and depressive episodes. A first-line treatment for bipolar I, including bipolar depression. Strong evidence shows it lowers the risk of suicide.",
+    usedFor: "Treating mania and preventing future manic and depressive episodes. A first-line treatment for bipolar I, including bipolar depression. Research suggests it may also lower the risk of suicide.",
     onset: "Mania usually starts to improve within 1–3 weeks. The protective effect against new episodes builds over months.",
     know: "Needs regular blood tests (lithium level, kidney and thyroid). Dehydration and some common medicines, such as ibuprofen, can raise lithium levels." },
   { type: "Anticonvulsant mood stabilizers for mania", kind: "for example divalproex (valproate) or carbamazepine", color: "#059669",
     usedFor: "Treating mania; also used to prevent new episodes.",
     onset: "Mania often improves within several days to 2 weeks.",
-    know: "Needs blood tests. Valproate can cause serious birth defects and should not be used by anyone who could become pregnant unless other options have failed, and then only with reliable birth control." },
+    know: "Needs blood tests (drug level, liver, blood counts). Valproate can cause serious birth defects and lower a child's IQ; it is avoided in or before pregnancy unless other options have failed, with reliable birth control. Carbamazepine can cause a serious rash and weakens hormonal birth control." },
   { type: "Anticonvulsant mood stabilizer for preventing depression", kind: "lamotrigine", color: C.blue,
     usedFor: "Preventing future episodes in bipolar I, especially depressive ones. It does not treat acute mania.",
     onset: "The dose has to be raised slowly over about 6 weeks to lower the risk of a serious rash, so the benefit builds over weeks to months.",
@@ -455,13 +455,13 @@ const MED_TYPES = [
     onset: "Agitation and mania often ease within days to 1–2 weeks. When used for bipolar depression, improvement often starts within the first few weeks.",
     know: "Can cause weight gain and raise blood sugar and cholesterol, so these are checked regularly. Sleepiness and movement side effects can occur." },
   { type: "Antidepressants", kind: "for example SSRIs or bupropion", color: "#6b7280",
-    usedFor: "Sometimes added to a mood stabilizer or antipsychotic for bipolar depression. Guidelines advise against using them alone in bipolar I.",
+    usedFor: "Sometimes added to a mood stabilizer or antipsychotic for bipolar depression, though studies show limited added benefit. Guidelines advise against using them alone in bipolar I.",
     onset: "Usually 2–6 weeks.",
     know: "On their own they can trigger mania or more frequent mood swings in some people. Use is a careful, case-by-case decision with a prescriber." },
   { type: "Benzodiazepines", kind: "for example lorazepam or clonazepam", color: "#6366f1",
     usedFor: "Short-term help with agitation, anxiety or sleep during an episode, while other medicines start working. They do not stabilize mood or prevent episodes.",
-    onset: "Within about an hour.",
-    know: "Physical dependence can develop after taking them steadily for several days to weeks, even as prescribed; stopping suddenly can cause dangerous withdrawal. Dangerous with alcohol or opioids." },
+    onset: "Effects usually start within an hour; by mouth, lorazepam peaks at about 2 hours.",
+    know: "Physical dependence can develop after taking them steadily for several days to weeks, even as prescribed; stopping suddenly can cause dangerous withdrawal. They can also lead to misuse and addiction. Dangerous with alcohol or opioids." },
 ];
 
 function MedicationsPage() {
@@ -494,7 +494,7 @@ function MedicationsPage() {
           </tbody>
         </table>
       </div>
-      <p style={{ fontSize: 11, color: C.textLight, marginTop: 10, lineHeight: 1.55, fontFamily: fonts.body }}>Sources: CANMAT/ISBD guidelines for bipolar disorder (Yatham et al., Bipolar Disorders, 2018); U.S. FDA prescribing information for lithium, divalproex, lamotrigine, quetiapine and lorazepam; FDA boxed warning for benzodiazepines (2020).</p>
+      <p style={{ fontSize: 11, color: C.textLight, marginTop: 10, lineHeight: 1.55, fontFamily: fonts.body }}>Sources: CANMAT/ISBD guidelines for bipolar disorder (Yatham et al., Bipolar Disorders, 2018); U.S. FDA prescribing information for lithium, divalproex, carbamazepine (Equetro), lamotrigine, quetiapine and lorazepam; ISBD task force on antidepressants (Pacchiarotti et al., Am J Psychiatry, 2013); FDA boxed warning for benzodiazepines (2020).</p>
 
       <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", marginTop: 20 }}>
         <p style={{ fontSize: 12.5, color: "#92400e", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Questions worth asking your prescriber:</strong> What is this medicine for in my case? How long before we know if it is working? Which blood tests do I need, and how often? What side effects should make me call you? What happens if I miss a dose? Is it safe if I might become pregnant?</p>

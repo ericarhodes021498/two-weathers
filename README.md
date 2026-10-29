@@ -4,12 +4,13 @@ A comprehensive, free, evidence-based resource for understanding bipolar disorde
 
 ## What's Inside
 
-- **Home** — Statistics, bipolar spectrum overview (I, II, Cyclothymia), getting started guide
-- **Screening** — Mood Disorder Questionnaire (MDQ) + DSM-5 criteria to differentiate bipolar types
-- **Medications** — Guide to lithium, lamotrigine, quetiapine, paliperidone, valproate, lorazepam
+- **Home** — Statistics, Bipolar I and II overview, getting started guide
+- **Screening** — Mood Disorder Questionnaire (MDQ), scored as published (no type-differentiation)
+- **Medications** — Table of medication types: what each is used for, typical time to work, what to know (no doses)
 - **CBT** — Cognitive Behavioral Therapy for bipolar: 4 pillars, 7 core techniques, research evidence
 - **DBT** — Dialectical Behavior Therapy: 4 skill modules, structure, bipolar-specific research
-- **Body** — Top 10 exercises for physical anxiety ranked by evidence (vagus nerve science)
+- **Body** — Seven techniques for physical anxiety with honest evidence labels
+- **Substance Use** — Co-occurring substance use, sourced statistics, safer-use and treatment options
 - **Find Help** — Provider directories, what to look for, what to say, uninsured resources
 
 ## How to Deploy (Step by Step)
@@ -113,7 +114,7 @@ Vercel/Netlify will automatically redeploy when you push to GitHub.
 
 - This is a screening and educational tool, NOT a diagnostic tool
 - The MDQ screening is based on Hirschfeld et al. (Am J Psychiatry, 2000)
-- Medication information sourced from FDA labels, PubMed, and Drugs.com
+- Medication information sourced from FDA labels and the CANMAT/ISBD 2018 guidelines
 - Always include the disclaimer that only a qualified professional can diagnose bipolar disorder
 - If you modify medical content, verify against current clinical guidelines
 
@@ -126,3 +127,8 @@ Vercel/Netlify will automatically redeploy when you push to GitHub.
 - Vagus Nerve Science: Cleveland Clinic, Cedars-Sinai, Feinstein Institute
 - Treatment Guidelines: CANMAT/ISBD 2018, VA/DoD 2023
 - Medication Data: FDA prescribing information, Drugs.com patient databases
+
+
+## Accuracy review (Oct 29, 2026)
+
+Every page was fact-checked against primary sources by independent reviewers; corrections are in the commit history on the `accuracy-update` branch. Before changing medical content, check it against the source named on the page.
