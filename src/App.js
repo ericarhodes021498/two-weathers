@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // ═══════════════════════════════════════════════════════════════
 // DESIGN SYSTEM
@@ -146,7 +146,7 @@ function HomePage({ setActive }) {
               <span style={{ color: C.accent }}>You are a whole person.</span>
             </h1>
             <p style={{ fontFamily: fonts.body, fontSize: 17, color: C.textMid, maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.7 }}>
-              Bipolar disorder affects 2.8% of adults in the U.S. — yet it takes an average of <strong>7 to 10 years</strong> to receive a correct diagnosis. This site exists to close that gap. Simple tools. Real research. No judgment.
+              Bipolar disorder affects 2.8% of U.S. adults each year, yet many people wait <strong>years</strong> for a correct diagnosis: about 6 years on average between first symptoms and treatment in one large analysis. This site exists to close that gap. Simple tools. Real research. No judgment.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <Btn variant="accent" onClick={() => setActive("screening")} style={{ fontSize: 16, padding: "14px 32px" }}>Take the Screening →</Btn>
@@ -160,10 +160,10 @@ function HomePage({ setActive }) {
       <Section style={{ paddingBottom: 48 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {[
-            { num: "46M+", label: "People worldwide live with bipolar disorder", src: "WHO, 2023" },
-            { num: "25-50%", label: "Will attempt suicide at some point in their lifetime", src: "APA Clinical Guidelines" },
-            { num: "69%", label: "Are initially misdiagnosed — most often as unipolar depression", src: "Hirschfeld et al., 2003" },
-            { num: "4.4 yrs", label: "Average delay from first episode to first treatment", src: "NIMH epidemiological data" },
+            { num: "40M", label: "People worldwide lived with bipolar disorder in 2019", src: "WHO" },
+            { num: "25–50%", label: "Estimated share who attempt suicide at least once", src: "Marangell et al., 2006" },
+            { num: "69%", label: "Of people surveyed said they were first misdiagnosed, most often with depression", src: "Hirschfeld et al., 2003 (DBSA survey)" },
+            { num: "4.4%", label: "Of U.S. adults experience bipolar disorder at some point in their lives", src: "NIMH" },
           ].map((s, i) => (
             <Card key={i} style={{ textAlign: "center", padding: "20px 16px", animation: `fadeUp 0.6s ease ${0.1 + i * 0.08}s both` }}>
               <div style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: C.accent }}>{s.num}</div>
@@ -177,13 +177,12 @@ function HomePage({ setActive }) {
       {/* The Three Types */}
       <Section style={{ paddingBottom: 48 }}>
         <h2 style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: C.text, marginBottom: 8 }}>The Bipolar Spectrum</h2>
-        <p style={{ fontFamily: fonts.body, fontSize: 15, color: C.textMid, marginBottom: 24, maxWidth: 600 }}>Bipolar disorder isn't one thing. It exists on a spectrum. Understanding which type you may have changes everything about treatment.</p>
+        <p style={{ fontFamily: fonts.body, fontSize: 15, color: C.textMid, marginBottom: 24, maxWidth: 600 }}>Bipolar disorder isn't one thing. The type matters for treatment, and only a clinician can tell which one applies.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           {[
-            { type: "Bipolar I", color: "#c23030", desc: "Full manic episodes lasting 7+ days (or any duration if hospitalized). May include psychotic features. The 'classic' form. Depressive episodes are common but not required for diagnosis.", symptoms: "Extreme euphoria or irritability, little need for sleep, racing thoughts, grandiosity, reckless behavior, possible hallucinations or delusions", treatment: "Lithium (gold standard), antipsychotics, mood stabilizers. Long-term maintenance is essential." },
-            { type: "Bipolar II", color: "#b8510d", desc: "Hypomanic episodes (4+ days, less severe) alternating with major depressive episodes. Often misdiagnosed as depression. The depressive burden is typically heavier than in Bipolar I.", symptoms: "Increased energy and productivity, decreased sleep need, elevated mood, increased talking — but able to maintain functioning. Severe depressive episodes are the hallmark.", treatment: "Lithium, lamotrigine (especially for depression), quetiapine, careful SSRI use. Antidepressants alone can trigger hypomania." },
-            { type: "Cyclothymia", color: "#3563b0", desc: "Chronic (2+ years) fluctuating mood with hypomanic and depressive symptoms that never meet full criteria for either pole. Often dismissed as 'just moody.' Can progress to Bipolar I or II.", symptoms: "Mild highs and lows that cycle frequently, periods of normal mood lasting no more than 2 months, persistent instability that affects relationships and work.", treatment: "Mood stabilizers, psychotherapy (especially CBT), lifestyle management. Early treatment may prevent progression to more severe forms." },
-          ].map((t, i) => (
+            { type: "Bipolar I", color: "#c23030", desc: "At least one manic episode lasting 7 days or more (or any length if it leads to hospitalization). May include psychotic features. Depressive episodes are common but not required for diagnosis.", symptoms: "Extreme euphoria or irritability, little need for sleep, racing thoughts, grandiosity, reckless behavior, possible hallucinations or delusions", treatment: "Lithium (a first-line, long-established treatment), certain antipsychotics, and valproate. Long-term treatment to prevent new episodes is the norm." },
+            { type: "Bipolar II", color: "#b8510d", desc: "At least one hypomanic episode (lasting 4 or more days in a row, milder than mania) and at least one major depressive episode, with no full manic episode. Often misdiagnosed as depression. In long-term studies, people with bipolar II spent more time with depressive symptoms than people with bipolar I.", symptoms: "More energy, less need for sleep, elevated mood, talking more, while still able to function. Depressive episodes are often the main problem.", treatment: "Quetiapine is a first-line treatment for bipolar II depression; lithium and lamotrigine help prevent relapse. Antidepressants are used cautiously, if at all, because they can trigger hypomania." },
+                     ].map((t, i) => (
             <Card key={i} hover style={{ borderTop: `3px solid ${t.color}`, animation: `fadeUp 0.6s ease ${0.15 + i * 0.1}s both` }}>
               <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: t.color, margin: "0 0 8px" }}>{t.type}</h3>
               <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, margin: "0 0 14px", fontFamily: fonts.body }}>{t.desc}</p>
@@ -198,6 +197,7 @@ function HomePage({ setActive }) {
             </Card>
           ))}
         </div>
+        <p style={{ fontFamily: fonts.body, fontSize: 13, color: C.textLight, margin: "14px 0 0", maxWidth: 640, lineHeight: 1.6 }}>The diagnostic manual (DSM-5-TR) also includes cyclothymic disorder and other specified bipolar disorders, for mood changes that don't fit bipolar I or II. A clinician sorts out which, if any, applies.</p>
       </Section>
 
       {/* What to do */}
@@ -206,8 +206,8 @@ function HomePage({ setActive }) {
           <h2 style={{ fontFamily: fonts.display, fontSize: 22, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>Where to Start</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
-              { step: "1", title: "Screen Yourself", desc: "Take our 5-minute screening based on the validated MDQ. It won't diagnose you, but it tells you if you should see a professional.", action: "Take Screening", page: "screening" },
-              { step: "2", title: "Understand the Meds", desc: "Learn what each medication does, how long it takes to work, what the side effects are, and what real patients say about them.", action: "Medication Guide", page: "medications" },
+              { step: "1", title: "Screen Yourself", desc: "Take the MDQ, a validated 5-minute questionnaire. It can't diagnose you and it misses some people, but a positive result is a good reason to see a professional.", action: "Take Screening", page: "screening" },
+              { step: "2", title: "Understand the Meds", desc: "See the main types of medication, what each is used for, and how long it usually takes to work.", action: "Medication Guide", page: "medications" },
               { step: "3", title: "Find a Professional", desc: "Use our directory links to find a psychiatrist or therapist near you who specializes in bipolar disorder.", action: "Find Help", page: "find-help" },
             ].map((s, i) => (
               <div key={i} style={{ cursor: "pointer" }} onClick={() => setActive(s.page)}>
@@ -437,100 +437,67 @@ function ScreeningPage() {
 // ═══════════════════════════════════════════════════════════════
 // MEDICATION GUIDE
 // ═══════════════════════════════════════════════════════════════
-const MEDS = [
-  { name: "Lithium", brand: "Lithobid, Eskalith", cls: "Mood Stabilizer", color: C.teal, approved: true,
-    uses: "Gold standard for bipolar I. Prevents manic and depressive recurrence. Only psychiatric medication proven to reduce suicide risk. Effective for maintenance, acute mania, and bipolar depression.",
-    dose: "Typically 600–1800mg/day in divided doses. Therapeutic blood level: 0.6–1.2 mEq/L. Narrow therapeutic window requires regular monitoring.",
-    onset: "Antimanic effects: 1–3 weeks. Full mood stabilization: 4–12 weeks. Neuroprotective effects build over months/years.",
-    sides: "Thirst, frequent urination, hand tremor (27%), nausea (10–20% early), weight gain (modest), cognitive dulling. Long-term: thyroid changes, kidney function concerns (requires monitoring).",
-    rating: "7.3/10", reviews: "361 reviews on Drugs.com", notes: "Patient accounts range from 'life-saving miracle' to concerns about creativity loss and emotional flattening. Most common positive: unmatched mood stability. Most common negative: thirst, tremor, cognitive effects." },
-  { name: "Lamotrigine", brand: "Lamictal", cls: "Mood Stabilizer / Anticonvulsant", color: C.blue, approved: true,
-    uses: "FDA-approved for bipolar I maintenance. Particularly effective for preventing depressive episodes (its primary strength). Less effective for acute mania. Often first-line for Bipolar II.",
-    dose: "Requires slow titration: 25mg/day for 2 weeks → 50mg for 2 weeks → target 200mg/day. Slow start is critical to avoid rare but serious skin reaction (SJS).",
-    onset: "Due to required slow titration, therapeutic dose not reached for 5–6 weeks. Full benefit may take 2–3 months.",
-    sides: "Headache, dizziness, nausea, blurred vision. Rare but serious: Stevens-Johnson Syndrome (rash) — requires immediate medical attention if rash develops. Generally well-tolerated with less weight gain and cognitive effects than many alternatives.",
-    rating: "7.5/10", reviews: "Highly rated for bipolar depression", notes: "Patients frequently report it's the best-tolerated mood stabilizer. Main complaint is the slow titration. Highly valued by Bipolar II patients for depression prevention." },
-  { name: "Quetiapine", brand: "Seroquel", cls: "Atypical Antipsychotic", color: C.warm, approved: true,
-    uses: "FDA-approved for bipolar mania (400–800mg), bipolar depression (300mg), and maintenance. One of only two antipsychotics effective for both poles. Very different drug at different doses.",
-    dose: "Bipolar depression: 300mg/day. Mania: 400–800mg/day. Low dose (25–100mg) used off-label for insomnia. The most prescribed antipsychotic in the U.S.",
-    onset: "Sedation: immediate. Antimanic: 1–2 weeks at adequate dose. Antidepressant: 1–2 weeks. Full effect: 4–6 weeks.",
-    sides: "Heavy sedation (H1 histamine binding), weight gain, metabolic syndrome risk (glucose, cholesterol), dry mouth, constipation, orthostatic hypotension. Lowest EPS risk of all antipsychotics.",
-    rating: "6.2/10", reviews: "3,008 reviews on WebMD", notes: "Polarizing: loved by some for sleep and mood coverage, hated by others for sedation and metabolic effects. ~60% discontinue within weeks per Cochrane review. Common complaint: 'Seroquel zombie.'" },
-  { name: "Paliperidone", brand: "Invega", cls: "Atypical Antipsychotic", color: "#7c3aed", approved: false,
-    uses: "FDA-approved for schizophrenia/schizoaffective disorder. Used OFF-LABEL for bipolar I mania. Listed as first-line for acute mania in 2018 CANMAT guidelines. Active metabolite of risperidone.",
-    dose: "3–12mg/day extended-release. Efficacy for mania demonstrated at 9–12mg/day. Lower doses (≤6mg) showed no improvement over mood stabilizer alone in adjunctive trials.",
-    onset: "Plasma peak: ~24 hours. Steady state: 4–5 days. Improvement in mania symptoms: 4 days to 2 weeks. Full benefit: 2–3 months.",
-    sides: "Prolactin elevation (significant and dose-dependent), weight gain, EPS/movement disorders, tachycardia, akathisia, emotional blunting/anhedonia. Half-life ~23 hours.",
-    rating: "4.8/10", reviews: "58 reviews for bipolar on Drugs.com", notes: "More negative reviews for bipolar than for schizophrenia. Most common complaints: anhedonia, emotional numbness, weight gain. Some report it as the only thing that stopped psychotic mania." },
-  { name: "Valproate", brand: "Depakote, Depakene", cls: "Mood Stabilizer / Anticonvulsant", color: "#059669", approved: true,
-    uses: "FDA-approved for acute mania. Often preferred over lithium for mixed episodes. Effective for rapid cycling. NOT recommended for women of childbearing age (teratogenic).",
-    dose: "Typically 750–2000mg/day. Therapeutic blood level: 50–125 mcg/mL. Loading dose strategy (20mg/kg/day) can achieve faster response.",
-    onset: "With loading dose: improvement in 3–5 days. Standard titration: 1–2 weeks for antimanic effect.",
-    sides: "Weight gain (common and significant), hair loss, tremor, GI effects, sedation. Serious: liver toxicity (rare), pancreatitis, polycystic ovary syndrome, birth defects (contraindicated in pregnancy).",
-    rating: "6.5/10", reviews: "Commonly used but mixed tolerability", notes: "Weight gain is the #1 complaint. Some patients find it more tolerable than lithium for acute mania. Critical warning: do NOT use during pregnancy." },
-  { name: "Lorazepam", brand: "Ativan", cls: "Benzodiazepine (Adjunct)", color: "#6366f1", approved: false,
-    uses: "OFF-LABEL adjunct for acute manic agitation, insomnia, and anxiety during bipolar episodes. Used as a bridge while mood stabilizers/antipsychotics reach therapeutic levels. 79% of bipolar mania trial participants received lorazepam.",
-    dose: "Typical range: 1–2mg every 4–6 hours as needed, as prescribed by a physician. Short-term use only (generally limited to 2–4 weeks). Works by enhancing GABA-A receptor activity. All dosing must be determined by your prescribing doctor.",
-    onset: "Oral: 15–30 minutes. One of the fastest-acting psychiatric medications.",
-    sides: "Sedation, cognitive impairment, dizziness, dependence risk (HIGH — physical dependence develops in 2–4 weeks). Not a mood stabilizer. Does not prevent future episodes.",
-    rating: "N/A for bipolar", reviews: "Valued as rescue medication", notes: "Patients describe it as providing immediate relief from the intensity of mania. Critical: this is a bridge, not a treatment. Must be used short-term alongside proper mood stabilizers." },
+const MED_TYPES = [
+  { type: "Lithium", kind: "Mood stabilizer", color: C.teal,
+    usedFor: "Treating mania and preventing future manic and depressive episodes. A first-line treatment for bipolar I, including bipolar depression. Strong evidence shows it lowers the risk of suicide.",
+    onset: "Mania usually starts to improve within 1–3 weeks. The protective effect against new episodes builds over months.",
+    know: "Needs regular blood tests (lithium level, kidney and thyroid). Dehydration and some common medicines, such as ibuprofen, can raise lithium levels." },
+  { type: "Anticonvulsant mood stabilizers for mania", kind: "for example divalproex (valproate) or carbamazepine", color: "#059669",
+    usedFor: "Treating mania; also used to prevent new episodes.",
+    onset: "Mania often improves within several days to 2 weeks.",
+    know: "Needs blood tests. Valproate can cause serious birth defects and should not be used by anyone who could become pregnant unless other options have failed, and then only with reliable birth control." },
+  { type: "Anticonvulsant mood stabilizer for preventing depression", kind: "lamotrigine", color: C.blue,
+    usedFor: "Preventing future episodes in bipolar I, especially depressive ones. It does not treat acute mania.",
+    onset: "The dose has to be raised slowly over about 6 weeks to lower the risk of a serious rash, so the benefit builds over weeks to months.",
+    know: "Any new rash needs medical attention right away. Other medicines, including valproate, change how it must be dosed." },
+  { type: "Atypical (second-generation) antipsychotics", kind: "several are FDA-approved for bipolar disorder", color: C.warm,
+    usedFor: "Treating mania and mixed features; some are approved for bipolar depression; several are used to prevent new episodes, often together with lithium or valproate.",
+    onset: "Agitation and mania often ease within days to 1–2 weeks. When used for bipolar depression, improvement often starts within the first few weeks.",
+    know: "Can cause weight gain and raise blood sugar and cholesterol, so these are checked regularly. Sleepiness and movement side effects can occur." },
+  { type: "Antidepressants", kind: "for example SSRIs or bupropion", color: "#6b7280",
+    usedFor: "Sometimes added to a mood stabilizer or antipsychotic for bipolar depression. Guidelines advise against using them alone in bipolar I.",
+    onset: "Usually 2–6 weeks.",
+    know: "On their own they can trigger mania or more frequent mood swings in some people. Use is a careful, case-by-case decision with a prescriber." },
+  { type: "Benzodiazepines", kind: "for example lorazepam or clonazepam", color: "#6366f1",
+    usedFor: "Short-term help with agitation, anxiety or sleep during an episode, while other medicines start working. They do not stabilize mood or prevent episodes.",
+    onset: "Within about an hour.",
+    know: "Physical dependence can develop after taking them steadily for several days to weeks, even as prescribed; stopping suddenly can cause dangerous withdrawal. Dangerous with alcohol or opioids." },
 ];
 
 function MedicationsPage() {
-  const [expanded, setExpanded] = useState(null);
+  const th = { textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.textLight, fontFamily: fonts.body, borderBottom: `2px solid ${C.border}`, verticalAlign: "bottom" };
+  const td = { padding: "14px 12px", fontSize: 13, color: C.textMid, lineHeight: 1.55, fontFamily: fonts.body, borderBottom: `1px solid ${C.border}`, verticalAlign: "top" };
   return (
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.teal}>Evidence-Based</Badge>
-      <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Medication Guide</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 12px", maxWidth: 600, lineHeight: 1.65, fontFamily: fonts.body }}>General information about medications commonly used in bipolar disorder. Dosages listed are typical ranges from FDA labeling and clinical guidelines — they are not recommendations. All medication decisions should be made with your prescribing physician.</p>
+      <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Medications for Bipolar Disorder</h2>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 12px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>The main types of medication used for bipolar disorder, what each is used for, and how long it usually takes to work. Times are typical; everyone responds differently. Doses are set by your prescriber, so they are not listed here.</p>
       <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginBottom: 20, padding: "14px 20px" }}>
-        <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Medical Disclaimer:</strong> This information is for educational purposes only. Individual responses to medication vary significantly. Never start, stop, or adjust any medication without direct guidance from your prescribing physician. Dosing, side effects, and interactions depend on your specific health profile.</p>
+        <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Medical disclaimer:</strong> for education only. Never start, stop, or change a medication without your prescriber. Many people need more than one medication, and finding the right combination can take time.</p>
       </Card>
 
-      {MEDS.map((m, i) => (
-        <Card key={i} hover style={{ marginBottom: 12, cursor: "pointer", borderLeft: `3px solid ${m.color}`, transition: "all 0.3s" }} onClick={() => setExpanded(expanded === i ? null : i)}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
-                <h3 style={{ fontFamily: fonts.display, fontSize: 19, fontWeight: 700, color: C.text, margin: 0 }}>{m.name}</h3>
-                <span style={{ fontSize: 12, color: C.textLight, fontFamily: fonts.body }}>({m.brand})</span>
-                <Badge color={m.color}>{m.cls}</Badge>
-                {!m.approved && <Badge color={C.red}>Off-Label for Bipolar</Badge>}
-              </div>
-              <p style={{ fontSize: 13.5, color: C.textMid, margin: "4px 0 0", lineHeight: 1.55, fontFamily: fonts.body }}>{m.uses}</p>
-            </div>
-            <span style={{ fontSize: 18, color: C.textLight, transform: expanded === i ? "rotate(180deg)" : "none", transition: "transform 0.3s", flexShrink: 0, marginLeft: 12 }}>▾</span>
-          </div>
-
-          {expanded === i && (
-            <div style={{ marginTop: 16, borderTop: `1px solid ${C.border}`, paddingTop: 16, animation: "fadeUp 0.3s ease both" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-                {[
-                  { label: "Dosing", icon: "◈", content: m.dose },
-                  { label: "Time to Take Effect", icon: "◉", content: m.onset },
-                  { label: "Side Effects", icon: "◎", content: m.sides },
-                ].map((s, j) => (
-                  <div key={j} style={{ padding: "12px 14px", background: "#fafaf8", borderRadius: 10 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: m.color, marginBottom: 4, fontFamily: fonts.body }}>{s.icon} {s.label}</div>
-                    <p style={{ fontSize: 12.5, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{s.content}</p>
-                  </div>
-                ))}
-              </div>
-              <div style={{ marginTop: 14, padding: "12px 14px", background: `${m.color}06`, borderRadius: 10, borderLeft: `3px solid ${m.color}` }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: m.color, fontFamily: fonts.body }}>Patient Perspective</div>
-                  {m.rating !== "N/A for bipolar" && <span style={{ fontSize: 12, fontWeight: 700, color: C.text, fontFamily: fonts.body }}>{m.rating}</span>}
-                  <span style={{ fontSize: 11, color: C.textLight, fontFamily: fonts.body }}>{m.reviews}</span>
-                </div>
-                <p style={{ fontSize: 12.5, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{m.notes}</p>
-              </div>
-            </div>
-          )}
-        </Card>
-      ))}
+      <div style={{ overflowX: "auto", background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, boxShadow: C.shadow }}>
+        <table style={{ width: "100%", minWidth: 760, borderCollapse: "collapse" }}>
+          <thead><tr><th style={{ ...th, width: "22%" }}>Type</th><th style={{ ...th, width: "30%" }}>What it's used for</th><th style={{ ...th, width: "20%" }}>Typical time to work</th><th style={th}>Good to know</th></tr></thead>
+          <tbody>
+            {MED_TYPES.map((m, i) => (
+              <tr key={i}>
+                <td style={{ ...td, borderLeft: `3px solid ${m.color}` }}>
+                  <div style={{ fontFamily: fonts.display, fontSize: 15.5, fontWeight: 700, color: C.text }}>{m.type}</div>
+                  <div style={{ fontSize: 12, color: C.textLight, marginTop: 2 }}>{m.kind}</div>
+                </td>
+                <td style={td}>{m.usedFor}</td>
+                <td style={{ ...td, color: C.text, fontWeight: 600 }}>{m.onset}</td>
+                <td style={td}>{m.know}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style={{ fontSize: 11, color: C.textLight, marginTop: 10, lineHeight: 1.55, fontFamily: fonts.body }}>Sources: CANMAT/ISBD guidelines for bipolar disorder (Yatham et al., Bipolar Disorders, 2018); U.S. FDA prescribing information for lithium, divalproex, lamotrigine, quetiapine and lorazepam; FDA boxed warning for benzodiazepines (2020).</p>
 
       <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", marginTop: 20 }}>
-        <p style={{ fontSize: 12.5, color: "#92400e", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Never start, stop, or change medication without your doctor.</strong> This guide is for education only. Medication response is highly individual. What works brilliantly for one person may be intolerable for another. Pharmacogenomic testing (like GeneSight) can help predict your response.</p>
+        <p style={{ fontSize: 12.5, color: "#92400e", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Questions worth asking your prescriber:</strong> What is this medicine for in my case? How long before we know if it is working? Which blood tests do I need, and how often? What side effects should make me call you? What happens if I miss a dose? Is it safe if I might become pregnant?</p>
       </Card>
     </Section>
   );
@@ -642,12 +609,12 @@ function CBTPage() {
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.teal}>Evidence-Based Therapy</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Cognitive Behavioral Therapy (CBT)</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>CBT is the most studied psychotherapy for bipolar disorder, with <strong>13 randomized controlled trials</strong> and a strong evidence base. It's recommended as an adjunctive treatment in all phases of bipolar disorder except acute mania.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>CBT is one of the most studied psychotherapies for bipolar disorder: a 2017 meta-analysis pooled <strong>19 randomized controlled trials</strong>. It is used alongside medication, mainly between episodes and during or after depression, not during acute mania.</p>
 
       <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.teal}` }}>
         <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.teal, margin: "0 0 10px" }}>What CBT Actually Is</h3>
         <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body }}>CBT is based on a straightforward premise: your <strong>thoughts, feelings, and behaviors</strong> are interconnected, and shifts in one affect the others. In bipolar disorder, mood episodes distort thinking patterns (e.g., grandiosity during mania, hopelessness during depression), which drive behaviors that worsen the episode. CBT interrupts this cycle by teaching you to recognize and modify distorted thoughts before they spiral.</p>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>Typical CBT for bipolar involves <strong>8–30 sessions</strong>, each lasting 45–120 minutes, delivered individually or in group format. The average is about 20 sessions. It is always used <strong>alongside medication</strong> — not as a replacement.</p>
+        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>In research studies, CBT for bipolar disorder has ranged from about <strong>8 to 30 sessions</strong>, individually or in groups. It is used <strong>alongside medication</strong>, not as a replacement.</p>
       </Card>
 
       <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>The Four Pillars of CBT for Bipolar</h3>
@@ -656,7 +623,7 @@ function CBTPage() {
           { n: "1", title: "Easing Episode Symptoms", desc: "Cognitive restructuring for depressive thinking (challenging 'nothing will ever get better'), behavioral activation during depression (scheduling pleasurable activities even when motivation is zero), and impulse control techniques during hypomania/mania (delay strategies, pro/con lists for risky decisions).", color: C.teal },
           { n: "2", title: "Medication Adherence", desc: "One of the biggest predictors of relapse is stopping medication. CBT directly addresses this by exploring beliefs about meds ('I don't need them when I feel fine'), weighing pros/cons collaboratively, and developing strategies to make adherence automatic.", color: C.blue },
           { n: "3", title: "Early Warning Signs & Relapse Prevention", desc: "You learn to identify YOUR personal early warning signs of mania (sleeping less, spending more, talking faster) and depression (withdrawing, oversleeping, negative self-talk). Then you build an action plan: what to do at the first sign, who to call, and how to intervene before a full episode develops.", color: C.accent },
-          { n: "4", title: "Comorbid Conditions", desc: "Bipolar rarely travels alone. CBT addresses co-occurring anxiety (present in 50%+ of bipolar patients), substance use, insomnia, and PTSD using the same cognitive-behavioral framework, adapted for each condition.", color: C.warm },
+          { n: "4", title: "Comorbid Conditions", desc: "Bipolar rarely travels alone. CBT addresses co-occurring anxiety (about 45% of people with bipolar disorder have an anxiety disorder at some point), substance use, insomnia, and PTSD using the same cognitive-behavioral framework, adapted for each condition.", color: C.warm },
         ].map((p, i) => (
           <Card key={i} hover style={{ borderTop: `3px solid ${p.color}`, animation: `fadeUp 0.5s ease ${i * 0.08}s both` }}>
             <div style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: p.color, opacity: 0.3 }}>{p.n}</div>
@@ -687,18 +654,17 @@ function CBTPage() {
       <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>What the Research Says</h3>
       <Card style={{ marginBottom: 20, background: "#f8faf9" }}>
         {[
-          "A 2017 meta-analysis of 19 RCTs (1,384 patients) found CBT + medication produced significantly better outcomes for depression (Hedges' g = −0.494, moderate effect size) and psychosocial functioning compared to medication alone.",
-          "The STEP-BD study (the largest bipolar therapy trial) found intensive therapy (CBT, IPSRT, or FFT — 30 sessions) produced 64% recovery rates vs. 52% for brief intervention alone.",
+          "A 2017 meta-analysis of 19 randomized trials (1,384 patients) found CBT reduced depressive symptoms (Hedges' g = −0.494, a moderate effect) and improved functioning compared with usual care.",
+          "In the STEP-BD study (293 outpatients with bipolar depression), up to 30 sessions of intensive therapy (CBT, IPSRT or family-focused therapy) over 9 months led to a 64% recovery rate, versus 52% with three sessions of brief psychoeducation.",
           "CBT has been shown to improve medication adherence, extend time between episodes, and reduce hospitalization rates.",
-          "Neuroimaging research (2024) shows CBT modulates activity in the prefrontal cortex, amygdala, and posterior cingulate — regions involved in emotional processing — suggesting actual brain-level changes.",
-          "CBT is NOT effective during acute mania. It works best during euthymic (stable) periods and during/after depressive episodes.",
+                    "CBT is not a treatment for acute mania. It is studied mostly in people who are stable or depressed.",
         ].map((r, i) => (
           <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 13, fontFamily: fonts.body }}>
             <span style={{ color: C.teal, fontWeight: 700, flexShrink: 0 }}>◈</span>
             <span style={{ color: C.textMid, lineHeight: 1.6 }}>{r}</span>
           </div>
         ))}
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Sources: Chiang et al., PLOS One (2017); Miklowitz et al., STEP-BD (2007); Özdel et al., PMC (2021); ScienceDirect neuroimaging review (2024)</p>
+        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Sources: Chiang et al., PLOS One (2017); Miklowitz et al., Arch Gen Psychiatry (2007), STEP-BD; Pavlova et al., Lancet Psychiatry (2015), anxiety in bipolar disorder</p>
       </Card>
 
       <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8" }}>
@@ -717,19 +683,19 @@ function DBTPage() {
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color="#7c3aed">Third-Wave Therapy</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Dialectical Behavior Therapy (DBT)</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Originally developed for borderline personality disorder, DBT directly targets <strong>emotional dysregulation</strong> — the core feature that bipolar disorder and BPD share. A growing body of evidence shows it reduces suicidality, improves mood symptoms, and builds skills that medication alone cannot provide.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Originally developed for borderline personality disorder, DBT targets <strong>emotional dysregulation</strong>, which is common in bipolar disorder too. Early evidence, including one randomized trial in teenagers, suggests it can reduce suicide attempts and build skills that medication alone does not.</p>
 
       <Card style={{ marginBottom: 20, borderLeft: "3px solid #7c3aed" }}>
         <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: "#7c3aed", margin: "0 0 10px" }}>Why DBT for Bipolar?</h3>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body }}>Emotional dysregulation — high sensitivity to emotional stimuli, intense emotional responses, and a slow return to baseline — is increasingly recognized as the <strong>core clinical feature</strong> of bipolar disorder, not just an epiphenomenon. DBT was built specifically to treat this. Where CBT focuses on changing <em>thoughts</em>, DBT focuses on tolerating <em>emotions</em> and building the skills to survive intense feelings without making things worse.</p>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>In a landmark 2023 JAMA Psychiatry trial, adolescents with bipolar disorder who received DBT had <strong>significantly fewer suicide attempts</strong> compared to standard therapy. The benefit was mediated by improvement in emotion regulation.</p>
+        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body }}>Emotional dysregulation (strong sensitivity to emotional triggers, intense reactions and a slow return to baseline) is common in bipolar disorder, alongside the mood episodes that define it. DBT was built to treat it. Where CBT focuses on changing <em>thoughts</em>, DBT focuses on tolerating <em>emotions</em> and building the skills to survive intense feelings without making things worse.</p>
+        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>In a 2023 JAMA Psychiatry trial of 100 adolescents with bipolar disorder, those who received DBT had <strong>significantly fewer suicide attempts</strong> than those in standard therapy; mood symptoms improved similarly in both groups.</p>
       </Card>
 
       <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>The Four DBT Skill Modules</h3>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 24 }}>
         {[
           { title: "Mindfulness", color: "#2563eb", desc: "The foundation of all other skills. Learning to observe your thoughts and emotions without reacting to them. 'Wise Mind' — finding the overlap between emotional mind and rational mind. In bipolar: noticing mood shifts without being hijacked by them.", skills: "Observe, Describe, Participate, Non-judgmental stance, One-mindfully, Effectively" },
-          { title: "Distress Tolerance", color: "#dc2626", desc: "Surviving crisis moments without making things worse. These are the skills for when you're in unbearable pain and the urge to act destructively is overwhelming. Not about fixing the problem — about getting through it.", skills: "TIPP (Temperature, Intense exercise, Paced breathing, Progressive relaxation), ACCEPTS (Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations), Self-soothe with 5 senses, Radical Acceptance" },
+          { title: "Distress Tolerance", color: "#dc2626", desc: "Surviving crisis moments without making things worse. These are the skills for when you're in unbearable pain and the urge to act destructively is overwhelming. Not about fixing the problem — about getting through it.", skills: "TIPP (Temperature, Intense exercise, Paced breathing, Paired muscle relaxation), ACCEPTS (Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations), Self-soothe with 5 senses, Radical Acceptance" },
           { title: "Emotion Regulation", color: "#7c3aed", desc: "Understanding and managing emotions rather than being controlled by them. Learning to identify what you're feeling, reduce vulnerability to negative emotions, and increase positive experiences.", skills: "ABC PLEASE (Accumulate positive experiences, Build mastery, Cope ahead, treat PhysicaL illness, balanced Eating, avoid mood-Altering substances, Sleep, Exercise), Opposite Action, Check the Facts" },
           { title: "Interpersonal Effectiveness", color: "#059669", desc: "Getting what you need from relationships while maintaining self-respect and the relationship itself. Critical for bipolar because episodes wreak havoc on relationships, and relationship stress triggers episodes.", skills: "DEAR MAN (Describe, Express, Assert, Reinforce, Mindful, Appear confident, Negotiate), GIVE (Gentle, Interested, Validate, Easy manner), FAST (Fair, no Apologies, Stick to values, Truthful)" },
         ].map((m, i) => (
@@ -762,19 +728,18 @@ function DBTPage() {
       <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Research for Bipolar Disorder Specifically</h3>
       <Card style={{ marginBottom: 20, background: "#faf8fc" }}>
         {[
-          "A 2023 JAMA Psychiatry RCT (n=100 adolescents with bipolar) found DBT significantly reduced suicide attempts vs. standard psychotherapy. The effect was mediated by improved emotion regulation.",
-          "A 12-week DBT skills group pilot (n=37) showed significant skill acquisition in mindfulness, emotion regulation, and distress tolerance, plus improved psychological well-being and decreased emotion reactivity.",
-          "A 2023 systematic review (11 studies) found DBT-based interventions are feasible and acceptable for bipolar patients, with preliminary evidence of improving depression, mania symptoms, and emotional dysregulation.",
-          "An RCT (n=60) showed DBT significantly improved executive functioning, mindfulness, emotion regulation, depression, and mania compared to pharmacotherapy alone.",
-          "DBT has been effective in decreasing mania intensity and improving depression and executive function, though evidence for reducing emotional instability in bipolar is still building.",
-          "A novel approach called DBSRT (Dialectical Behavior and Social Rhythm Therapy) combines DBT with circadian rhythm stabilization for patients with both bipolar and borderline personality disorder.",
+          "A 2023 JAMA Psychiatry randomized trial (100 adolescents with bipolar disorder) found DBT cut suicide attempts by about two-thirds compared with standard psychotherapy; the authors linked the effect to better emotion regulation. Mood symptoms improved similarly in both groups.",
+          "A 12-week DBT skills group pilot (37 adults, no control group, 25 completed) found people learned mindfulness, emotion-regulation and distress-tolerance skills, but depression and mania scores did not change.",
+          "A 2023 systematic review found DBT-based programs are feasible and acceptable for people with bipolar disorder, with preliminary, mostly small-study evidence on mood and emotional dysregulation.",
+          "Small trials disagree: one (60 adults, compared with a wait-list) reported better mood and executive function with DBT; another (49 adults) found no change in executive function or depression.",
+          "A newer approach, DBSRT (Dialectical Behavior and Social Rhythm Therapy), combines DBT with daily-rhythm stabilization for people with both bipolar disorder and borderline personality disorder. It is still being studied.",
         ].map((r, i) => (
           <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 13, fontFamily: fonts.body }}>
             <span style={{ color: "#7c3aed", fontWeight: 700, flexShrink: 0 }}>▽</span>
             <span style={{ color: C.textMid, lineHeight: 1.6 }}>{r}</span>
           </div>
         ))}
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Sources: Goldstein et al., JAMA Psychiatry (2023); Van Dijk et al., PMC (2018); Zargar et al. (2019); Afshari et al. (2019); DBSRT: Am J Psychotherapy (2024)</p>
+        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Sources: Goldstein et al., JAMA Psychiatry (2023; print 2024); Eisner et al., Behavior Therapy (2017); Jones et al., systematic review (2023); Afshari et al. (2019); Zargar et al. (2019); DBSRT: Am J Psychotherapy (2024)</p>
       </Card>
 
       <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8" }}>
@@ -806,61 +771,40 @@ function BodyPage() {
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.accent}>Mind-Body Connection</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Exercises for Physical Anxiety</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 12px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>When anxiety lives in your body — racing heart, tight chest, shaking hands, nausea, restlessness — no amount of thinking your way out will work. You need to talk to your <strong>nervous system</strong> directly.</p>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>The key is your <strong>vagus nerve</strong> — the longest cranial nerve in your body, running from your brainstem to your gut. It controls the switch between fight-or-flight (sympathetic) and rest-and-digest (parasympathetic). These exercises activate it.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 12px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>When anxiety lives in your body (racing heart, tight chest, shaking hands, nausea, restlessness), thinking your way out is hard. Body-based techniques give your <strong>nervous system</strong> something to work with directly.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Several of these are thought to work partly through the <strong>vagus nerve</strong>, a major nerve of the rest-and-digest (parasympathetic) system running from the brainstem to the gut. The evidence for each technique differs, and the labels below say how strong it is.</p>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 22, fontWeight: 700, color: C.accent, margin: "0 0 16px" }}>The Top 10 — Ranked by Speed and Evidence</h3>
+      <h3 style={{ fontFamily: fonts.display, fontSize: 22, fontWeight: 700, color: C.accent, margin: "0 0 16px" }}>Seven Techniques, With How Strong the Evidence Is</h3>
 
       {[
-        { rank: "1", name: "Extended Exhale Breathing", time: "2 min", evidence: "Strongest evidence", color: C.teal,
-          how: "Inhale for 4 seconds through your nose. Exhale for 8 seconds through your mouth. Repeat 6–8 times.",
-          why: "When you exhale longer than you inhale, the vagus nerve directly slows your heart rate via parasympathetic activation. This is the single most studied vagus nerve exercise. Research in the International Journal of Psychophysiology found this pattern reduces cortisol, lowers heart rate, and improves decision-making under stress — within minutes.",
-          bipolar: "Especially useful during mixed episodes when anxiety and agitation coexist with mood instability. Can be done anywhere, anytime. Many CBT and DBT protocols include this." },
-
-        { rank: "2", name: "Cold Water Face Dive (Dive Reflex)", time: "30 sec", evidence: "Strong evidence", color: C.blue,
-          how: "Fill a bowl with ice water. Hold your breath, bend forward, and immerse your face for 15–30 seconds. Alternatively: hold a cold pack or bag of ice on your face (forehead and cheeks) for 30 seconds.",
-          why: "Triggers the mammalian dive reflex — an involuntary parasympathetic response that immediately slows heart rate by up to 25%. Research from Cedars-Sinai confirms cold exposure activates vagal pathways and redirects blood flow to the brain.",
-          bipolar: "This is a DBT TIPP skill (the 'T' stands for Temperature). It's the fastest way to interrupt a panic attack or acute agitation. Works even during manic agitation." },
-
-        { rank: "3", name: "Progressive Muscle Relaxation (PMR)", time: "10–15 min", evidence: "Strong evidence", color: "#7c3aed",
-          how: "Starting from your feet, systematically tense each muscle group for 5 seconds, then release for 30 seconds. Move up: calves, thighs, glutes, abdomen, chest, hands, arms, shoulders, neck, face. Focus on the contrast between tension and release.",
-          why: "PMR forces your nervous system to practice the tension-release cycle, training it to recognize and let go of chronic holding patterns. Research shows it reduces cortisol, improves sleep, and lowers blood pressure. It's one of the oldest evidence-based anxiety interventions (Jacobson, 1930s).",
-          bipolar: "Particularly helpful for the physical agitation of mixed episodes and the insomnia that precedes/accompanies both mania and depression. Can be done in bed before sleep." },
-
-        { rank: "4", name: "Vigorous Exercise (20 min)", time: "20 min", evidence: "Very strong evidence", color: C.warm,
-          how: "Any movement that elevates heart rate: brisk walking, jogging, cycling, swimming, dancing, jump rope. Aim for moderate-to-vigorous intensity for at least 20 minutes.",
-          why: "Exercise stimulates the vagus nerve through hormonal responses, releases endorphins/serotonin/dopamine, and — per Cedars-Sinai research — endurance and interval training specifically improve vagal tone and parasympathetic control. There's even evidence exercise outperforms medication for depression and anxiety.",
-          bipolar: "The challenge: motivation during depression, and safe channeling during mania. Even a 10-minute walk helps. Consistent exercise is a mood stabilizer. The key is regularity, not intensity." },
-
-        { rank: "5", name: "Humming / Chanting / 'Om'", time: "3–5 min", evidence: "Moderate evidence", color: "#059669",
-          how: "Hum a low, steady tone. Or chant 'Om' with a long, sustained vibration on the exhale. Or gargle water vigorously for 60 seconds. The vibration is what matters.",
-          why: "Your vagus nerve passes directly through your vocal cords and throat muscles. Sustained vocalization creates vibrations that mechanically stimulate vagal fibers, signaling your brain to activate the parasympathetic response.",
-          bipolar: "Low-barrier, can be done privately (shower, car). Humming while driving is particularly effective for commute anxiety. Gargling is recommended by some DBT therapists as a quick vagal stimulation." },
-
-        { rank: "6", name: "5-4-3-2-1 Grounding", time: "3–5 min", evidence: "Moderate evidence", color: C.accent,
-          how: "Name 5 things you can see. 4 things you can touch. 3 things you can hear. 2 things you can smell. 1 thing you can taste. Say each one out loud if possible.",
-          why: "Redirects your brain from internal threat processing (amygdala) to external sensory processing (cortex). This interrupts the anxiety feedback loop and activates present-moment awareness. Used extensively in PTSD treatment and DBT.",
-          bipolar: "Essential for dissociative episodes and the overwhelming sensory experience of mixed states. Takes no equipment. Teach it to support people too." },
-
-        { rank: "7", name: "Gentle Yoga / Mindful Movement", time: "10–20 min", evidence: "Moderate evidence", color: "#2563eb",
-          how: "Slow, flowing movements synchronized with breath. Forward folds and yin yoga poses are especially effective for vagal activation. Focus entirely on the sensation of movement and breath, not on achieving poses.",
-          why: "Combines deep breathing, progressive muscle engagement/release, and mindfulness — all of which independently stimulate the vagus nerve. Research from Priory confirms mindful movement activates the body's calming mechanisms.",
-          bipolar: "Beneficial in all mood states. During depression: the gentleness is more accessible than vigorous exercise. During hypomania: the slowness is a counterweight to the urge for speed." },
-
-        { rank: "8", name: "Ear Massage", time: "2 min", evidence: "Emerging evidence", color: C.gold,
-          how: "Gently massage the outer folds of your ears with thumb and index finger, paying special attention to the cymba concha (the hollow cup-shaped part of the upper ear). Apply gentle pressure and circular motions for 1–2 minutes.",
-          why: "The ear contains a branch of the vagus nerve (auricular branch) specifically in the cymba concha. Gentle massage of this area triggers a calming parasympathetic response. This is the same principle behind clinical auricular vagus nerve stimulation devices.",
-          bipolar: "Discreet enough to do in meetings, on the phone, or in public. Good for low-grade persistent anxiety that doesn't warrant a full intervention." },
-
-        { rank: "9", name: "Cold Shower Finish", time: "30–90 sec", evidence: "Moderate evidence", color: C.teal,
-          how: "At the end of your normal shower, switch to cold water for 30 seconds. Gradually increase to 60–90 seconds over time. Focus on breathing slowly through the shock.",
-          why: "Whole-body cold exposure triggers a systemic vagal response, slowing heart rate and redirecting blood flow. Cleveland Clinic confirms cold water immersion helps reset the stress response. Regular practice improves vagal tone over time (long-term resilience building).",
-          bipolar: "This is a daily resilience builder, not an acute intervention. Over 2–4 weeks of daily practice, research shows lasting improvements in vagal tone and anxiety baseline." },
-
-        { rank: "10", name: "Laughter", time: "Variable", evidence: "Moderate evidence", color: C.warm,
-          how: "Watch something genuinely funny. Aim for deep belly laughs, not just chuckles. Laughter yoga (forced laughter that becomes real) also works. Even smiling broadly for 60 seconds activates some of the same pathways.",
-          why: "Belly laughter contracts the diaphragm rhythmically, mechanically stimulating the vagus nerve similarly to deep breathing. It also releases endorphins and reduces cortisol. The effect works even when the laughter starts forced.",
-          bipolar: "Anhedonia (inability to feel pleasure) during depression makes this hard. During those times, mechanical approaches (breathing, cold, PMR) are more reliable. But when you CAN laugh, it's medicine." },
+        { rank: "1", name: "Slow Breathing With a Longer Exhale", time: "2 min", evidence: "Some evidence", color: C.teal,
+          how: "Breathe in through your nose for about 4 seconds and out slowly for about 6–8 seconds. Repeat for a couple of minutes.",
+          why: "Slow breathing raises heart-rate variability, a sign of parasympathetic activity. In studies it also lowered self-rated stress. Breathing slowly matters most; a longer exhale is a common way to slow down.",
+          bipolar: "Can be done anywhere, in any mood state. Paced breathing is part of the TIPP skill in DBT." },
+        { rank: "2", name: "Cold Water on the Face", time: "30 sec", evidence: "Limited evidence", color: C.blue,
+          how: "Hold your breath and put your face in a bowl of cold water, or hold a cold pack over your eyes and cheeks, for up to about 30 seconds.",
+          why: "Cold on the face triggers the dive reflex, which slows the heart. DBT uses it as the 'T' (Temperature) in its TIPP skill for intense distress. Direct research on it for anxiety is limited.",
+          bipolar: "Check with your doctor first if you have a heart condition, a slow heart rate, an eating disorder, or take a beta blocker: slowing the heart further can be risky." },
+        { rank: "3", name: "Progressive or Paired Muscle Relaxation", time: "10–15 min", evidence: "Some evidence", color: "#7c3aed",
+          how: "Working up from your feet, tense each muscle group for about 5 seconds, then release and notice the difference for 20–30 seconds. In DBT's version, you pair the release with a slow exhale.",
+          why: "One of the oldest relaxation methods (Jacobson, 1930s), with research support for reducing anxiety and improving sleep.",
+          bipolar: "Useful for physical restlessness and for winding down at night, when sleep problems can come before or with mood episodes." },
+        { rank: "4", name: "Regular Exercise", time: "20–30 min", evidence: "Good evidence", color: C.warm,
+          how: "Brisk walking, jogging, cycling, swimming or dancing, most days of the week. Even 10 minutes helps.",
+          why: "A large 2024 BMJ review found exercise reduced depression about as much as therapy or antidepressants, though the evidence was low-certainty and the trials were in unipolar depression, not bipolar disorder. Exercise also reduces anxiety symptoms.",
+          bipolar: "Regularity matters more than intensity. During a high, very intense exercise late in the day can make sleep harder, so keep a steady routine." },
+        { rank: "5", name: "Gentle Yoga or Mindful Movement", time: "10–20 min", evidence: "Some evidence", color: "#2563eb",
+          how: "Slow movements in time with your breath. Pay attention to the feeling of moving and breathing, not to achieving a pose.",
+          why: "Combines slow breathing, muscle release and attention to the present. Trials suggest yoga can modestly reduce anxiety.",
+          bipolar: "More approachable than vigorous exercise during low periods, and a counterweight to restlessness during highs." },
+        { rank: "6", name: "5-4-3-2-1 Grounding", time: "3–5 min", evidence: "Limited evidence", color: C.accent,
+          how: "Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell and 1 you can taste. Say them out loud if you can.",
+          why: "Shifts attention from inner alarm to what is around you. Widely taught by clinicians for panic and dissociation, though it has little formal research.",
+          bipolar: "Needs no equipment; a support person can talk you through it." },
+        { rank: "7", name: "Humming or Slow Chanting", time: "3–5 min", evidence: "Limited evidence", color: "#059669",
+          how: "Hum a low, steady tone, or chant slowly on a long exhale.",
+          why: "Humming naturally slows and lengthens the exhale, which likely accounts for most of its calming effect. Claims that it directly stimulates the vagus nerve are not well tested.",
+          bipolar: "Easy to do privately, in the car or the shower." },
       ].map((ex, i) => (
         <Card key={i} hover style={{ marginBottom: 12, borderLeft: `3px solid ${ex.color}`, animation: `fadeUp 0.4s ease ${i * 0.04}s both` }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
@@ -884,7 +828,7 @@ function BodyPage() {
             </div>
           </div>
           <div style={{ marginTop: 8, padding: "8px 12px", background: `${C.accent}06`, borderRadius: 8 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.accent, marginBottom: 2, fontFamily: fonts.body }}>Bipolar-Specific Note</div>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.accent, marginBottom: 2, fontFamily: fonts.body }}>Good to Know</div>
             <p style={{ fontSize: 12, color: C.textMid, lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>{ex.bipolar}</p>
           </div>
         </Card>
@@ -892,11 +836,11 @@ function BodyPage() {
 
       <Card style={{ background: "#f0f5f3", borderColor: "#d0ddd5", marginTop: 16 }}>
         <h4 style={{ fontSize: 15, fontWeight: 700, color: C.teal, margin: "0 0 8px", fontFamily: fonts.display }}>The 2-Minute Emergency Protocol</h4>
-        <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.65, margin: "0 0 10px", fontFamily: fonts.body }}>When physical anxiety hits and you need to come down <em>now</em>, do these three things in sequence:</p>
+        <p style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.65, margin: "0 0 10px", fontFamily: fonts.body }}>When physical anxiety hits and you need to come down <em>now</em>, try these in order (skip the cold step if it isn't safe for you):</p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           {[
             { n: "1", t: "Cold on face (30s)", d: "Ice pack or cold water splash" },
-            { n: "2", t: "Extended exhale (60s)", d: "4-count in, 8-count out × 5" },
+            { n: "2", t: "Slow breathing (60s)", d: "In for 4, out for 6–8" },
             { n: "3", t: "5-4-3-2-1 grounding (30s)", d: "Name what you sense around you" },
           ].map((s, i) => (
             <div key={i} style={{ flex: "1 1 160px", padding: "12px", background: C.card, borderRadius: 10, border: `1px solid ${C.border}`, textAlign: "center" }}>
@@ -906,7 +850,7 @@ function BodyPage() {
             </div>
           ))}
         </div>
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 10, fontFamily: fonts.body }}>Sources: Cleveland Clinic, Cedars-Sinai, Chateau Recovery, UVA Health, Charlie Health, Priory Group. Vagus nerve research: Feinstein Institute, Frontiers in Psychiatry, Int J Psychophysiology.</p>
+        <p style={{ fontSize: 11, color: C.textLight, marginTop: 10, fontFamily: fonts.body }}>Sources: De Couck et al., Int J Psychophysiology (2019), slow breathing; StatPearls, Diving Reflex (NCBI); Noetel et al., BMJ (2024), exercise for depression; Linehan's DBT skills (TIPP). These techniques help many people but do not replace treatment.</p>
       </Card>
     </Section>
   );
@@ -1069,7 +1013,7 @@ function AboutPage() {
             As someone with a family history of bipolar disorder, I have seen firsthand how a delayed or missed diagnosis changes the trajectory of a person's life. The earlier someone understands what they are experiencing, the better the outcomes. The research is clear on this. The problem is that the research is not accessible to the people who need it most.
           </p>
           <p style={{ marginBottom: 18 }}>
-            This site brings together validated screening tools, peer-reviewed medication data, evidence-based therapy education, and practical resources for finding professional help — written in plain language for real people navigating a complex diagnosis.
+            This site brings together a validated screening questionnaire, guideline-based medication information, evidence-based therapy education, and practical resources for finding professional help — written in plain language for real people navigating a complex diagnosis.
           </p>
           <p style={{ marginBottom: 0, color: C.text, fontWeight: 500 }}>
             None of this replaces professional evaluation or treatment. But it can be the bridge that helps someone get there.
@@ -1089,13 +1033,12 @@ function AboutPage() {
             All content is sourced from peer-reviewed research, clinical guidelines, and validated assessment tools:
           </p>
           {[
-            "Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000",
+            "Mood Disorder Questionnaire (MDQ) — Hirschfeld et al., American Journal of Psychiatry, 2000; general-population performance: Hirschfeld et al., 2003",
             "CANMAT/ISBD 2018 and VA/DoD 2023 Bipolar Treatment Guidelines",
             "JAMA Psychiatry, PLOS One, Frontiers in Psychiatry, BMC Medicine",
             "FDA prescribing information for all medications referenced",
             "NIMH, NAMI, WHO, and SAMHSA clinical resources",
-            "Patient experience databases (Drugs.com, WebMD — over 1,000 accounts reviewed)",
-            "Cleveland Clinic, Cedars-Sinai, and Feinstein Institute (vagus nerve research)",
+                        "Body techniques: De Couck et al. 2019 (slow breathing), Noetel et al., BMJ 2024 (exercise), StatPearls (dive reflex)",
           ].map((s, i) => (
             <div key={i} style={{ display: "flex", gap: 8, marginBottom: 5, fontSize: 12.5, fontFamily: fonts.body }}>
               <span style={{ color: C.teal, fontWeight: 700, flexShrink: 0 }}>◈</span>
@@ -1111,7 +1054,7 @@ function AboutPage() {
             The information provided on this website is for educational and informational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition.
           </p>
           <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
-            The bipolar disorder screening tool on this site is based on the validated Mood Disorder Questionnaire (MDQ) and is intended for educational self-assessment only. A positive or negative screening result does not constitute a diagnosis. Only a licensed psychiatrist or psychologist can diagnose bipolar disorder through comprehensive clinical evaluation.
+            The bipolar disorder screening tool on this site is based on the validated Mood Disorder Questionnaire (MDQ) and is intended for educational self-assessment only. A positive or negative screening result does not constitute a diagnosis. Only a qualified clinician, such as a psychiatrist, psychologist or other licensed mental health or medical professional, can diagnose bipolar disorder after a full evaluation.
           </p>
           <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.65, margin: "0 0 8px", fontFamily: fonts.body }}>
             Medication information is provided as a general reference and should not be used to make treatment decisions without consulting your prescribing physician. Individual responses to medication vary significantly.
@@ -1176,7 +1119,7 @@ export default function App() {
       {/* Footer */}
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "24px 20px", textAlign: "center", marginTop: 40 }}>
         <p style={{ fontSize: 12, color: C.textLight, lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: fonts.body }}>
-          This site is for educational and informational purposes only and does not provide medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider. The screening tool incorporates the validated MDQ (Hirschfeld et al., Am J Psychiatry, 2000); type-differentiation scoring is educational, not independently validated. Medication information is sourced from FDA labels and peer-reviewed literature and should not be used to make treatment decisions without consulting your physician. This site is under active development.
+          This site is for educational and informational purposes only and does not provide medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider. The screening tool is the validated MDQ (Hirschfeld et al., Am J Psychiatry, 2000), scored as published. Medication information comes from FDA labels and the CANMAT/ISBD 2018 guidelines and should not be used to make treatment decisions without consulting your physician. This site is under active development.
         </p>
         <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>© {new Date().getFullYear()} Two Weathers · twoweathers.com</p>
       </footer>
