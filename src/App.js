@@ -544,7 +544,7 @@ function MedicationsPage() {
 // FIND HELP
 // ═══════════════════════════════════════════════════════════════
 function FindHelpPage() {
-  const refs = ["emtala", "lifeline988Get", "vcl", "samhsaCrisis", "namiInpatient", "samhsa", "samhsaHelpline", "nasmhpd", "cmsIpfqr", "dolParity", "fdaGenerics", "singlecare", "goodrx", "costplus", "rxassist", "hrsaSliding", "hrsa340b", "oigCoupons", "medicareDrugCosts", "medicarePPP"];
+  const refs = ["emtala", "emtalaStatute", "lifeline988Get", "vcl", "samhsaCrisis", "namiInpatient", "samhsa", "samhsaHelpline", "nasmhpd", "cmsIpfqr", "cmsGrassley", "dolParity", "fdaGenerics", "singlecare", "goodrx", "costplus", "rxassist", "hrsaSliding", "hrsa340b", "oigCoupons", "medicareDrugCosts", "medicarePPP"];
   const n = (k) => refs.indexOf(k) + 1;
   return (
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
@@ -635,7 +635,7 @@ function FindHelpPage() {
       <p style={{ fontSize: 14, color: C.textMid, margin: "0 0 14px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>If you or someone you care about may need more than an outpatient visit, these are the official ways to find care. Availability varies by area, so call ahead when there's time.</p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 14 }}>
         {[
-          { t: "In an emergency: any hospital ER", d: "Federal law (EMTALA) requires hospital emergency departments to check you for an emergency medical condition, including a psychiatric one, and to stabilize you or arrange a transfer, even if you have no insurance or can't pay.", k: "emtala" },
+          { t: "In an emergency: a hospital ER", d: "Federal law (EMTALA) requires emergency departments at hospitals that take Medicare (most U.S. hospitals) to screen you for an emergency medical condition, which by law includes psychiatric emergencies, and to stabilize you or arrange a transfer, even if you have no insurance or can't pay.", k: "emtala", k2: "emtalaStatute" },
           { t: "988 Suicide & Crisis Lifeline", d: "Free, 24/7 call, text or chat for anyone in crisis, or worried about someone. Spanish: press 2 or text AYUDA to 988. Veterans: press 1, or text 838255. Deaf and hard-of-hearing callers can use 988 Videophone.", k: "lifeline988Get", k2: "vcl" },
           { t: "Mobile crisis teams and crisis centers", d: "SAMHSA's crisis-care model is someone to contact (988), someone to respond (a mobile crisis team that comes to you) and a safe place to go (crisis stabilization or receiving centers). Ask 988 or your county mental health line what serves your area.", k: "samhsaCrisis" },
           { t: "Inpatient or residential treatment", d: "NAMI suggests starting with your psychiatrist or therapist, then calling 2-1-1 or your local NAMI affiliate, asking ERs or crisis centers for referrals, and using SAMHSA's locator at findtreatment.gov. Check coverage with your insurer before admission when you can.", k: "namiInpatient", k2: "samhsa" },
@@ -649,8 +649,8 @@ function FindHelpPage() {
         ))}
       </div>
       <Card style={{ marginBottom: 28, background: "#faf8f5" }}>
-        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}><strong>Checking a hospital:</strong> Medicare requires inpatient psychiatric facilities to report quality measures, which CMS publishes in its Provider Data Catalog (data.cms.gov). Care Compare's star ratings don't cover psychiatric hospitals.<Cite k="cmsIpfqr" n={n("cmsIpfqr")} /></p>
-        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>If insurance denies care:</strong> the federal parity law generally requires mental health benefits to be no more restrictive than medical ones. Ask for the reason in writing; for employer plans, the Department of Labor helps at 1-866-444-3272.<Cite k="dolParity" n={n("dolParity")} /></p>
+        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}><strong>Checking a hospital:</strong> Medicare requires inpatient psychiatric facilities to report quality measures,<Cite k="cmsIpfqr" n={n("cmsIpfqr")} /> and CMS shows them on Care Compare (medicare.gov/care-compare) and in its Provider Data Catalog. Psychiatric facilities don't have Care Compare star ratings so far.<Cite k="cmsGrassley" n={n("cmsGrassley")} /></p>
+        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>If insurance denies care:</strong> the federal parity law generally requires mental health benefits to be comparable to medical ones. If you're denied, the plan must give you the specific reason; for employer plans, the Department of Labor helps at 1-866-444-3272.<Cite k="dolParity" n={n("dolParity")} /></p>
       </Card>
 
       {/* Medication costs */}
@@ -658,10 +658,10 @@ function FindHelpPage() {
       <p style={{ fontSize: 14, color: C.textMid, margin: "0 0 14px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>We don't list coupon codes: they expire, change by pharmacy, and fake ones circulate. These are the legitimate programs behind them. Prices change often, so compare before each refill.</p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 14 }}>
         {[
-          { t: "Ask for the generic", d: "Generics have the same active ingredient and work the same way as the brand, and usually cost much less. Most mood stabilizers and many antipsychotics used for bipolar disorder come as generics. Ask your prescriber or pharmacist.", k: "fdaGenerics" },
+          { t: "Ask for the generic", d: "Generics have the same active ingredient and work the same way as the brand, and usually cost much less. Ask your prescriber or pharmacist whether a generic fits you.", k: "fdaGenerics" },
           { t: "Free discount cards (GoodRx, SingleCare)", d: "Free coupons accepted at many pharmacies. You pay either the coupon price or your insurance price for a fill, not both, and coupon fills may not count toward your deductible. Ask the pharmacist which is cheaper.", k: "singlecare", k2: "goodrx" },
           { t: "Cost Plus Drugs", d: "Online pharmacy that charges its cost plus a 15% markup, a pharmacy fee and shipping. Search your drug; if it's listed, your prescriber sends the prescription there. Insurance is accepted only from some plans.", k: "costplus" },
-          { t: "Free-drug programs from manufacturers", d: "Drug companies run patient assistance programs that give free or low-cost medicine to eligible people, usually uninsured or underinsured with income under a limit. RxAssist lists them by drug; your prescriber fills in part of the form.", k: "rxassist" },
+          { t: "Free-drug programs from manufacturers", d: "Drug companies run patient assistance programs that give free or low-cost medicine to eligible people, usually uninsured or underinsured with income under a limit. RxAssist lists them by drug, with each program's rules and application.", k: "rxassist" },
           { t: "Community health centers", d: "Federally funded health centers must offer a sliding fee based on income and family size and can't turn you away for inability to pay. Many buy drugs at discounted 340B prices; ask the pharmacy whether those savings reach patients. Find one at findahealthcenter.hrsa.gov.", k: "hrsaSliding", k2: "hrsa340b" },
         ].map((x, i) => (
           <Card key={i}>
@@ -676,7 +676,7 @@ function FindHelpPage() {
           <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, marginBottom: 6, fontFamily: fonts.body }}>Manufacturer copay cards generally can't be used when Medicare Part D or another federal program pays.<Cite k="oigCoupons" n={n("oigCoupons")} /> Free-drug programs, Extra Help and state programs follow different rules.</li>
           <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, marginBottom: 6, fontFamily: fonts.body }}><strong>Extra Help</strong> lowers Part D premiums, deductibles and copays for people with limited income and resources; it's automatic with full Medicaid, a Medicare Savings Program or SSI. Apply through Social Security or get free counseling from your state's SHIP.<Cite k="medicareDrugCosts" n={n("medicareDrugCosts")} /></li>
           <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, marginBottom: 6, fontFamily: fonts.body }}>Out-of-pocket costs for covered Part D drugs are capped at <strong>$2,100 in 2026</strong>. The Medicare Prescription Payment Plan can spread those costs into monthly bills (it doesn't lower the total).<Cite k="medicarePPP" n={n("medicarePPP")} /></li>
-          <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>Some states run their own drug-cost programs; Medicare's Plan Finder lists them by state. Medicaid questions go to your state Medicaid office.<Cite k="medicareDrugCosts" n={n("medicareDrugCosts")} /></li>
+          <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>Some states run their own programs to help pay for prescriptions; Medicare.gov links to them by state.<Cite k="medicareDrugCosts" n={n("medicareDrugCosts")} /></li>
         </ul>
       </Card>
 
@@ -742,10 +742,13 @@ const REFS = {
   dbsaMania: { t: "DBSA, Understanding Mania (handout)", u: "https://www.dbsalliance.org/wp-content/uploads/2026/05/Understanding-Mania-HandoutV2-Optum-rightweb-1.pdf" },
   jackson2003: { t: "Jackson et al., J Affect Disord, 2003: systematic review of manic and depressive prodromes", u: "https://kclpure.kcl.ac.uk/portal/en/publications/a-systematic-review-of-manic-and-depressive-prodromes/" },
   morriss2004: { t: "Morriss, Advances in Psychiatric Treatment: early warning symptom intervention in bipolar disorder", u: "https://www.cambridge.org/core/journals/advances-in-psychiatric-treatment/article/early-warning-symptom-intervention-for-patients-with-bipolar-affective-disorder/FD9FFC214870996B310EE68F120F3781" },
-  dbsaTracker: { t: "DBSA Wellness Tracker (symptoms). Its printed crisis number is retired; use 988.", u: "https://www.dbsalliance.org/wp-content/uploads/2020/07/DBSA-WellnessTracker-Symptoms.pdf" },
+  dbsaTracker: { t: "DBSA Wellness Tracker (symptoms). Its printed crisis number (1-800-273-TALK) is outdated; use 988.", u: "https://www.dbsalliance.org/wp-content/uploads/2020/07/DBSA-WellnessTracker-Symptoms.pdf" },
+  dbsaCrisis: { t: "DBSA, Crisis resources", u: "https://www.dbsalliance.org/crisis/" },
   medlineplusBipolar: { t: "MedlinePlus, Bipolar disorder: when to contact a provider", u: "https://medlineplus.gov/ency/article/000926.htm" },
   // Find Help: hospital and crisis care
   emtala: { t: "CMS, Emergency room rights (EMTALA)", u: "https://www.cms.gov/Priorities/your-patient-rights/emergency-room-rights" },
+  emtalaStatute: { t: "42 U.S.C. 1395dd (EMTALA): definition of emergency medical condition includes psychiatric disturbances", u: "https://www.law.cornell.edu/uscode/text/42/1395dd" },
+  cmsGrassley: { t: "CMS letter to Sen. Grassley, May 15, 2025: IPFQR data on Care Compare; star ratings under consideration", u: "https://www.grassley.senate.gov/download/cms-to-grassley_-psychiatric-facilities-on-care-compare?download=1" },
   lifeline988Get: { t: "988 Suicide & Crisis Lifeline, Get Help", u: "https://988lifeline.org/get-help/" },
   vcl: { t: "Veterans Crisis Line, What is 988", u: "https://veteranscrisisline.net/about/what-is-988/" },
   samhsaCrisis: { t: "SAMHSA, National Behavioral Health Crisis Care", u: "https://www.samhsa.gov/mental-health/national-behavioral-health-crisis-care" },
@@ -829,7 +832,7 @@ function FamilyPage() {
           <SubHead>What can help to say</SubHead>
           <List>
             <Item k="dbsaWhatHelps">Acknowledge that what they're feeling comes from a real illness.</Item>
-            <Item k="dbsaWhatHelps">"What would help right now?"</Item>
+            <Item k="dbsaWhatHelps">"Tell me what I can do now to help you."</Item>
             <Item k="dbsaWhatHelps">During depression: remind them that feelings change, even if they can't believe it yet.</Item>
           </List>
         </Card>
@@ -869,8 +872,8 @@ function FamilyPage() {
         <SubHead>Plan ahead together while things are stable</SubHead>
         <List>
           <Item k="dbsaHelp">Write a plan together for mania and for suicide prevention, and give copies to trusted friends and relatives. List their own early warning signs and what people can do when they see them.</Item>
-          <Item k="namiFamily" k2="namiCrisisGuide">Many clinicians ask patients to make a crisis plan; NAMI suggests sharing it with family. NAMI's free Crisis Guide includes a Portable Treatment Record to start one.</Item>
-          <Item k="apaPad">A <strong>psychiatric advance directive</strong> is a legal document that records the treatments a person does or doesn't want, in case they can't decide during a crisis, and can name a trusted person to decide for them. Most states have their own form.</Item>
+          <Item k="namiFamily" k2="namiCrisisGuide">Make a written crisis plan together while things are calm; providers may suggest sharing it with family. NAMI's Crisis Guide includes a Portable Treatment Record to start one.</Item>
+          <Item k="apaPad">A <strong>psychiatric advance directive</strong> is a legal document that records the treatments a person does or doesn't want, in case they can't decide during a crisis, and can name a trusted person to decide for them. About half of states have laws specifically for these, often with a state form; rules vary by state.</Item>
           <Item k="hhsHipaa">Privacy law (HIPAA) lets clinicians talk with family and friends involved in care when the patient agrees or doesn't object, and it never stops a clinician from listening to what you tell them. Signing a release while well makes this easier.</Item>
         </List>
       </Card>
@@ -881,7 +884,7 @@ function FamilyPage() {
         <ol style={{ margin: "0 0 0 0", paddingLeft: 20 }}>
           <Item k="nimh5Steps"><strong>Ask directly</strong> whether they're thinking about suicide. Asking does not make suicidal thoughts or behavior more likely.</Item>
           <Item k="nimh5Steps"><strong>Be there and listen</strong> without judgment.</Item>
-          <Item k="nimh5Steps"><strong>Help keep them safe</strong> by reducing access to highly lethal items, such as securing or removing firearms and medications.</Item>
+          <Item k="nimh5Steps"><strong>Help keep them safe</strong> by reducing access to highly lethal items or places.</Item>
           <Item k="nimh5Steps" k2="lifeline988Help"><strong>Help them connect:</strong> call or text 988 together, or contact 988 yourself for advice.</Item>
           <Item k="nimh5Steps"><strong>Follow up</strong> after a crisis or a hospital stay. Ongoing contact helps.</Item>
         </ol>
@@ -895,7 +898,7 @@ function FamilyPage() {
           <Item k="dbsaHelp">It's common for family members to feel stressed, anxious or depressed. You deserve help and comfort too.</Item>
           <Item k="namiF2F"><strong>NAMI Family-to-Family</strong>: a free 8-session class for family, partners and friends, taught by trained family members.</Item>
           <Item k="namiFSG"><strong>NAMI Family Support Groups</strong>: free, peer-led groups for adult loved ones.</Item>
-          <Item k="dbsa"><strong>DBSA support groups</strong>, in person and online, including groups for families and friends.</Item>
+          <Item k="dbsa"><strong>DBSA support groups</strong>, in person and online, plus resources for families and friends.</Item>
           <Item k="alanon"><strong>Al-Anon</strong>, if you're worried about someone's drinking.</Item>
         </List>
       </Card>
@@ -931,11 +934,11 @@ const EPISODES = [
     severity: "Causes real distress or gets in the way of work, school, relationships or daily life." },
 ];
 const MANIA_SX = ["Feeling unusually important, talented or powerful (grandiosity)", "Needing much less sleep and still feeling rested", "Talking more than usual, or feeling pressure to keep talking", "Racing thoughts or jumping between ideas", "Being easily distracted", "Much more activity (social, work, school or sexual), or restless, purposeless activity", "Risky activities with painful consequences, such as spending sprees or reckless decisions"];
-const DEP_SX = ["Depressed mood most of the day", "Loss of interest or pleasure in most activities", "Big change in appetite or weight", "Sleeping too little or too much", "Moving or speaking noticeably slower, or restlessness others can see", "Fatigue or loss of energy", "Feeling worthless or excessively guilty", "Trouble concentrating or deciding", "Recurring thoughts of death or suicide"];
-const URGENT = ["Thoughts of suicide or of hurting someone", "Seeing or hearing things others don't, or beliefs others find impossible", "Hardly sleeping for several days", "Behaving in ways that are unsafe or reckless", "Unable to leave the house or take care of basic needs"];
+const DEP_SX = ["Depressed mood most of the day", "Loss of interest or pleasure in most activities", "Big change in appetite or weight", "Sleeping too little or too much", "Moving or speaking noticeably slower, or restlessness others can see", "Fatigue or loss of energy", "Feeling worthless or excessively guilty", "Trouble concentrating or deciding", "Recurring thoughts of death"];
+const URGENT = ["Thoughts of suicide or of hurting someone", "Feeling hopeless, scared or overwhelmed", "Seeing or hearing things others don't, or beliefs others find impossible", "Hardly sleeping for several days", "Behaving in ways that are unsafe or reckless", "Unable to leave the house or take care of basic needs"];
 
 function EpisodesPage() {
-  const refs = ["aafp2021", "statpearlsBipolar", "nimhPub", "hu2014", "dbsaMania", "jackson2003", "morriss2004", "dbsaTracker", "medlineplusBipolar", "nimhBipolar"];
+  const refs = ["aafp2021", "statpearlsBipolar", "nimhPub", "hu2014", "dbsaMania", "jackson2003", "morriss2004", "dbsaTracker", "medlineplusBipolar", "nimhBipolar", "dbsaCrisis"];
   const n = (k) => refs.indexOf(k) + 1;
   const [hi, setHi] = useState({});
   const [lo, setLo] = useState({});
@@ -950,10 +953,11 @@ function EpisodesPage() {
   );
   let verdict = null;
   if (done) {
-    if (urN > 0) verdict = { color: C.red, title: "Get help now", text: "You checked something that sources say needs help right away. Call or text 988, call 911, or go to the nearest emergency room. If you can, tell someone you trust what's happening." };
-    else if (hiN >= 3 && loN >= 3) verdict = { color: "#7c3aed", title: "Highs and lows at the same time: contact your prescriber soon", text: "You checked several signs from both lists. When high and low symptoms happen together (called mixed features), episodes tend to be harder to treat and riskier, so this is worth a call to your prescriber or clinician in the next day or two, not at the next routine visit." };
-    else if (hiN >= 3 || loN >= 3) verdict = { color: C.warm, title: "Worth telling your prescriber about", text: `You checked several signs from the ${hiN >= 3 ? "high (manic or hypomanic)" : "low (depressive)"} list. Only a clinician can say whether this is an episode, but changes like these are exactly what to report early. If they get worse, or you aren't taking medication as prescribed, call sooner.` };
-    else if (hiN + loN > 0) verdict = { color: C.teal, title: "Keep an eye on it", text: "You checked a few signs. Write them down with today's date, and watch whether they last or grow over the next days. Your own early warning signs are worth knowing: tell your clinician if they persist." };
+    if (urN > 0 || lo[8]) verdict = { color: C.red, title: "Get help now", text: "You checked something that sources say needs help right away. Call or text 988, call 911, or go to the nearest emergency room. If you can, tell someone you trust what's happening." };
+    else if (hiN >= 3 && loN >= 3) verdict = { color: "#7c3aed", title: "Highs and lows together: contact your prescriber soon", text: "You checked several signs from both lists. Highs and lows at the same time can be a sign of what clinicians call mixed features, which is linked to higher risk, so call your prescriber or clinician in the next day or two, not at the next routine visit. Only a clinician can tell whether this is what's happening. Some items overlap between the lists (sleep, focus, restlessness), so this is a rough signal." };
+    else if (hiN >= 3) verdict = { color: C.warm, title: "Contact your prescriber today", text: "You checked several signs from the high (manic or hypomanic) list. Only a clinician can say whether this is an episode, but MedlinePlus advises getting help right away for symptoms of mania. Contact your prescriber or clinician today. If you can't reach them, or things are escalating, call or text 988." };
+    else if (loN >= 3) verdict = { color: C.warm, title: "Worth telling your prescriber about", text: `You checked several signs from the low (depressive) list. Only a clinician can say whether this is an episode, but changes like these are exactly what to report early. If they get worse, or you aren't taking medication as prescribed, call sooner.` };
+    else if (hiN + loN > 0) verdict = { color: C.teal, title: "Keep an eye on it", text: `You checked a few signs. Write them down with today's date, and watch whether they last or grow over the next days. Your own early warning signs are worth knowing: tell your clinician if they persist.${hi[1] ? " Sleep loss in particular is one of the most common early signs of mania, so tell your clinician soon." : ""}` };
     else verdict = { color: C.teal, title: "Nothing checked", text: "Stable stretches are the best time to write down your personal early warning signs and make a plan with the people you trust." };
   }
   return (
@@ -986,16 +990,16 @@ function EpisodesPage() {
 
       <SubHead>Patterns clinicians also look for</SubHead>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 24 }}>
-        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: "#7c3aed", margin: "0 0 6px", fontFamily: fonts.body }}>Mixed features</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Not a separate episode: a manic or hypomanic episode with at least 3 depressive symptoms, or a depressive episode with at least 3 manic ones. It can feel agitated or "wired" while low. It is linked to more suicidal thinking and a harder course, so it needs prompt attention.<Cite k="hu2014" n={n("hu2014")} /></Para></Card>
+        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: "#7c3aed", margin: "0 0 6px", fontFamily: fonts.body }}>Mixed features</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Not a separate episode: a manic or hypomanic episode with at least 3 depressive symptoms, or a depressive episode with at least 3 manic ones. It is linked to more suicidal thinking and a harder course, so it needs prompt attention.<Cite k="hu2014" n={n("hu2014")} /></Para></Card>
         <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.warm, margin: "0 0 6px", fontFamily: fonts.body }}>Rapid cycling</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Four or more episodes (of any kind) within 12 months. It describes a course, not a single episode.<Cite k="statpearlsBipolar" n={n("statpearlsBipolar")} /></Para></Card>
         <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.red, margin: "0 0 6px", fontFamily: fonts.body }}>Psychotic features</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Hallucinations or delusions during a severe manic or depressive episode, often matching the mood. They signal a severe episode that usually needs urgent care.<Cite k="statpearlsBipolar" n={n("statpearlsBipolar")} /><Cite k="dbsaMania" n={n("dbsaMania")} /></Para></Card>
-        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.teal, margin: "0 0 6px", fontFamily: fonts.body }}>Stable periods</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Between episodes, mood usually returns to a person's baseline, though some people keep milder symptoms. This is the best time to build a warning-sign plan.<Cite k="nimhPub" n={n("nimhPub")} /></Para></Card>
+        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.teal, margin: "0 0 6px", fontFamily: fonts.body }}>Stable periods</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Between episodes, mood usually returns to a person's baseline, though some people, especially with bipolar II, keep a low-grade depressive state. This is the best time to build a warning-sign plan.<Cite k="nimhPub" n={n("nimhPub")} /></Para></Card>
       </div>
 
       <Card style={{ marginBottom: 24, borderLeft: `3px solid ${C.accent}` }}>
         <SubHead>Early warning signs: your "relapse signature"</SubHead>
-        <Para>In a review of 17 studies, at least 80% of people with a mood disorder could name at least one early symptom before an episode, and sleep disturbance was the most consistent early sign of mania. Early signs of depression were noticed less often.<Cite k="jackson2003" n={n("jackson2003")} /></Para>
-        <Para>Early signs of mania people commonly notice: needing less sleep, more energy, faster speech or racing thoughts, impulsive spending, irritability, overconfidence, and a restless or "bubbling" feeling.<Cite k="dbsaMania" n={n("dbsaMania")} /> Family members often notice hypomania before the person does.<Cite k="nimhPub" n={n("nimhPub")} /></Para>
+        <Para>In a review of 17 studies, at least 80% of people with a mood disorder could name at least one early symptom before an episode, and sleep disturbance was the most consistent early sign of mania. Early signs of depression were less consistent from person to person.<Cite k="jackson2003" n={n("jackson2003")} /></Para>
+        <Para>Early signs of mania people commonly notice: needing less sleep, more energy, faster speech or racing thoughts, impulsive spending, irritability, overconfidence, and a restless or "bubbling" feeling.<Cite k="dbsaMania" n={n("dbsaMania")} /> During hypomania a person may feel fine, while family and friends notice the change.<Cite k="nimhPub" n={n("nimhPub")} /></Para>
         <Para>Early signs of depression are harder to catch because they often look like everyday symptoms slowly getting stronger.<Cite k="morriss2004" n={n("morriss2004")} /></Para>
         <Para style={{ margin: 0 }}>Everyone's signs are different. Clinicians help people list 4 to 6 personal early signs from past episodes and a mood diary, then write an action plan with named contacts. There is often a window of 2 to 4 weeks between the first signs and losing insight, though some people get only days.<Cite k="morriss2004" n={n("morriss2004")} /> Free tools: the DBSA Wellness Tracker<Cite k="dbsaTracker" n={n("dbsaTracker")} /> or any daily mood journal.<Cite k="nimhPub" n={n("nimhPub")} /></Para>
       </Card>
@@ -1026,7 +1030,7 @@ function EpisodesPage() {
       </Card>
 
       <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginBottom: 20 }}>
-        <p style={{ fontSize: 13, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>In a crisis:</strong> call or text <strong>988</strong> or chat at 988lifeline.org; DBSA also lists texting "DBSA" to 741741. In a life-threatening situation, call <strong>911</strong> or go to the nearest emergency room.<Cite k="nimhBipolar" n={n("nimhBipolar")} /></p>
+        <p style={{ fontSize: 13, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>In a crisis:</strong> call or text <strong>988</strong> or chat at 988lifeline.org; DBSA also lists texting "DBSA" to 741741.<Cite k="dbsaCrisis" n={n("dbsaCrisis")} /> In a life-threatening situation, call <strong>911</strong> or go to the nearest emergency room.<Cite k="nimhBipolar" n={n("nimhBipolar")} /></p>
       </Card>
       <Sources keys={refs} />
     </Section>
