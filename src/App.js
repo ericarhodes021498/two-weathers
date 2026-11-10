@@ -207,8 +207,9 @@ function HomePage({ setActive }) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
               { step: "1", title: "Screen Yourself", desc: "Take the MDQ, a validated 5-minute questionnaire. It can't diagnose you and it misses some people, but a positive result is a good reason to see a professional.", action: "Take Screening", page: "screening" },
-              { step: "2", title: "Understand the Meds", desc: "See the main types of medication, what each is used for, and how long it usually takes to work.", action: "Medication Guide", page: "medications" },
-              { step: "3", title: "Find a Professional", desc: "Use our directory links to find a psychiatrist or therapist near you who specializes in bipolar disorder.", action: "Find Help", page: "find-help" },
+              { step: "2", title: "Understand the Meds", desc: "See the main types of medication, what each is used for, and how long it takes to work: weeks for the fastest, months for the protective effect. Give each one a real trial.", action: "Medication Guide", page: "medications" },
+              { step: "3", title: "Add Therapy That Works", desc: "CBT and DBT teach skills medication cannot: catching an episode early, riding out an emotional storm, keeping a routine. Both take months, like the medicines.", action: "CBT and DBT", page: "cbt" },
+              { step: "4", title: "Find a Professional", desc: "Use our directory links to find a psychiatrist or therapist near you who specializes in bipolar disorder.", action: "Find Help", page: "find-help" },
             ].map((s, i) => (
               <div key={i} style={{ cursor: "pointer" }} onClick={() => setActive(s.page)}>
                 <div style={{ fontFamily: fonts.display, fontSize: 32, fontWeight: 700, color: C.accent, opacity: 0.3 }}>{s.step}</div>
@@ -476,6 +477,26 @@ function MedicationsPage() {
         <p style={{ fontSize: 12.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>Medical disclaimer:</strong> for education only. Never start, stop, or change a medication without your prescriber. Many people need more than one medication, and finding the right combination can take time.</p>
       </Card>
 
+      <TimeBox>
+        <strong>Bipolar medications take weeks to months to work, and the preventive effect takes longest of all.</strong> Mania medicines are the quickest, often days to two weeks; medicines for bipolar depression usually need several weeks; lamotrigine has to be raised slowly over about six weeks before it is even at a working dose; and lithium's protection against mania appears within weeks while its protection against depression builds over months.<Cite k="canmat2018" n={1} /> It is normal to feel side effects before you feel benefit, normal to need a dose change, and common to try more than one medicine before finding the right one. Judge a medicine at the end of its trial period, with your prescriber, not in the first two weeks, and never stop one on your own.<Cite k="nimhMeds" n={2} />
+      </TimeBox>
+
+      <SubHead>What to Expect, Month by Month</SubHead>
+      <Card style={{ marginBottom: 24 }}>
+        {[
+          { when: "Weeks 1–2", what: "Side effects usually show up before benefits: nausea, sleepiness, tremor or restlessness depending on the medicine. Many fade. For mania, antipsychotics and valproate often start to help in this window; lithium begins to work on mania. Blood tests are drawn to set the dose." },
+          { when: "Weeks 2–6", what: "Antidepressants and antipsychotics used for bipolar depression typically start to show benefit. Lamotrigine is still being raised toward its target dose. Your prescriber adjusts doses based on effect, side effects and blood levels." },
+          { when: "Weeks 6–12", what: "The usual point to judge a medicine for bipolar depression at an adequate dose; if it has not helped by now, the usual next step is a change, not more waiting. Mania medicines are judged sooner: guidelines suggest a change if there is no response within about two weeks at therapeutic doses. Lamotrigine reaches its working dose." },
+          { when: "Months 3–12", what: "Prevention is the long game. Lithium's protection against depressive relapse builds over this period (it also appears to lower suicide risk; how quickly that develops is not well established). Maintenance treatment is judged over many months: CANMAT advises reassessing after six months of sustained response, and most people need ongoing treatment. Stopping medication when you feel well is a common cause of relapse: 50–90% of people who stop lithium relapse within three to five months." },
+        ].map((s, i) => (
+          <div key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+            <div style={{ flex: "0 0 100px", fontSize: 12, fontWeight: 700, color: C.accent, textTransform: "uppercase", letterSpacing: "0.04em", paddingTop: 2, fontFamily: fonts.body }}>{s.when}</div>
+            <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{s.what}</p>
+          </div>
+        ))}
+        <p style={{ fontSize: 11.5, color: C.textLight, marginTop: 10, lineHeight: 1.5, fontFamily: fonts.body }}>Timelines summarize the CANMAT/ISBD 2018 guideline and the FDA prescribing information for each medicine;<Cite k="canmat2018" n={1} /> the exact course depends on the medicine, the dose and the person. Details by type are in the table below.</p>
+      </Card>
+
       <div style={{ overflowX: "auto", background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, boxShadow: C.shadow }}>
         <table style={{ width: "100%", minWidth: 760, borderCollapse: "collapse" }}>
           <thead><tr><th style={{ ...th, width: "22%" }}>Type</th><th style={{ ...th, width: "30%" }}>What it's used for</th><th style={{ ...th, width: "20%" }}>Typical time to work</th><th style={th}>Good to know</th></tr></thead>
@@ -602,47 +623,127 @@ function FindHelpPage() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// CITATIONS (shared by the therapy and medication pages)
+// Every research claim on these pages links to the paper or agency page it comes from. Links go to PubMed
+// (which carries the abstract and a link to the journal), to the FDA, NIMH or the professional body itself.
+// ═══════════════════════════════════════════════════════════════
+const REFS = {
+  chiang2017: { t: "Chiang et al., PLOS One, 2017: meta-analysis of 19 RCTs of CBT for bipolar disorder", u: "https://pubmed.ncbi.nlm.nih.gov/28472082/" },
+  miklowitz2007: { t: "Miklowitz et al., Arch Gen Psychiatry, 2007: STEP-BD psychotherapy trial", u: "https://pubmed.ncbi.nlm.nih.gov/17404119/" },
+  lam2003: { t: "Lam et al., Arch Gen Psychiatry, 2003: CBT relapse-prevention RCT, 103 patients", u: "https://pubmed.ncbi.nlm.nih.gov/12578431/" },
+  scott2006: { t: "Scott et al., Br J Psychiatry, 2006: multicentre CBT RCT, 253 patients", u: "https://pubmed.ncbi.nlm.nih.gov/16582056/" },
+  pavlova2015: { t: "Pavlova et al., Lancet Psychiatry, 2015: anxiety disorders in bipolar disorder, meta-analysis", u: "https://pubmed.ncbi.nlm.nih.gov/26249302/" },
+  goldstein2024: { t: "Goldstein et al., JAMA Psychiatry, 2024 (online Sept. 2023): DBT for adolescents with bipolar disorder, RCT", u: "https://pubmed.ncbi.nlm.nih.gov/37755816/" },
+  eisner2017: { t: "Eisner et al., Behavior Therapy, 2017: DBT skills group for bipolar disorder, open pilot", u: "https://pubmed.ncbi.nlm.nih.gov/28577590/" },
+  vandijk2013: { t: "Van Dijk et al., J Affect Disord, 2013: DBT-based psychoeducational group for bipolar I and II, pilot RCT", u: "https://pubmed.ncbi.nlm.nih.gov/23021820/" },
+  linehan2015: { t: "Linehan, DBT Skills Training Manual, 2nd ed. (2015; revised ed. 2025), Guilford Press", u: "https://www.guilford.com/books/DBT-Skills-Training-Manual/Marsha-Linehan/9781462516995" },
+  linehanHandouts: { t: "Linehan, DBT Skills Training Handouts and Worksheets, 2nd ed., Guilford Press, 2015", u: "https://www.guilford.com/books/DBT-Skills-Training-Handouts-and-Worksheets/Marsha-Linehan/9781572307810" },
+  basco: { t: "Basco, The Bipolar Workbook, 2nd ed., Guilford Press, 2015", u: "https://www.guilford.com/books/The-Bipolar-Workbook/Monica-Ramirez-Basco/9781462520237" },
+  padesky: { t: "Greenberger & Padesky, Mind Over Mood, 2nd ed., Guilford Press, 2015", u: "https://www.guilford.com/books/Mind-Over-Mood/Greenberger-Padesky/9781462520428" },
+  nimhBipolar: { t: "NIMH, Bipolar Disorder: treatments and therapies", u: "https://www.nimh.nih.gov/health/topics/bipolar-disorder" },
+  nimhMeds: { t: "NIMH, Mental Health Medications", u: "https://www.nimh.nih.gov/health/topics/mental-health-medications" },
+  canmat2018: { t: "Yatham et al., CANMAT/ISBD 2018 guidelines for bipolar disorder, Bipolar Disorders", u: "https://pubmed.ncbi.nlm.nih.gov/29536616/" },
+  abct: { t: "Association for Behavioral and Cognitive Therapies: Find a CBT Therapist", u: "https://services.abct.org/find-a-therapist/" },
+  dbtlbc: { t: "DBT-Linehan Board of Certification: certified clinicians and programs", u: "https://dbt-lbc.org/" },
+  btech: { t: "Behavioral Tech Institute (founded by Marsha Linehan): find a DBT provider", u: "https://behavioraltech.org/find-a-therapist-app" },
+  dbsa: { t: "Depression and Bipolar Support Alliance: free peer support groups", u: "https://www.dbsalliance.org/support/chapters-and-support-groups/" },
+  nami: { t: "NAMI: free peer-led programs and support groups", u: "https://www.nami.org/Support-Education/Mental-Health-Education" },
+  samhsa: { t: "SAMHSA FindTreatment.gov: locate treatment, including sliding-scale programs", u: "https://findtreatment.gov/" },
+};
+function Cite({ k, n }) {
+  const r = REFS[k];
+  if (!r) return null;
+  return <a href={r.u} target="_blank" rel="noopener noreferrer" title={r.t} style={{ fontSize: 10.5, verticalAlign: "super", textDecoration: "none", color: C.accent, marginLeft: 2, fontFamily: fonts.body }}>[{n}]</a>;
+}
+function Sources({ keys }) {
+  return (
+    <Card style={{ background: "#f6f5f1", marginBottom: 20, padding: "14px 18px" }}>
+      <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.textLight, marginBottom: 6, fontFamily: fonts.body }}>Sources on this page</div>
+      <ol style={{ margin: 0, paddingLeft: 20, fontSize: 12, color: C.textMid, lineHeight: 1.6, fontFamily: fonts.body }}>
+        {keys.map((k, i) => <li key={k} id={`ref-${k}`}><a href={REFS[k].u} target="_blank" rel="noopener noreferrer" style={{ color: C.textMid }}>{REFS[k].t}</a></li>)}
+      </ol>
+    </Card>
+  );
+}
+// Months, not days: the one message every page about treatment repeats.
+function TimeBox({ children, color = C.accent }) {
+  return (
+    <Card style={{ marginBottom: 24, borderLeft: `4px solid ${color}`, background: `${color}0d`, padding: "16px 20px" }}>
+      <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color, marginBottom: 4, fontFamily: fonts.body }}>Give it time</div>
+      <div style={{ fontSize: 14, color: C.text, lineHeight: 1.65, fontFamily: fonts.body }}>{children}</div>
+    </Card>
+  );
+}
+const SubHead = ({ children }) => <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>{children}</h3>;
+const Para = ({ children, style }) => <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body, ...style }}>{children}</p>;
+
+// ═══════════════════════════════════════════════════════════════
 // CBT PAGE
 // ═══════════════════════════════════════════════════════════════
 function CBTPage() {
+  const refs = ["chiang2017", "miklowitz2007", "lam2003", "scott2006", "pavlova2015", "nimhBipolar", "canmat2018", "abct", "basco", "padesky", "dbsa", "nami", "samhsa"];
+  const n = (k) => refs.indexOf(k) + 1;
   return (
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.teal}>Evidence-Based Therapy</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Cognitive Behavioral Therapy (CBT)</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>CBT is one of the most studied psychotherapies for bipolar disorder: a 2017 meta-analysis pooled <strong>19 randomized controlled trials</strong>. It is used alongside medication, mainly between episodes and during or after depression, not during acute mania.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 20px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>CBT is one of the most studied psychotherapies for bipolar disorder: a 2017 meta-analysis pooled <strong>19 randomized controlled trials</strong> with 1,384 patients.<Cite k="chiang2017" n={n("chiang2017")} /> It is used alongside medication, mainly between episodes and during or after depression, not during acute mania.<Cite k="canmat2018" n={n("canmat2018")} /> Guidelines and NIMH list it, with psychoeducation, family-focused therapy and interpersonal and social rhythm therapy, as a standard part of treatment, not an extra.<Cite k="nimhBipolar" n={n("nimhBipolar")} /><Cite k="canmat2018" n={n("canmat2018")} /></p>
+
+      <TimeBox color={C.teal}>
+        CBT works on the same clock as medication: <strong>months, not weeks</strong>. The trials that showed a benefit ran 12 to 18 sessions over six months with booster sessions,<Cite k="lam2003" n={n("lam2003")} /> or up to 30 sessions over nine months.<Cite k="miklowitz2007" n={n("miklowitz2007")} /> The first few sessions are assessment and learning the tools; the gains come from practicing them week after week. If you stop after three sessions because nothing has changed yet, you have not tried CBT.
+      </TimeBox>
 
       <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.teal}` }}>
         <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: C.teal, margin: "0 0 10px" }}>What CBT Actually Is</h3>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body }}>CBT is based on a straightforward premise: your <strong>thoughts, feelings, and behaviors</strong> are interconnected, and shifts in one affect the others. In bipolar disorder, mood episodes distort thinking patterns (e.g., grandiosity during mania, hopelessness during depression), which drive behaviors that worsen the episode. CBT interrupts this cycle by teaching you to recognize and modify distorted thoughts before they spiral.</p>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>In research studies, CBT for bipolar disorder has ranged from about <strong>8 to 30 sessions</strong>, individually or in groups. It is used <strong>alongside medication</strong>, not as a replacement.</p>
+        <Para>CBT is based on a straightforward premise: your <strong>thoughts, feelings, and behaviors</strong> are interconnected, and shifts in one affect the others. In bipolar disorder, mood episodes distort thinking (grandiosity during mania, hopelessness during depression), and the distorted thinking drives behavior that deepens the episode. CBT interrupts that cycle by teaching you to notice and test the thought before you act on it.</Para>
+        <Para style={{ margin: 0 }}>In research studies, CBT for bipolar disorder has ranged from about <strong>8 to 30 sessions</strong>, individually or in groups.<Cite k="chiang2017" n={n("chiang2017")} /><Cite k="miklowitz2007" n={n("miklowitz2007")} /> It is used <strong>alongside medication</strong>, not as a replacement.<Cite k="canmat2018" n={n("canmat2018")} /></Para>
       </Card>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>The Four Pillars of CBT for Bipolar</h3>
+      <SubHead>What a Course of CBT Looks Like</SubHead>
+      <Card style={{ marginBottom: 24 }}>
+        {[
+          { when: "Sessions 1–2", title: "Assessment and your own map", desc: "Your history of episodes, what tends to set them off, what early signs look like for you, and what you want to be different. You agree on goals and on homework, which is where most of the change happens." },
+          { when: "Sessions 3–8", title: "The core skills", desc: "Mood monitoring every day, thought records when a strong feeling hits, behavioral activation if you are depressed, and a regular daily rhythm (wake time, meals, sleep). You practice each one between sessions and bring it back." },
+          { when: "Sessions 9–16", title: "Applying them to your life", desc: "Beliefs about medication and about the illness itself, the situations that trip you up, and the thinking that shows up on the way into mania (\"I don't need sleep\", \"this is the real me\") as well as into depression." },
+          { when: "Last sessions", title: "Your relapse-prevention plan", desc: "A written document: your personal early warning signs for both directions, what you will do at each stage, and who you will call. Booster sessions months later check how it is holding up. In the Lam trial the plan was the point of the whole treatment, and the group that had it relapsed less over the following year." },
+        ].map((s, i) => (
+          <div key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+            <div style={{ flex: "0 0 110px", fontSize: 12, fontWeight: 700, color: C.teal, textTransform: "uppercase", letterSpacing: "0.04em", paddingTop: 2, fontFamily: fonts.body }}>{s.when}</div>
+            <div>
+              <h4 style={{ fontSize: 14.5, fontWeight: 700, color: C.text, margin: "0 0 4px", fontFamily: fonts.body }}>{s.title}</h4>
+              <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{s.desc}</p>
+            </div>
+          </div>
+        ))}
+        <p style={{ fontSize: 11.5, color: C.textLight, marginTop: 10, lineHeight: 1.5, fontFamily: fonts.body }}>Session counts are the range used in the published trials;<Cite k="lam2003" n={n("lam2003")} /><Cite k="miklowitz2007" n={n("miklowitz2007")} /> your therapist will set the pace with you.</p>
+      </Card>
+
+      <SubHead>The Four Pillars of CBT for Bipolar</SubHead>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 24 }}>
         {[
-          { n: "1", title: "Easing Episode Symptoms", desc: "Cognitive restructuring for depressive thinking (challenging 'nothing will ever get better'), behavioral activation during depression (scheduling pleasurable activities even when motivation is zero), and impulse control techniques during hypomania/mania (delay strategies, pro/con lists for risky decisions).", color: C.teal },
-          { n: "2", title: "Medication Adherence", desc: "One of the biggest predictors of relapse is stopping medication. CBT directly addresses this by exploring beliefs about meds ('I don't need them when I feel fine'), weighing pros/cons collaboratively, and developing strategies to make adherence automatic.", color: C.blue },
-          { n: "3", title: "Early Warning Signs & Relapse Prevention", desc: "You learn to identify YOUR personal early warning signs of mania (sleeping less, spending more, talking faster) and depression (withdrawing, oversleeping, negative self-talk). Then you build an action plan: what to do at the first sign, who to call, and how to intervene before a full episode develops.", color: C.accent },
-          { n: "4", title: "Comorbid Conditions", desc: "Bipolar rarely travels alone. CBT addresses co-occurring anxiety (about 45% of people with bipolar disorder have an anxiety disorder at some point), substance use, insomnia, and PTSD using the same cognitive-behavioral framework, adapted for each condition.", color: C.warm },
+          { n: "1", title: "Easing Episode Symptoms", desc: "Cognitive restructuring for depressive thinking (testing \"nothing will ever get better\" against the evidence), behavioral activation during depression (scheduling activities even when motivation is zero), and impulse control during hypomania (for example an agreed waiting period, often 48 hours, and a pro/con list before major decisions).", color: C.teal },
+          { n: "2", title: "Medication Adherence", desc: "Stopping medication is one of the strongest predictors of relapse. CBT addresses it directly: the beliefs behind stopping (\"I don't need them when I feel fine\"), an honest pro/con list, and routines that make taking them automatic.", color: C.blue },
+          { n: "3", title: "Early Warning Signs & Relapse Prevention", desc: "You identify YOUR early signs of mania (sleeping less, spending more, talking faster) and depression (withdrawing, oversleeping, negative self-talk), then build the plan: what to do at the first sign, who to call, how to step in before a full episode.", color: C.accent },
+          { n: "4", title: "Comorbid Conditions", desc: "Bipolar rarely travels alone: about 45% of people with bipolar disorder meet criteria for an anxiety disorder at some point. CBT addresses co-occurring anxiety, substance use, insomnia and PTSD with the same framework, adapted for each.", color: C.warm, cite: "pavlova2015" },
         ].map((p, i) => (
           <Card key={i} hover style={{ borderTop: `3px solid ${p.color}`, animation: `fadeUp 0.5s ease ${i * 0.08}s both` }}>
             <div style={{ fontFamily: fonts.display, fontSize: 28, fontWeight: 700, color: p.color, opacity: 0.3 }}>{p.n}</div>
             <h4 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.text, margin: "2px 0 8px" }}>{p.title}</h4>
-            <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{p.desc}</p>
+            <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{p.desc}{p.cite && <Cite k={p.cite} n={n(p.cite)} />}</p>
           </Card>
         ))}
       </div>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Core CBT Techniques You'll Learn</h3>
+      <SubHead>Core CBT Techniques You'll Learn</SubHead>
       <Card style={{ marginBottom: 20 }}>
         {[
-          { name: "Mood Monitoring", desc: "Daily tracking of mood (0–10), sleep hours, medication taken, and notable events. This is foundational to almost all bipolar CBT protocols — it makes patterns visible that are invisible day-to-day." },
-          { name: "Thought Records", desc: "When you notice a strong emotion, you write down: the situation, the automatic thought, the emotion, the evidence for/against the thought, and a balanced alternative thought. Over time, you learn to catch distortions in real-time." },
-          { name: "Behavioral Activation", desc: "During depression, you schedule activities that provide mastery (accomplishment) and pleasure — even in small doses. The principle: behavior change drives mood change, not the other way around." },
-          { name: "Activity Scheduling", desc: "Structuring your day with consistent wake times, meal times, and activity blocks. Routine is a mood stabilizer in itself. This overlaps with Social Rhythm Therapy (IPSRT)." },
-          { name: "Cognitive Restructuring", desc: "Identifying and challenging cognitive distortions: all-or-nothing thinking, catastrophizing, mind-reading, emotional reasoning. In mania: challenging grandiose thoughts. In depression: challenging hopeless thoughts." },
+          { name: "Mood Monitoring", desc: "Daily tracking of mood (0–10), sleep hours, medication taken, and notable events. This is foundational to almost every bipolar CBT protocol: it makes patterns visible that are invisible day to day, and it gives your prescriber real information instead of a memory." },
+          { name: "Thought Records", desc: "When you notice a strong emotion, you write down the situation, the automatic thought, the emotion and how strong it is, the evidence for and against the thought, and a balanced alternative. Over time you learn to catch distortions in real time." },
+          { name: "Behavioral Activation", desc: "During depression you schedule activities that give mastery (accomplishment) and pleasure, even in small doses. The principle: behavior change drives mood change, not the other way around." },
+          { name: "Activity Scheduling and Daily Rhythm", desc: "Consistent wake times, meal times and activity blocks. Routine is a mood stabilizer in itself, and sleep loss is one of the most consistently reported triggers of mania. This overlaps with Social Rhythm Therapy (IPSRT)." },
+          { name: "Cognitive Restructuring", desc: "Identifying and testing cognitive distortions: all-or-nothing thinking, catastrophizing, mind-reading, emotional reasoning. In hypomania: testing grandiose plans. In depression: testing hopeless conclusions." },
           { name: "Relapse Signature & Action Plan", desc: "A personalized document listing your specific early warning signs for mania and depression, with pre-planned actions for each stage: green (stable), yellow (warning), red (crisis)." },
-          { name: "Sleep Hygiene Protocol", desc: "Sleep disruption is both a trigger and a symptom of bipolar episodes. CBT includes specific sleep protocols: consistent schedule, dark/cool room, no screens, stimulus control." },
+          { name: "Sleep Protocol", desc: "Sleep disruption is both a trigger and a symptom. CBT includes a sleep plan: a fixed schedule in both directions, a dark cool room, no screens late, and getting out of bed when you cannot sleep rather than lying there." },
         ].map((t, i) => (
           <div key={i} style={{ padding: "12px 0", borderBottom: i < 6 ? `1px solid ${C.border}` : "none" }}>
             <h4 style={{ fontSize: 14, fontWeight: 700, color: C.text, margin: "0 0 4px", fontFamily: fonts.body }}>{t.name}</h4>
@@ -651,26 +752,62 @@ function CBTPage() {
         ))}
       </Card>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>What the Research Says</h3>
+      <SubHead>Try One Tonight: a Thought Record</SubHead>
+      <Card style={{ marginBottom: 24, background: "#f8faf9" }}>
+        <Para>The thought record is the single most used CBT tool, and you do not need a therapist to try the shape of it. This is a condensed version of the seven-column record in <em>Mind Over Mood</em> (situation; moods rated 0–100; automatic thoughts; evidence for; evidence against; balanced thought; re-rate the moods), filled in when a feeling spikes. A worked example, the kind of thought depression produces:</Para>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", minWidth: 560, borderCollapse: "collapse", fontSize: 13, fontFamily: fonts.body }}>
+            <thead><tr>{["Situation", "Automatic thought", "Feeling (0–100)", "Evidence for / against", "Balanced thought"].map(h => <th key={h} style={{ textAlign: "left", padding: "8px 10px", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em", color: C.textLight, borderBottom: `2px solid ${C.border}` }}>{h}</th>)}</tr></thead>
+            <tbody><tr>
+              {["Friend didn't text back for two days.", "\"Everyone is pulling away. I've burned every bridge.\"", "Hopeless 85, ashamed 70", "For: she was quiet last month too. Against: she replied warmly last week; she said work was slammed; two other people texted me today.", "\"She's busy. One quiet friend isn't everyone, and I'm reading a depressive thought as a fact.\" Hopeless 40."].map((c, i) => <td key={i} style={{ padding: "10px", verticalAlign: "top", color: C.textMid, lineHeight: 1.55, borderBottom: `1px solid ${C.border}` }}>{c}</td>)}
+            </tr></tbody>
+          </table>
+        </div>
+        <p style={{ fontSize: 12, color: C.textLight, marginTop: 10, lineHeight: 1.55, fontFamily: fonts.body }}>The format is from <em>Mind Over Mood</em>, the standard CBT self-help workbook;<Cite k="padesky" n={n("padesky")} /> <em>The Bipolar Workbook</em> adapts the same tools to mania as well as depression.<Cite k="basco" n={n("basco")} /> A workbook is a good companion to therapy and a reasonable start while you wait for an appointment; it is not a substitute for a therapist when you are unwell.</p>
+      </Card>
+
+      <SubHead>What the Research Says</SubHead>
       <Card style={{ marginBottom: 20, background: "#f8faf9" }}>
         {[
-          "A 2017 meta-analysis of 19 randomized trials (1,384 patients) found CBT reduced depressive symptoms (Hedges' g = −0.494, a moderate effect) and improved functioning compared with usual care.",
-          "In the STEP-BD study (293 outpatients with bipolar depression), up to 30 sessions of intensive therapy (CBT, IPSRT or family-focused therapy) over 9 months led to a 64% recovery rate, versus 52% with three sessions of brief psychoeducation.",
-          "CBT has been shown to improve medication adherence, extend time between episodes, and reduce hospitalization rates.",
-                    "CBT is not a treatment for acute mania. It is studied mostly in people who are stable or depressed.",
+          { t: "A 2017 meta-analysis of 19 randomized trials (1,384 patients) found CBT reduced depressive symptoms (Hedges' g = −0.494, a moderate effect), lowered relapse rates and improved functioning compared with usual care.", k: "chiang2017" },
+          { t: "In the STEP-BD study (293 outpatients with bipolar depression), up to 30 sessions of intensive therapy (CBT, IPSRT or family-focused therapy) over 9 months led to a 64% recovery rate, versus 52% with three sessions of brief psychoeducation.", k: "miklowitz2007" },
+          { t: "A 2003 British trial (103 patients) of 12–18 CBT sessions plus boosters, focused on relapse prevention, found fewer bipolar episodes and fewer days in episode over the following year than medication alone.", k: "lam2003" },
+          { t: "Not every trial is positive: a larger 2006 trial (253 patients) found no overall benefit of CBT over usual care, though people with fewer than 12 prior episodes did better with CBT. Earlier in the illness may be the best time to start.", k: "scott2006" },
+          { t: "CBT is not a treatment for acute mania. It is studied mostly in people who are stable or depressed, and guidelines position it as an add-on to medication.", k: "canmat2018" },
         ].map((r, i) => (
           <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 13, fontFamily: fonts.body }}>
             <span style={{ color: C.teal, fontWeight: 700, flexShrink: 0 }}>◈</span>
-            <span style={{ color: C.textMid, lineHeight: 1.6 }}>{r}</span>
+            <span style={{ color: C.textMid, lineHeight: 1.6 }}>{r.t}<Cite k={r.k} n={n(r.k)} /></span>
           </div>
         ))}
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Sources: Chiang et al., PLOS One (2017); Miklowitz et al., Arch Gen Psychiatry (2007), STEP-BD; Pavlova et al., Lancet Psychiatry (2015), anxiety in bipolar disorder</p>
       </Card>
 
-      <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8" }}>
-        <h4 style={{ fontSize: 14, fontWeight: 700, color: C.warm, margin: "0 0 6px", fontFamily: fonts.body }}>Is CBT Right for You?</h4>
-        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>CBT is best if you're currently stable or mildly depressed, willing to do homework between sessions, and want concrete, practical tools. If emotional intensity and interpersonal chaos are your primary struggles, DBT (next page) may be a better fit. Many therapists integrate both.</p>
+      <SubHead>Finding a CBT Therapist</SubHead>
+      <Card style={{ marginBottom: 20 }}>
+        <Para>Many therapists say they "use CBT." For bipolar disorder you want someone who has treated it before and works from a bipolar-specific protocol, with your prescriber in the loop.</Para>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, marginBottom: 6, fontFamily: fonts.body }}>Where to look</div>
+            {[
+              <span key="a">The <a href={REFS.abct.u} target="_blank" rel="noopener noreferrer">ABCT Find a CBT Therapist</a> directory, run by the professional body for CBT; filter by bipolar disorder.<Cite k="abct" n={n("abct")} /></span>,
+              <span key="b">Your prescriber: psychiatrists usually know which local therapists take bipolar patients.</span>,
+              <span key="c">Community mental health centers and <a href={REFS.samhsa.u} target="_blank" rel="noopener noreferrer">FindTreatment.gov</a> for sliding-scale options.<Cite k="samhsa" n={n("samhsa")} /></span>,
+              <span key="d">Free peer groups from <a href={REFS.dbsa.u} target="_blank" rel="noopener noreferrer">DBSA</a> and <a href={REFS.nami.u} target="_blank" rel="noopener noreferrer">NAMI</a> are not therapy, but members know who the good therapists are.<Cite k="dbsa" n={n("dbsa")} /><Cite k="nami" n={n("nami")} /></span>,
+            ].map((t, i) => <div key={i} style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, marginBottom: 6, fontFamily: fonts.body }}>• {t}</div>)}
+          </div>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, marginBottom: 6, fontFamily: fonts.body }}>What to ask in the first call</div>
+            {["How many people with bipolar disorder have you treated with CBT?", "Do you follow a bipolar-specific protocol, and will we write a relapse-prevention plan?", "How many sessions do you expect, and how will we know it is working?", "Will you coordinate with my prescriber?", "Is there homework? (The answer should be yes.)"].map((t, i) => <div key={i} style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, marginBottom: 6, fontFamily: fonts.body }}>• {t}</div>)}
+          </div>
+        </div>
       </Card>
+
+      <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", marginBottom: 20 }}>
+        <h4 style={{ fontSize: 14, fontWeight: 700, color: C.warm, margin: "0 0 6px", fontFamily: fonts.body }}>Is CBT Right for You?</h4>
+        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>CBT fits best if you are currently stable or mildly depressed, willing to do homework between sessions, and want concrete, practical tools. If emotional intensity and interpersonal chaos are your main struggles, DBT (next page) may be the better fit. Many therapists integrate both.</p>
+      </Card>
+
+      <Sources keys={refs} />
     </Section>
   );
 }
@@ -679,25 +816,32 @@ function CBTPage() {
 // DBT PAGE
 // ═══════════════════════════════════════════════════════════════
 function DBTPage() {
+  const refs = ["goldstein2024", "eisner2017", "vandijk2013", "linehan2015", "linehanHandouts", "dbtlbc", "btech", "samhsa", "dbsa"];
+  const n = (k) => refs.indexOf(k) + 1;
+  const purple = "#7c3aed";
   return (
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
-      <Badge color="#7c3aed">Third-Wave Therapy</Badge>
+      <Badge color={purple}>Third-Wave Therapy</Badge>
       <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Dialectical Behavior Therapy (DBT)</h2>
-      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 28px", maxWidth: 640, lineHeight: 1.65, fontFamily: fonts.body }}>Originally developed for borderline personality disorder, DBT targets <strong>emotional dysregulation</strong>, which is common in bipolar disorder too. Early evidence, including one randomized trial in teenagers, suggests it can reduce suicide attempts and build skills that medication alone does not.</p>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 20px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>Originally developed for borderline personality disorder, DBT targets <strong>emotional dysregulation</strong>, which is common in bipolar disorder too.<Cite k="linehan2015" n={n("linehan2015")} /> Early evidence, including one randomized trial in teenagers, suggests it can reduce suicide attempts and build skills that medication alone does not.<Cite k="goldstein2024" n={n("goldstein2024")} /></p>
 
-      <Card style={{ marginBottom: 20, borderLeft: "3px solid #7c3aed" }}>
-        <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: "#7c3aed", margin: "0 0 10px" }}>Why DBT for Bipolar?</h3>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body }}>Emotional dysregulation (strong sensitivity to emotional triggers, intense reactions and a slow return to baseline) is common in bipolar disorder, alongside the mood episodes that define it. DBT was built to treat it. Where CBT focuses on changing <em>thoughts</em>, DBT focuses on tolerating <em>emotions</em> and building the skills to survive intense feelings without making things worse.</p>
-        <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: 0, fontFamily: fonts.body }}>In a 2023 JAMA Psychiatry trial of 100 adolescents with bipolar disorder, those who received DBT had <strong>significantly fewer suicide attempts</strong> than those in standard therapy; mood symptoms improved similarly in both groups.</p>
+      <TimeBox color={purple}>
+        A full DBT program is a <strong>six-month to one-year commitment</strong>: the skills group alone takes about 24 weeks to work through all four modules once, and standard programs run the cycle twice.<Cite k="linehan2015" n={n("linehan2015")} /> The trial that cut suicide attempts in teenagers delivered DBT over a full year.<Cite k="goldstein2024" n={n("goldstein2024")} /> The skills feel awkward and mechanical for the first weeks; they start to feel like yours somewhere in the second or third month. That is the normal course, not a sign it is failing.
+      </TimeBox>
+
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid ${purple}` }}>
+        <h3 style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: purple, margin: "0 0 10px" }}>Why DBT for Bipolar?</h3>
+        <Para>Emotional dysregulation (strong sensitivity to emotional triggers, intense reactions and a slow return to baseline) is common in bipolar disorder, alongside the mood episodes that define it. DBT was built to treat it.<Cite k="linehan2015" n={n("linehan2015")} /> Where CBT focuses on changing <em>thoughts</em>, DBT focuses on tolerating <em>emotions</em> and building the skills to get through intense feelings without making things worse. The "dialectic" is holding two true things at once: <em>I am doing the best I can</em>, and <em>I need to do better</em>.</Para>
+        <Para style={{ margin: 0 }}>In a 2023 JAMA Psychiatry trial of 100 adolescents with bipolar disorder, those who received a year of DBT had <strong>significantly fewer suicide attempts</strong> than those in standard therapy; mood symptoms improved similarly in both groups.<Cite k="goldstein2024" n={n("goldstein2024")} /></Para>
       </Card>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>The Four DBT Skill Modules</h3>
+      <SubHead>The Four DBT Skill Modules</SubHead>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 24 }}>
         {[
-          { title: "Mindfulness", color: "#2563eb", desc: "The foundation of all other skills. Learning to observe your thoughts and emotions without reacting to them. 'Wise Mind' — finding the overlap between emotional mind and rational mind. In bipolar: noticing mood shifts without being hijacked by them.", skills: "Observe, Describe, Participate, Non-judgmental stance, One-mindfully, Effectively" },
-          { title: "Distress Tolerance", color: "#dc2626", desc: "Surviving crisis moments without making things worse. These are the skills for when you're in unbearable pain and the urge to act destructively is overwhelming. Not about fixing the problem — about getting through it.", skills: "TIPP (Temperature, Intense exercise, Paced breathing, Paired muscle relaxation), ACCEPTS (Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations), Self-soothe with 5 senses, Radical Acceptance" },
-          { title: "Emotion Regulation", color: "#7c3aed", desc: "Understanding and managing emotions rather than being controlled by them. Learning to identify what you're feeling, reduce vulnerability to negative emotions, and increase positive experiences.", skills: "ABC PLEASE (Accumulate positive experiences, Build mastery, Cope ahead, treat PhysicaL illness, balanced Eating, avoid mood-Altering substances, Sleep, Exercise), Opposite Action, Check the Facts" },
-          { title: "Interpersonal Effectiveness", color: "#059669", desc: "Getting what you need from relationships while maintaining self-respect and the relationship itself. Critical for bipolar because episodes wreak havoc on relationships, and relationship stress triggers episodes.", skills: "DEAR MAN (Describe, Express, Assert, Reinforce, Mindful, Appear confident, Negotiate), GIVE (Gentle, Interested, Validate, Easy manner), FAST (Fair, no Apologies, Stick to values, Truthful)" },
+          { title: "Mindfulness", color: "#2563eb", desc: "The foundation of all other skills. Observing your thoughts and emotions without reacting to them. \"Wise Mind\" is the overlap between emotional mind and rational mind. In bipolar: noticing a mood shift without being hijacked by it.", skills: "Observe, Describe, Participate, Non-judgmental stance, One-mindfully, Effectively" },
+          { title: "Distress Tolerance", color: "#dc2626", desc: "Surviving a crisis without making it worse. These are the skills for when you are in unbearable pain and the urge to act destructively is overwhelming. Not about fixing the problem: about getting through the next hour.", skills: "TIPP (Temperature, Intense exercise, Paced breathing, Paired muscle relaxation), ACCEPTS (Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations), Self-soothe with the five senses, Radical Acceptance" },
+          { title: "Emotion Regulation", color: purple, desc: "Understanding and managing emotions rather than being controlled by them: naming what you feel, reducing vulnerability to negative emotion, and building positive experience on purpose.", skills: "ABC PLEASE (Accumulate positive emotions, Build mastery, Cope ahead; treat PhysicaL illness, balance Eating, avoid mood-Altering substances, balance Sleep, get Exercise), Opposite Action, Check the Facts" },
+          { title: "Interpersonal Effectiveness", color: "#059669", desc: "Getting what you need from relationships while keeping your self-respect and the relationship. Critical in bipolar disorder because episodes strain relationships, and relationship stress triggers episodes.", skills: "DEAR MAN (Describe, Express, Assert, Reinforce, Mindful, Appear confident, Negotiate), GIVE (Gentle, Interested, Validate, Easy manner), FAST (Fair, no Apologies, Stick to values, Truthful)" },
         ].map((m, i) => (
           <Card key={i} hover style={{ borderTop: `3px solid ${m.color}`, animation: `fadeUp 0.5s ease ${i * 0.08}s both` }}>
             <h4 style={{ fontFamily: fonts.display, fontSize: 17, fontWeight: 700, color: m.color, margin: "0 0 8px" }}>{m.title}</h4>
@@ -709,42 +853,79 @@ function DBTPage() {
           </Card>
         ))}
       </div>
+      <p style={{ fontSize: 11.5, color: C.textLight, margin: "-12px 0 24px", lineHeight: 1.5, fontFamily: fonts.body }}>Module names, skills and acronyms as taught in Linehan's skills training manual and handouts.<Cite k="linehan2015" n={n("linehan2015")} /><Cite k="linehanHandouts" n={n("linehanHandouts")} /></p>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>DBT Structure: The Four Components</h3>
+      <SubHead>Skills You Can Start This Week</SubHead>
+      <Card style={{ marginBottom: 24, background: "#faf8fc" }}>
+        <Para>Four skills from the manual, chosen because they map onto what bipolar disorder actually does to a week. Learning them properly takes a group and a therapist; trying the shape of them now costs nothing.</Para>
+        {[
+          { name: "PLEASE: protect the body that carries the mood", how: "Treat physical illness, eat regularly, avoid alcohol and drugs, sleep on a schedule, move every day. In bipolar disorder the S is the one that matters most: a fixed wake time, seven days a week, because lost sleep is one of the most consistently reported triggers of mania. The handout suggests choosing a fixed wake time and keeping it all week, weekends included." },
+          { name: "Check the Facts", how: "When an emotion spikes, ask: what exactly happened (not what it meant)? What am I assuming? Does the intensity of this feeling fit the facts? On the way into hypomania the facts to check are the plan and the risk; on the way into depression they are the conclusions you have drawn about yourself." },
+          { name: "Opposite Action", how: "When an emotion's urge does not fit the facts, do the opposite of the urge, all the way. Depression says isolate: text one person and go. Anger says attack: step away and speak gently. Hypomania says more: do less, slow down, go to bed. The feeling follows the action, not the other way round." },
+          { name: "TIPP: when you are at a 9 out of 10", how: "Temperature: the handout describes cold water on the face, or holding ice, for about 30 seconds to slow the heart rate. Intense exercise for a short burst. Paced breathing: exhaling longer than you inhale for a few minutes. Paired muscle relaxation: tensing each muscle group as you breathe in and letting go as you breathe out. These lower arousal fast and buy the time to use the other skills. Because the cold-water skill affects heart rate, the handouts advise checking with a doctor first if you have a heart condition, low blood pressure or an eating disorder; see the Body page." },
+        ].map((s, i) => (
+          <div key={i} style={{ padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: C.text, margin: "0 0 4px", fontFamily: fonts.body }}>{s.name}</h4>
+            <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{s.how}</p>
+          </div>
+        ))}
+        <p style={{ fontSize: 11.5, color: C.textLight, marginTop: 10, lineHeight: 1.5, fontFamily: fonts.body }}>Skills as described in the DBT skills handouts;<Cite k="linehanHandouts" n={n("linehanHandouts")} /> the handouts and worksheets are sold as a workbook you can use alongside a group.</p>
+      </Card>
+
+      <SubHead>DBT Structure: The Four Components</SubHead>
       <Card style={{ marginBottom: 20 }}>
         {[
-          { name: "Individual Therapy (Weekly)", desc: "One-on-one sessions focused on applying skills to your specific life situations. Targets are hierarchized: life-threatening behaviors first, then therapy-interfering behaviors, then quality of life. Uses diary cards to track mood, urges, and skills used." },
-          { name: "Group Skills Training (Weekly, 2–2.5 hrs)", desc: "Where you actually learn the four skill modules. Runs in cycles covering all four modules over about 6 months. The group format normalizes struggles and provides peer learning. This is the component most adapted for bipolar disorder." },
-          { name: "Phone Coaching (As Needed)", desc: "Between sessions, you can contact your therapist for brief coaching on applying skills in real-time crisis moments. This bridges the gap between learning skills in session and using them when it matters." },
-          { name: "Therapist Consultation Team", desc: "Your DBT therapist meets weekly with other DBT therapists to prevent burnout and ensure they're delivering effective treatment. This quality control mechanism is unique to DBT." },
+          { name: "Individual Therapy (Weekly)", desc: "One-on-one sessions applying the skills to your life. Targets are ranked: life-threatening behavior first, then behavior that interferes with therapy, then quality of life. You bring a diary card each week: mood, urges, sleep, medication, and which skills you used." },
+          { name: "Group Skills Training (Weekly, about two to two-and-a-half hours)", desc: "Where you learn the four modules, in a class format with homework. One pass through all four modules takes about 24 weeks; standard programs run it twice. This is the component most often adapted on its own for bipolar disorder." },
+          { name: "Phone Coaching (As Needed)", desc: "Brief calls to your therapist between sessions, for coaching on using a skill in the moment. This is the bridge between learning a skill in the room and using it at 2 a.m." },
+          { name: "Therapist Consultation Team", desc: "Your therapist meets weekly with other DBT therapists to stay on model and avoid burnout. A program without a consultation team is not comprehensive DBT." },
         ].map((c, i) => (
           <div key={i} style={{ padding: "12px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
             <h4 style={{ fontSize: 14, fontWeight: 700, color: C.text, margin: "0 0 4px", fontFamily: fonts.body }}>{c.name}</h4>
             <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>{c.desc}</p>
           </div>
         ))}
+        <p style={{ fontSize: 11.5, color: C.textLight, marginTop: 10, lineHeight: 1.5, fontFamily: fonts.body }}>The four components and the skills-group schedule are as specified in Linehan's manual.<Cite k="linehan2015" n={n("linehan2015")} /></p>
       </Card>
 
-      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Research for Bipolar Disorder Specifically</h3>
+      <SubHead>Research for Bipolar Disorder Specifically</SubHead>
       <Card style={{ marginBottom: 20, background: "#faf8fc" }}>
         {[
-          "A 2023 JAMA Psychiatry randomized trial (100 adolescents with bipolar disorder) found DBT cut suicide attempts by about two-thirds compared with standard psychotherapy; the authors linked the effect to better emotion regulation. Mood symptoms improved similarly in both groups.",
-          "A 12-week DBT skills group pilot (37 adults, no control group, 25 completed) found people learned mindfulness, emotion-regulation and distress-tolerance skills, but depression and mania scores did not change.",
-          "A 2023 systematic review found DBT-based programs are feasible and acceptable for people with bipolar disorder, with preliminary, mostly small-study evidence on mood and emotional dysregulation.",
-          "Small trials disagree: one (60 adults, compared with a wait-list) reported better mood and executive function with DBT; another (49 adults) found no change in executive function or depression.",
-          "A newer approach, DBSRT (Dialectical Behavior and Social Rhythm Therapy), combines DBT with daily-rhythm stabilization for people with both bipolar disorder and borderline personality disorder. It is still being studied.",
+          { t: "A 2023 JAMA Psychiatry randomized trial (100 adolescents with bipolar disorder) found the DBT group had roughly two-thirds fewer suicide attempts than the standard-psychotherapy group on the main measure, most clearly in teens with prior attempts; the authors linked the effect to better emotion regulation. Mood symptoms improved similarly in both groups.", k: "goldstein2024" },
+          { t: "A 12-week DBT skills group pilot (37 adults, no control group, 25 completed) found people learned mindfulness, emotion-regulation and distress-tolerance skills, but depression and mania scores did not change.", k: "eisner2017" },
+          { t: "A small 2013 randomized pilot (26 adults with bipolar I or II) of a 12-week DBT-based group found a trend toward less depression, better emotional control, and fewer emergency visits and admissions in the six months after; the small size makes it preliminary.", k: "vandijk2013" },
+          { t: "The evidence base is young: DBT for bipolar disorder rests on one strong adolescent trial and a handful of small adult studies. It is reasonable to try, especially when suicidal thoughts, self-harm or emotional storms are the main problem; it is not yet proven to prevent mood episodes.", k: "goldstein2024" },
         ].map((r, i) => (
           <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 13, fontFamily: fonts.body }}>
-            <span style={{ color: "#7c3aed", fontWeight: 700, flexShrink: 0 }}>▽</span>
-            <span style={{ color: C.textMid, lineHeight: 1.6 }}>{r}</span>
+            <span style={{ color: purple, fontWeight: 700, flexShrink: 0 }}>▽</span>
+            <span style={{ color: C.textMid, lineHeight: 1.6 }}>{r.t}<Cite k={r.k} n={n(r.k)} /></span>
           </div>
         ))}
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 8, fontFamily: fonts.body }}>Sources: Goldstein et al., JAMA Psychiatry (2023; print 2024); Eisner et al., Behavior Therapy (2017); Jones et al., systematic review (2023); Afshari et al. (2019); Zargar et al. (2019); DBSRT: Am J Psychotherapy (2024)</p>
       </Card>
 
-      <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8" }}>
+      <SubHead>Finding DBT</SubHead>
+      <Card style={{ marginBottom: 20 }}>
+        <Para>"DBT-informed" is not the same as DBT. Many therapists teach some skills; a comprehensive program has all four components above. Both can help; know which one you are being offered.</Para>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: purple, marginBottom: 6, fontFamily: fonts.body }}>Where to look</div>
+            {[
+              <span key="a">The <a href={REFS.dbtlbc.u} target="_blank" rel="noopener noreferrer">DBT-Linehan Board of Certification</a> directory lists clinicians and programs that passed a certification exam and adherence review.<Cite k="dbtlbc" n={n("dbtlbc")} /></span>,
+              <span key="b"><a href={REFS.btech.u} target="_blank" rel="noopener noreferrer">Behavioral Tech</a>, the training institute Linehan founded, keeps a provider directory; it describes the list as a resource, not an endorsement.<Cite k="btech" n={n("btech")} /></span>,
+              <span key="c">Community mental health centers often run skills groups at low cost; <a href={REFS.samhsa.u} target="_blank" rel="noopener noreferrer">FindTreatment.gov</a> lists them.<Cite k="samhsa" n={n("samhsa")} /></span>,
+              <span key="d"><a href={REFS.dbsa.u} target="_blank" rel="noopener noreferrer">DBSA</a> peer groups are free and members know the local programs.<Cite k="dbsa" n={n("dbsa")} /></span>,
+            ].map((t, i) => <div key={i} style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, marginBottom: 6, fontFamily: fonts.body }}>• {t}</div>)}
+          </div>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: purple, marginBottom: 6, fontFamily: fonts.body }}>What to ask</div>
+            {["Is this comprehensive DBT (individual + group + coaching + consultation team) or a skills group only?", "Have you worked with people who have bipolar disorder, and how do you coordinate with the prescriber?", "How long is the program, and what does it cost per week?", "What happens if I have a manic episode partway through?", "Is there a waitlist, and what can I start with while I wait?"].map((t, i) => <div key={i} style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, marginBottom: 6, fontFamily: fonts.body }}>• {t}</div>)}
+          </div>
+        </div>
+      </Card>
+
+      <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", marginBottom: 20 }}>
         <h4 style={{ fontSize: 14, fontWeight: 700, color: C.warm, margin: "0 0 6px", fontFamily: fonts.body }}>CBT vs. DBT: Which Do You Need?</h4>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginTop: 10 }}>
           <div>
             <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, marginBottom: 6, fontFamily: fonts.body }}>Choose CBT if you...</div>
             {["Want practical tools for distorted thinking", "Are currently stable or mildly depressed", "Struggle with medication adherence", "Need relapse prevention strategies", "Want structured homework-based therapy"].map((t, i) => (
@@ -752,13 +933,16 @@ function DBTPage() {
             ))}
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: "#7c3aed", marginBottom: 6, fontFamily: fonts.body }}>Choose DBT if you...</div>
-            {["Have intense emotions that feel uncontrollable", "Struggle with suicidal thoughts or self-harm", "Have relationship chaos during episodes", "Need crisis survival skills RIGHT NOW", "Have been told you might also have BPD traits"].map((t, i) => (
+            <div style={{ fontSize: 12, fontWeight: 700, color: purple, marginBottom: 6, fontFamily: fonts.body }}>Choose DBT if you...</div>
+            {["Have intense emotions that feel uncontrollable", "Struggle with suicidal thoughts or self-harm", "Have relationship chaos during episodes", "Need crisis survival skills right now", "Have been told you might also have BPD traits"].map((t, i) => (
               <div key={i} style={{ fontSize: 12.5, color: C.textMid, marginBottom: 3, fontFamily: fonts.body }}>• {t}</div>
             ))}
           </div>
         </div>
+        <p style={{ fontSize: 12.5, color: C.textMid, lineHeight: 1.6, margin: "12px 0 0", fontFamily: fonts.body }}>Either way: <strong>both are add-ons to medication, and both take months.</strong> Pick one, give it a real course, and judge it at the end, not at week three.</p>
       </Card>
+
+      <Sources keys={refs} />
     </Section>
   );
 }

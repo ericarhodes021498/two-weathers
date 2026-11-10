@@ -6,9 +6,9 @@ A comprehensive, free, evidence-based resource for understanding bipolar disorde
 
 - **Home** — Statistics, Bipolar I and II overview, getting started guide
 - **Screening** — Mood Disorder Questionnaire (MDQ), scored as published (no type-differentiation)
-- **Medications** — Table of medication types: what each is used for, typical time to work, what to know (no doses)
-- **CBT** — Cognitive Behavioral Therapy for bipolar: 4 pillars, 7 core techniques, research evidence
-- **DBT** — Dialectical Behavior Therapy: 4 skill modules, structure, bipolar-specific research
+- **Medications** — "Give it time" box, a month-by-month guide to what to expect, and a table of medication types: what each is used for, typical time to work, what to know (no doses)
+- **CBT** — Cognitive Behavioral Therapy for bipolar: what a course looks like session by session, 4 pillars, 7 core techniques, a worked thought record, research evidence (positive and negative trials), how to find a therapist; every claim linked to its source
+- **DBT** — Dialectical Behavior Therapy: 4 skill modules, skills to start with, program structure and length, bipolar-specific research, comprehensive vs DBT-informed, how to find a program; every claim linked to its source
 - **Body** — Seven techniques for physical anxiety with honest evidence labels
 - **Substance Use** — Co-occurring substance use, sourced statistics, safer-use and treatment options
 - **Find Help** — Provider directories, what to look for, what to say, uninsured resources
