@@ -33,15 +33,17 @@ function Nav({ active, setActive }) {
     { id: "medications", label: "Meds", icon: "◈" },
     { id: "cbt", label: "CBT", icon: "△" },
     { id: "dbt", label: "DBT", icon: "▽" },
+    { id: "episodes", label: "Episodes", icon: "◐" },
     { id: "body", label: "Body", icon: "◯" },
     { id: "substance", label: "Substance Use", icon: "◆" },
+    { id: "family", label: "Family & Friends", icon: "◑" },
     { id: "find-help", label: "Find Help", icon: "◇" },
     { id: "about", label: "About", icon: "♡" },
   ];
   const pick = (id) => { setActive(id); setMenuOpen(false); };
   return (
     <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,248,0.95)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56, padding: "0 20px" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56, padding: "0 20px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => pick("home")}>
           <span style={{ fontSize: 20, color: C.accent }}>⬡</span>
           <span style={{ fontFamily: fonts.display, fontSize: 17, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>Two Weathers</span>
@@ -220,6 +222,20 @@ function HomePage({ setActive }) {
             ))}
           </div>
         </Card>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginTop: 14 }}>
+          {[
+            { title: "Know the episodes", desc: "Mania, hypomania, depression and mixed features: what each looks like, early warning signs, and a quick self-check for what kind of help to reach for.", action: "Episodes", page: "episodes", color: C.warm },
+            { title: "Supporting someone?", desc: "What helps and what hurts to say, what to do during highs and lows, planning ahead for a crisis, and support for yourself.", action: "Family & Friends", page: "family", color: C.blue },
+          ].map((s, i) => (
+            <Card key={i} hover style={{ cursor: "pointer", borderLeft: `3px solid ${s.color}` }}>
+              <div onClick={() => setActive(s.page)}>
+                <h3 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.text, margin: "0 0 6px" }}>{s.title}</h3>
+                <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, margin: "0 0 8px", fontFamily: fonts.body }}>{s.desc}</p>
+                <span style={{ fontSize: 13, color: s.color, fontWeight: 600, fontFamily: fonts.body }}>{s.action} →</span>
+              </div>
+            </Card>
+          ))}
+        </div>
       </Section>
 
       {/* Crisis */}
@@ -528,6 +544,8 @@ function MedicationsPage() {
 // FIND HELP
 // ═══════════════════════════════════════════════════════════════
 function FindHelpPage() {
+  const refs = ["emtala", "lifeline988Get", "vcl", "samhsaCrisis", "namiInpatient", "samhsa", "samhsaHelpline", "nasmhpd", "cmsIpfqr", "dolParity", "fdaGenerics", "singlecare", "goodrx", "costplus", "rxassist", "hrsaSliding", "hrsa340b", "oigCoupons", "medicareDrugCosts", "medicarePPP"];
+  const n = (k) => refs.indexOf(k) + 1;
   return (
     <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
       <Badge color={C.accent}>Take the Next Step</Badge>
@@ -612,12 +630,63 @@ function FindHelpPage() {
         </div>
       </Card>
 
+      {/* Hospital and crisis care */}
+      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "8px 0 8px" }}>Finding a Psychiatric Hospital or Crisis Care</h3>
+      <p style={{ fontSize: 14, color: C.textMid, margin: "0 0 14px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>If you or someone you care about may need more than an outpatient visit, these are the official ways to find care. Availability varies by area, so call ahead when there's time.</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 14 }}>
+        {[
+          { t: "In an emergency: any hospital ER", d: "Federal law (EMTALA) requires hospital emergency departments to check you for an emergency medical condition, including a psychiatric one, and to stabilize you or arrange a transfer, even if you have no insurance or can't pay.", k: "emtala" },
+          { t: "988 Suicide & Crisis Lifeline", d: "Free, 24/7 call, text or chat for anyone in crisis, or worried about someone. Spanish: press 2 or text AYUDA to 988. Veterans: press 1, or text 838255. Deaf and hard-of-hearing callers can use 988 Videophone.", k: "lifeline988Get", k2: "vcl" },
+          { t: "Mobile crisis teams and crisis centers", d: "SAMHSA's crisis-care model is someone to contact (988), someone to respond (a mobile crisis team that comes to you) and a safe place to go (crisis stabilization or receiving centers). Ask 988 or your county mental health line what serves your area.", k: "samhsaCrisis" },
+          { t: "Inpatient or residential treatment", d: "NAMI suggests starting with your psychiatrist or therapist, then calling 2-1-1 or your local NAMI affiliate, asking ERs or crisis centers for referrals, and using SAMHSA's locator at findtreatment.gov. Check coverage with your insurer before admission when you can.", k: "namiInpatient", k2: "samhsa" },
+          { t: "SAMHSA National Helpline", d: "1-800-662-4357: free, confidential, 24/7 referrals to local treatment, support groups and state-funded programs, in English and Spanish. It refers; it doesn't provide counseling. Or text your ZIP code to 435748 (English only).", k: "samhsaHelpline" },
+          { t: "Your state's mental health agency", d: "Every state has a public mental health authority that runs or funds crisis lines, state hospitals and public clinics. NASMHPD lists each state's agency.", k: "nasmhpd" },
+        ].map((x, i) => (
+          <Card key={i}>
+            <h4 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.text, margin: "0 0 6px" }}>{x.t}</h4>
+            <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>{x.d}<Cite k={x.k} n={n(x.k)} />{x.k2 && <Cite k={x.k2} n={n(x.k2)} />}</p>
+          </Card>
+        ))}
+      </div>
+      <Card style={{ marginBottom: 28, background: "#faf8f5" }}>
+        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: "0 0 8px", fontFamily: fonts.body }}><strong>Checking a hospital:</strong> Medicare requires inpatient psychiatric facilities to report quality measures, which CMS publishes in its Provider Data Catalog (data.cms.gov). Care Compare's star ratings don't cover psychiatric hospitals.<Cite k="cmsIpfqr" n={n("cmsIpfqr")} /></p>
+        <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>If insurance denies care:</strong> the federal parity law generally requires mental health benefits to be no more restrictive than medical ones. Ask for the reason in writing; for employer plans, the Department of Labor helps at 1-866-444-3272.<Cite k="dolParity" n={n("dolParity")} /></p>
+      </Card>
+
+      {/* Medication costs */}
+      <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 8px" }}>Paying Less for Medication</h3>
+      <p style={{ fontSize: 14, color: C.textMid, margin: "0 0 14px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>We don't list coupon codes: they expire, change by pharmacy, and fake ones circulate. These are the legitimate programs behind them. Prices change often, so compare before each refill.</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 14 }}>
+        {[
+          { t: "Ask for the generic", d: "Generics have the same active ingredient and work the same way as the brand, and usually cost much less. Most mood stabilizers and many antipsychotics used for bipolar disorder come as generics. Ask your prescriber or pharmacist.", k: "fdaGenerics" },
+          { t: "Free discount cards (GoodRx, SingleCare)", d: "Free coupons accepted at many pharmacies. You pay either the coupon price or your insurance price for a fill, not both, and coupon fills may not count toward your deductible. Ask the pharmacist which is cheaper.", k: "singlecare", k2: "goodrx" },
+          { t: "Cost Plus Drugs", d: "Online pharmacy that charges its cost plus a 15% markup, a pharmacy fee and shipping. Search your drug; if it's listed, your prescriber sends the prescription there. Insurance is accepted only from some plans.", k: "costplus" },
+          { t: "Free-drug programs from manufacturers", d: "Drug companies run patient assistance programs that give free or low-cost medicine to eligible people, usually uninsured or underinsured with income under a limit. RxAssist lists them by drug; your prescriber fills in part of the form.", k: "rxassist" },
+          { t: "Community health centers", d: "Federally funded health centers must offer a sliding fee based on income and family size and can't turn you away for inability to pay. Many buy drugs at discounted 340B prices; ask the pharmacy whether those savings reach patients. Find one at findahealthcenter.hrsa.gov.", k: "hrsaSliding", k2: "hrsa340b" },
+        ].map((x, i) => (
+          <Card key={i}>
+            <h4 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.text, margin: "0 0 6px" }}>{x.t}</h4>
+            <p style={{ fontSize: 13, color: C.textMid, lineHeight: 1.55, margin: 0, fontFamily: fonts.body }}>{x.d}<Cite k={x.k} n={n(x.k)} />{x.k2 && <Cite k={x.k2} n={n(x.k2)} />}</p>
+          </Card>
+        ))}
+      </div>
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.blue}` }}>
+        <h4 style={{ fontFamily: fonts.display, fontSize: 16, fontWeight: 700, color: C.blue, margin: "0 0 8px" }}>If you have Medicare or Medicaid</h4>
+        <ul style={{ margin: 0, paddingLeft: 18 }}>
+          <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, marginBottom: 6, fontFamily: fonts.body }}>Manufacturer copay cards generally can't be used when Medicare Part D or another federal program pays.<Cite k="oigCoupons" n={n("oigCoupons")} /> Free-drug programs, Extra Help and state programs follow different rules.</li>
+          <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, marginBottom: 6, fontFamily: fonts.body }}><strong>Extra Help</strong> lowers Part D premiums, deductibles and copays for people with limited income and resources; it's automatic with full Medicaid, a Medicare Savings Program or SSI. Apply through Social Security or get free counseling from your state's SHIP.<Cite k="medicareDrugCosts" n={n("medicareDrugCosts")} /></li>
+          <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, marginBottom: 6, fontFamily: fonts.body }}>Out-of-pocket costs for covered Part D drugs are capped at <strong>$2,100 in 2026</strong>. The Medicare Prescription Payment Plan can spread those costs into monthly bills (it doesn't lower the total).<Cite k="medicarePPP" n={n("medicarePPP")} /></li>
+          <li style={{ fontSize: 13, color: C.textMid, lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}>Some states run their own drug-cost programs; Medicare's Plan Finder lists them by state. Medicaid questions go to your state Medicaid office.<Cite k="medicareDrugCosts" n={n("medicareDrugCosts")} /></li>
+        </ul>
+      </Card>
+
       {/* Crisis */}
       <Card style={{ background: "#fef9f0", borderColor: "#f0d8a8", textAlign: "center" }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: C.warm, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6, fontFamily: fonts.body }}>Crisis Resources — Available 24/7</div>
         <div style={{ fontFamily: fonts.display, fontSize: 24, fontWeight: 700, color: C.text }}>988 Suicide & Crisis Lifeline</div>
         <p style={{ fontFamily: fonts.body, fontSize: 14, color: C.textMid, margin: "6px 0 0" }}>Call or text <strong>988</strong> · Chat: <strong>988lifeline.org</strong> · Crisis Text Line: text <strong>HOME</strong> to <strong>741741</strong></p>
       </Card>
+      <div style={{ marginTop: 20 }}><Sources keys={refs} /></div>
     </Section>
   );
 }
@@ -649,6 +718,53 @@ const REFS = {
   dbsa: { t: "Depression and Bipolar Support Alliance: free peer support groups", u: "https://www.dbsalliance.org/support/chapters-and-support-groups/" },
   nami: { t: "NAMI: free peer-led programs and support groups", u: "https://www.nami.org/Support-Education/Mental-Health-Education" },
   samhsa: { t: "SAMHSA FindTreatment.gov: locate treatment, including sliding-scale programs", u: "https://findtreatment.gov/" },
+  // Family & Friends page
+  dbsaHelp: { t: "DBSA, Helping a Friend or Family Member with Depression or Bipolar Disorder (2018)", u: "https://www.dbsalliance.org/wp-content/uploads/2019/02/HelpingFriendsFamily2018.pdf" },
+  dbsaWhatHelps: { t: "DBSA, What Helps and What Hurts", u: "https://www.dbsalliance.org/wp-content/uploads/2019/02/what_helps_what_hurts.pdf" },
+  namiParenting: { t: "NAMI, 10 Questions on Parenting a Grown Child with Bipolar Disorder", u: "https://www.nami.org/in-the-news/10-questions-on-parenting-a-grown-child-with-bipolar-disorder/" },
+  namiFamily: { t: "NAMI, Family Members and Caregivers", u: "https://nami.org/find-support/family-members-and-caregivers" },
+  namiCrisisGuide: { t: "NAMI, Navigating a Mental Health Crisis", u: "https://nami.org/Support-Education/Publications-Reports/Guides/Navigating-a-Mental-Health-Crisis" },
+  apaPad: { t: "American Psychiatric Association, Psychiatric Advance Directives", u: "https://www.psychiatry.org/patients-families/psychiatric-advance-directives-1" },
+  hhsHipaa: { t: "HHS, HIPAA Privacy Rule and Sharing Information Related to Mental Health", u: "https://www.hhs.gov/sites/default/files/hipaa-privacy-rule-and-sharing-info-related-to-mental-health.pdf" },
+  lifeline988Help: { t: "988 Lifeline, Help Someone Else", u: "https://988lifeline.org/help-someone-else/" },
+  lifeline988Signs: { t: "988 Lifeline, Know the Warning Signs", u: "https://988lifeline.org/learn/warning-signs/" },
+  nimh5Steps: { t: "NIMH, 5 Action Steps to Help Someone Having Thoughts of Suicide", u: "https://www.nimh.nih.gov/health/publications/5-action-steps-to-help-someone-having-thoughts-of-suicide" },
+  namiF2F: { t: "NAMI Family-to-Family education program", u: "https://www.nami.org/familytofamily" },
+  namiFSG: { t: "NAMI Family Support Group", u: "https://www.nami.org/?p=1004" },
+  alanon: { t: "Al-Anon Family Groups", u: "https://al-anon.org/" },
+  miklowitz2003: { t: "Miklowitz et al., Arch Gen Psychiatry, 2003: family-focused therapy plus medication, 2-year RCT", u: "https://www.epistemonikos.org/en/documents/3808de2902d36fb9288e01885470d736f9dedf93" },
+  nimhFFT2007: { t: "NIMH, Intensive Psychotherapy More Effective Than Brief Therapy for Treating Bipolar Depression (2007)", u: "https://www.nimh.nih.gov/news/science-updates/2007/intensive-psychotherapy-more-effective-than-brief-therapy-for-treating-bipolar-depression" },
+  // Episodes page
+  aafp2021: { t: "Marzani & Neff, Bipolar Disorders: Evaluation and Treatment, American Family Physician, 2021", u: "https://www.aafp.org/afp/2021/0215/p227" },
+  statpearlsBipolar: { t: "StatPearls (NCBI Bookshelf), Bipolar Disorder", u: "https://www.ncbi.nlm.nih.gov/books/NBK558998/" },
+  nimhPub: { t: "NIMH, Bipolar Disorder (publication)", u: "https://www.nimh.nih.gov/health/publications/bipolar-disorder" },
+  hu2014: { t: "Hu et al., 2014: mixed features in bipolar disorder (DSM-5 specifier) and suicidality, review", u: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4116292/" },
+  dbsaMania: { t: "DBSA, Understanding Mania (handout)", u: "https://www.dbsalliance.org/wp-content/uploads/2026/05/Understanding-Mania-HandoutV2-Optum-rightweb-1.pdf" },
+  jackson2003: { t: "Jackson et al., J Affect Disord, 2003: systematic review of manic and depressive prodromes", u: "https://kclpure.kcl.ac.uk/portal/en/publications/a-systematic-review-of-manic-and-depressive-prodromes/" },
+  morriss2004: { t: "Morriss, Advances in Psychiatric Treatment: early warning symptom intervention in bipolar disorder", u: "https://www.cambridge.org/core/journals/advances-in-psychiatric-treatment/article/early-warning-symptom-intervention-for-patients-with-bipolar-affective-disorder/FD9FFC214870996B310EE68F120F3781" },
+  dbsaTracker: { t: "DBSA Wellness Tracker (symptoms). Its printed crisis number is retired; use 988.", u: "https://www.dbsalliance.org/wp-content/uploads/2020/07/DBSA-WellnessTracker-Symptoms.pdf" },
+  medlineplusBipolar: { t: "MedlinePlus, Bipolar disorder: when to contact a provider", u: "https://medlineplus.gov/ency/article/000926.htm" },
+  // Find Help: hospital and crisis care
+  emtala: { t: "CMS, Emergency room rights (EMTALA)", u: "https://www.cms.gov/Priorities/your-patient-rights/emergency-room-rights" },
+  lifeline988Get: { t: "988 Suicide & Crisis Lifeline, Get Help", u: "https://988lifeline.org/get-help/" },
+  vcl: { t: "Veterans Crisis Line, What is 988", u: "https://veteranscrisisline.net/about/what-is-988/" },
+  samhsaCrisis: { t: "SAMHSA, National Behavioral Health Crisis Care", u: "https://www.samhsa.gov/mental-health/national-behavioral-health-crisis-care" },
+  namiInpatient: { t: "NAMI HelpLine, How can I find an inpatient or residential treatment facility?", u: "https://helplinefaqs.nami.org/article/64-how-can-i-find-an-inpatient-or-residential-treatment-facility" },
+  samhsaHelpline: { t: "SAMHSA National Helpline", u: "https://www.samhsa.gov/find-help/helplines/national-helpline" },
+  nasmhpd: { t: "NASMHPD, state mental health commissioners", u: "https://nasmhpd.org/commisioners_edit" },
+  cmsIpfqr: { t: "CMS, Inpatient Psychiatric Facility Quality Reporting (IPFQR) Program", u: "https://www.cms.gov/medicare/quality/initiatives/hospital-quality-initiative/inpatient-psychiatric-facility-quality-reporting-ipfqr-program" },
+  dolParity: { t: "U.S. Department of Labor, consumer guide to mental health parity", u: "https://dol.gov/sites/dolgov/files/EBSA/laws-and-regulations/laws/mental-health-parity/consumer-guide-mental-health-benefits.pdf" },
+  // Find Help: medication costs
+  fdaGenerics: { t: "FDA, Generic Drug Facts", u: "https://www.fda.gov/drugs/generic-drugs/generic-drug-facts" },
+  singlecare: { t: "SingleCare, How to get cheap prescriptions", u: "https://www.singlecare.com/resources/cheap-prescriptions" },
+  goodrx: { t: "GoodRx, Will my insurance pay for GoodRx?", u: "https://www.goodrx.com/blog/will-my-insurance-pay-for-goodrx/" },
+  costplus: { t: "Mark Cuban Cost Plus Drug Company, FAQ", u: "https://costplusdrugs.com/faq/" },
+  rxassist: { t: "RxAssist, patient assistance programs FAQ", u: "https://rxassist.org/faqs" },
+  hrsaSliding: { t: "HRSA Health Center Program Compliance Manual, sliding fee discount program", u: "https://bphc.hrsa.gov/compliance/compliance-manual/chapter9" },
+  hrsa340b: { t: "HRSA, 340B Drug Pricing Program", u: "https://www.hrsa.gov/opa" },
+  oigCoupons: { t: "HHS Office of Inspector General, 2014: manufacturer copay coupons and Part D", u: "https://oig.hhs.gov/reports/all/2014/manufacturer-safeguards-may-not-prevent-copayment-coupon-use-for-part-d-drugs/" },
+  medicareDrugCosts: { t: "Medicare.gov, Help with drug costs (Extra Help, state programs)", u: "https://www.medicare.gov/basics/costs/help/drug-costs" },
+  medicarePPP: { t: "Medicare.gov, Medicare Prescription Payment Plan", u: "https://medicare.gov/prescription-payment-plan/before-payment-option" },
 };
 function Cite({ k, n }) {
   const r = REFS[k];
@@ -676,6 +792,247 @@ function TimeBox({ children, color = C.accent }) {
 }
 const SubHead = ({ children }) => <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>{children}</h3>;
 const Para = ({ children, style }) => <p style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, margin: "0 0 12px", fontFamily: fonts.body, ...style }}>{children}</p>;
+
+// ═══════════════════════════════════════════════════════════════
+// FAMILY & FRIENDS PAGE
+// ═══════════════════════════════════════════════════════════════
+function FamilyPage() {
+  const refs = ["dbsaHelp", "dbsaWhatHelps", "namiParenting", "namiFamily", "namiCrisisGuide", "apaPad", "hhsHipaa", "lifeline988Help", "lifeline988Signs", "nimh5Steps", "namiF2F", "namiFSG", "alanon", "miklowitz2003", "nimhFFT2007", "dbsa"];
+  const n = (k) => refs.indexOf(k) + 1;
+  const Item = ({ children, k, k2 }) => (
+    <li style={{ fontSize: 14, color: C.textMid, lineHeight: 1.65, marginBottom: 8, fontFamily: fonts.body }}>{children}<Cite k={k} n={n(k)} />{k2 && <Cite k={k2} n={n(k2)} />}</li>
+  );
+  const List = ({ children }) => <ul style={{ margin: 0, paddingLeft: 20 }}>{children}</ul>;
+  return (
+    <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
+      <Badge color={C.blue}>For Family & Friends</Badge>
+      <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Supporting Someone With Bipolar Disorder</h2>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 20px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>Practical guidance for partners, parents, friends and anyone close to someone with bipolar disorder, drawn from the Depression and Bipolar Support Alliance (DBSA), NAMI, NIMH and the 988 Lifeline. Bipolar disorder is nobody's fault, not yours and not your loved one's.<Cite k="dbsaHelp" n={n("dbsaHelp")} /></p>
+
+      <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginBottom: 24, padding: "14px 20px" }}>
+        <p style={{ fontSize: 13.5, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>If someone may be in danger right now:</strong> call or text <strong>988</strong>, the Suicide & Crisis Lifeline (you can call for help supporting someone else, too),<Cite k="lifeline988Help" n={n("lifeline988Help")} /> or call <strong>911</strong> or go to the nearest emergency room.<Cite k="dbsaHelp" n={n("dbsaHelp")} /></p>
+      </Card>
+
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.teal}` }}>
+        <SubHead>Day to day</SubHead>
+        <List>
+          <Item k="dbsaHelp">Learn about the illness, its symptoms and its treatments. Understanding it makes it easier to respond helpfully.</Item>
+          <Item k="dbsaHelp">Encourage treatment without forcing it. You can explain that treatment doesn't change who someone is, and it can ease symptoms a great deal.</Item>
+          <Item k="dbsaHelp">Offer practical help, such as going with them to appointments if they'd like you to.</Item>
+          <Item k="namiParenting">Respect their independence. For an adult, treatment decisions are ultimately theirs, even when you would choose differently.</Item>
+          <Item k="dbsaWhatHelps">Ask what would help instead of guessing, and let them tell you what they need right now.</Item>
+        </List>
+      </Card>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 20 }}>
+        <Card style={{ borderTop: `3px solid ${C.teal}` }}>
+          <SubHead>What can help to say</SubHead>
+          <List>
+            <Item k="dbsaWhatHelps">Acknowledge that what they're feeling comes from a real illness.</Item>
+            <Item k="dbsaWhatHelps">"What would help right now?"</Item>
+            <Item k="dbsaWhatHelps">During depression: remind them that feelings change, even if they can't believe it yet.</Item>
+          </List>
+        </Card>
+        <Card style={{ borderTop: `3px solid ${C.red}` }}>
+          <SubHead>What tends to hurt</SubHead>
+          <List>
+            <Item k="dbsaWhatHelps">"It's all in your head."</Item>
+            <Item k="dbsaWhatHelps">"We all go through times like this."</Item>
+            <Item k="dbsaWhatHelps">"Look on the bright side."</Item>
+            <Item k="dbsaWhatHelps">"Snap out of it." Mood episodes are symptoms of an illness, not a choice.</Item>
+          </List>
+        </Card>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 20 }}>
+        <Card style={{ borderLeft: `3px solid ${C.blue}` }}>
+          <SubHead>During depression</SubHead>
+          <List>
+            <Item k="dbsaHelp">Help them keep some kind of daily routine, even if they'd rather stay in bed.</Item>
+            <Item k="dbsaWhatHelps">Remind them that this will change.</Item>
+            <Item k="lifeline988Signs">Watch for suicide warning signs (below), especially if they are new or getting worse.</Item>
+          </List>
+        </Card>
+        <Card style={{ borderLeft: `3px solid ${C.warm}` }}>
+          <SubHead>During mania or hypomania</SubHead>
+          <List>
+            <Item k="dbsaHelp">Calmly tell them you're concerned and what, specifically, you've noticed.</Item>
+            <Item k="dbsaHelp">Where it fits, gently ask whether they've missed any doses of medication.</Item>
+            <Item k="dbsaHelp">Urge them to put off big projects, large purchases and long drives until they're well.</Item>
+            <Item k="dbsaHelp">Set limits that protect you both; DBSA's example is not lending money when manic symptoms appear.</Item>
+            <Item k="dbsaHelp">Your safety matters too. If they become abusive, get help from someone you trust, a mental health professional, or 911.</Item>
+          </List>
+        </Card>
+      </div>
+
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid #7c3aed` }}>
+        <SubHead>Plan ahead together while things are stable</SubHead>
+        <List>
+          <Item k="dbsaHelp">Write a plan together for mania and for suicide prevention, and give copies to trusted friends and relatives. List their own early warning signs and what people can do when they see them.</Item>
+          <Item k="namiFamily" k2="namiCrisisGuide">Many clinicians ask patients to make a crisis plan; NAMI suggests sharing it with family. NAMI's free Crisis Guide includes a Portable Treatment Record to start one.</Item>
+          <Item k="apaPad">A <strong>psychiatric advance directive</strong> is a legal document that records the treatments a person does or doesn't want, in case they can't decide during a crisis, and can name a trusted person to decide for them. Most states have their own form.</Item>
+          <Item k="hhsHipaa">Privacy law (HIPAA) lets clinicians talk with family and friends involved in care when the patient agrees or doesn't object, and it never stops a clinician from listening to what you tell them. Signing a release while well makes this easier.</Item>
+        </List>
+      </Card>
+
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.red}` }}>
+        <SubHead>Suicide warning signs and what to do</SubHead>
+        <Para>Warning signs matter most when they're new, increasing, or seem linked to a painful event, loss or change.<Cite k="lifeline988Help" n={n("lifeline988Help")} /> They include talking about wanting to die, feeling hopeless, trapped or like a burden; drinking or using more; agitation or reckless behavior; sleeping too little or too much; withdrawing; rage; and extreme mood swings.<Cite k="lifeline988Signs" n={n("lifeline988Signs")} /></Para>
+        <ol style={{ margin: "0 0 0 0", paddingLeft: 20 }}>
+          <Item k="nimh5Steps"><strong>Ask directly</strong> whether they're thinking about suicide. Asking does not make suicidal thoughts or behavior more likely.</Item>
+          <Item k="nimh5Steps"><strong>Be there and listen</strong> without judgment.</Item>
+          <Item k="nimh5Steps"><strong>Help keep them safe</strong> by reducing access to highly lethal items, such as securing or removing firearms and medications.</Item>
+          <Item k="nimh5Steps" k2="lifeline988Help"><strong>Help them connect:</strong> call or text 988 together, or contact 988 yourself for advice.</Item>
+          <Item k="nimh5Steps"><strong>Follow up</strong> after a crisis or a hospital stay. Ongoing contact helps.</Item>
+        </ol>
+        <Para style={{ marginTop: 8, marginBottom: 0 }}>Don't promise to keep suicidal thoughts secret, and don't handle an emergency alone: call 911, or go to a crisis center or emergency room.<Cite k="dbsaHelp" n={n("dbsaHelp")} /></Para>
+      </Card>
+
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.teal}` }}>
+        <SubHead>Take care of yourself, too</SubHead>
+        <List>
+          <Item k="namiFamily">You can care for the people you love better when you look after yourself.</Item>
+          <Item k="dbsaHelp">It's common for family members to feel stressed, anxious or depressed. You deserve help and comfort too.</Item>
+          <Item k="namiF2F"><strong>NAMI Family-to-Family</strong>: a free 8-session class for family, partners and friends, taught by trained family members.</Item>
+          <Item k="namiFSG"><strong>NAMI Family Support Groups</strong>: free, peer-led groups for adult loved ones.</Item>
+          <Item k="dbsa"><strong>DBSA support groups</strong>, in person and online, including groups for families and friends.</Item>
+          <Item k="alanon"><strong>Al-Anon</strong>, if you're worried about someone's drinking.</Item>
+        </List>
+      </Card>
+
+      <Card style={{ marginBottom: 20, borderLeft: `3px solid ${C.accent}` }}>
+        <SubHead>Family-focused therapy: what the research shows</SubHead>
+        <Para>Family-focused therapy (FFT) brings the family into treatment, alongside medication: learning about the illness together, communication training, and problem-solving.<Cite k="miklowitz2003" n={n("miklowitz2003")} /></Para>
+        <List>
+          <Item k="miklowitz2003">In a 2003 randomized trial of 101 patients, 35% of those receiving FFT relapsed, compared with 54% receiving crisis management.</Item>
+          <Item k="nimhFFT2007">In an NIMH-funded study of 293 people with bipolar depression, 64% of those in intensive therapy (including FFT) recovered within a year, versus 52% in a brief three-session program, and they recovered sooner.</Item>
+        </List>
+        <Para style={{ marginTop: 8, marginBottom: 0 }}>Ask the treating clinician whether family sessions are available.</Para>
+      </Card>
+
+      <Sources keys={refs} />
+    </Section>
+  );
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// EPISODES PAGE
+// ═══════════════════════════════════════════════════════════════
+const EPISODES = [
+  { name: "Manic episode", color: "#c23030", duration: "At least 1 week, most of the day, nearly every day (or any length if hospitalization is needed)",
+    core: "An unusually high, expansive or irritable mood together with unusually increased activity or energy, plus at least 3 of the symptoms below (4 if the mood is only irritable).",
+    severity: "Serious enough to cause marked problems at work, school or in relationships, or to need hospitalization, or there are psychotic symptoms. A manic episode is what defines bipolar I." },
+  { name: "Hypomanic episode", color: "#b8510d", duration: "At least 4 days in a row, most of the day, nearly every day",
+    core: "The same kind of mood and energy change and the same symptoms as mania, clearly different from the person's usual self and noticeable to others.",
+    severity: "Not severe enough to cause marked problems or need hospitalization, and no psychosis (psychosis makes it mania). It can feel productive or pleasant, so the person may not see a problem while others do." },
+  { name: "Major depressive episode", color: C.blue, duration: "At least 2 weeks, nearly every day",
+    core: "At least 5 of 9 depressive symptoms, including depressed mood or loss of interest or pleasure.",
+    severity: "Causes real distress or gets in the way of work, school, relationships or daily life." },
+];
+const MANIA_SX = ["Feeling unusually important, talented or powerful (grandiosity)", "Needing much less sleep and still feeling rested", "Talking more than usual, or feeling pressure to keep talking", "Racing thoughts or jumping between ideas", "Being easily distracted", "Much more activity (social, work, school or sexual), or restless, purposeless activity", "Risky activities with painful consequences, such as spending sprees or reckless decisions"];
+const DEP_SX = ["Depressed mood most of the day", "Loss of interest or pleasure in most activities", "Big change in appetite or weight", "Sleeping too little or too much", "Moving or speaking noticeably slower, or restlessness others can see", "Fatigue or loss of energy", "Feeling worthless or excessively guilty", "Trouble concentrating or deciding", "Recurring thoughts of death or suicide"];
+const URGENT = ["Thoughts of suicide or of hurting someone", "Seeing or hearing things others don't, or beliefs others find impossible", "Hardly sleeping for several days", "Behaving in ways that are unsafe or reckless", "Unable to leave the house or take care of basic needs"];
+
+function EpisodesPage() {
+  const refs = ["aafp2021", "statpearlsBipolar", "nimhPub", "hu2014", "dbsaMania", "jackson2003", "morriss2004", "dbsaTracker", "medlineplusBipolar", "nimhBipolar"];
+  const n = (k) => refs.indexOf(k) + 1;
+  const [hi, setHi] = useState({});
+  const [lo, setLo] = useState({});
+  const [ur, setUr] = useState({});
+  const [done, setDone] = useState(false);
+  const hiN = Object.values(hi).filter(Boolean).length, loN = Object.values(lo).filter(Boolean).length, urN = Object.values(ur).filter(Boolean).length;
+  const Check = ({ label, on, flip, color }) => (
+    <button onClick={flip} style={{ display: "flex", gap: 10, alignItems: "flex-start", width: "100%", textAlign: "left", padding: "9px 12px", marginBottom: 6, borderRadius: 9, cursor: "pointer", fontFamily: fonts.body, fontSize: 13.5, lineHeight: 1.45,
+      border: on ? `1.5px solid ${color}` : `1px solid ${C.border}`, background: on ? `${color}10` : C.card, color: C.text }}>
+      <span style={{ flexShrink: 0, width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${on ? color : C.border}`, background: on ? color : "transparent", color: "#fff", fontSize: 12, lineHeight: "16px", textAlign: "center" }}>{on ? "✓" : ""}</span>{label}
+    </button>
+  );
+  let verdict = null;
+  if (done) {
+    if (urN > 0) verdict = { color: C.red, title: "Get help now", text: "You checked something that sources say needs help right away. Call or text 988, call 911, or go to the nearest emergency room. If you can, tell someone you trust what's happening." };
+    else if (hiN >= 3 && loN >= 3) verdict = { color: "#7c3aed", title: "Highs and lows at the same time: contact your prescriber soon", text: "You checked several signs from both lists. When high and low symptoms happen together (called mixed features), episodes tend to be harder to treat and riskier, so this is worth a call to your prescriber or clinician in the next day or two, not at the next routine visit." };
+    else if (hiN >= 3 || loN >= 3) verdict = { color: C.warm, title: "Worth telling your prescriber about", text: `You checked several signs from the ${hiN >= 3 ? "high (manic or hypomanic)" : "low (depressive)"} list. Only a clinician can say whether this is an episode, but changes like these are exactly what to report early. If they get worse, or you aren't taking medication as prescribed, call sooner.` };
+    else if (hiN + loN > 0) verdict = { color: C.teal, title: "Keep an eye on it", text: "You checked a few signs. Write them down with today's date, and watch whether they last or grow over the next days. Your own early warning signs are worth knowing: tell your clinician if they persist." };
+    else verdict = { color: C.teal, title: "Nothing checked", text: "Stable stretches are the best time to write down your personal early warning signs and make a plan with the people you trust." };
+  }
+  return (
+    <Section style={{ paddingTop: 40, paddingBottom: 60 }}>
+      <Badge color={C.warm}>Understanding Episodes</Badge>
+      <h2 style={{ fontFamily: fonts.display, fontSize: 30, fontWeight: 700, color: C.text, margin: "12px 0 8px" }}>Types of Mood Episodes</h2>
+      <p style={{ fontSize: 15, color: C.textMid, margin: "0 0 20px", maxWidth: 680, lineHeight: 1.65, fontFamily: fonts.body }}>Bipolar disorder moves through distinct periods called episodes. Knowing what each looks like, and your own early warning signs, helps you and the people around you act early. The descriptions follow the DSM-5 criteria clinicians use.<Cite k="aafp2021" n={n("aafp2021")} /><Cite k="statpearlsBipolar" n={n("statpearlsBipolar")} /> Only a clinician can say which episode, if any, someone is in.</p>
+
+      {EPISODES.map((e, i) => (
+        <Card key={i} style={{ marginBottom: 14, borderLeft: `4px solid ${e.color}` }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 20, fontWeight: 700, color: e.color, margin: "0 0 6px" }}>{e.name}</h3>
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8, fontFamily: fonts.body }}>{e.duration}</div>
+          <Para>{e.core}<Cite k="aafp2021" n={n("aafp2021")} /></Para>
+          <Para style={{ margin: 0 }}>{e.severity}<Cite k="aafp2021" n={n("aafp2021")} />{i === 1 && <Cite k="nimhPub" n={n("nimhPub")} />}</Para>
+        </Card>
+      ))}
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, margin: "6px 0 20px" }}>
+        <Card style={{ borderTop: `3px solid #c23030` }}>
+          <SubHead>Symptoms of mania and hypomania</SubHead>
+          <ul style={{ margin: 0, paddingLeft: 18 }}>{MANIA_SX.map((s, i) => <li key={i} style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, marginBottom: 4, fontFamily: fonts.body }}>{s}</li>)}</ul>
+          <p style={{ fontSize: 11.5, color: C.textLight, margin: "8px 0 0", fontFamily: fonts.body }}>DSM-5 criterion B, in plain English.<Cite k="aafp2021" n={n("aafp2021")} /></p>
+        </Card>
+        <Card style={{ borderTop: `3px solid ${C.blue}` }}>
+          <SubHead>Symptoms of a depressive episode</SubHead>
+          <ul style={{ margin: 0, paddingLeft: 18 }}>{DEP_SX.map((s, i) => <li key={i} style={{ fontSize: 13.5, color: C.textMid, lineHeight: 1.6, marginBottom: 4, fontFamily: fonts.body }}>{s}</li>)}</ul>
+          <p style={{ fontSize: 11.5, color: C.textLight, margin: "8px 0 0", fontFamily: fonts.body }}>The nine DSM-5 symptoms, in plain English.<Cite k="statpearlsBipolar" n={n("statpearlsBipolar")} /></p>
+        </Card>
+      </div>
+
+      <SubHead>Patterns clinicians also look for</SubHead>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 24 }}>
+        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: "#7c3aed", margin: "0 0 6px", fontFamily: fonts.body }}>Mixed features</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Not a separate episode: a manic or hypomanic episode with at least 3 depressive symptoms, or a depressive episode with at least 3 manic ones. It can feel agitated or "wired" while low. It is linked to more suicidal thinking and a harder course, so it needs prompt attention.<Cite k="hu2014" n={n("hu2014")} /></Para></Card>
+        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.warm, margin: "0 0 6px", fontFamily: fonts.body }}>Rapid cycling</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Four or more episodes (of any kind) within 12 months. It describes a course, not a single episode.<Cite k="statpearlsBipolar" n={n("statpearlsBipolar")} /></Para></Card>
+        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.red, margin: "0 0 6px", fontFamily: fonts.body }}>Psychotic features</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Hallucinations or delusions during a severe manic or depressive episode, often matching the mood. They signal a severe episode that usually needs urgent care.<Cite k="statpearlsBipolar" n={n("statpearlsBipolar")} /><Cite k="dbsaMania" n={n("dbsaMania")} /></Para></Card>
+        <Card><h4 style={{ fontSize: 15, fontWeight: 700, color: C.teal, margin: "0 0 6px", fontFamily: fonts.body }}>Stable periods</h4><Para style={{ margin: 0, fontSize: 13.5 }}>Between episodes, mood usually returns to a person's baseline, though some people keep milder symptoms. This is the best time to build a warning-sign plan.<Cite k="nimhPub" n={n("nimhPub")} /></Para></Card>
+      </div>
+
+      <Card style={{ marginBottom: 24, borderLeft: `3px solid ${C.accent}` }}>
+        <SubHead>Early warning signs: your "relapse signature"</SubHead>
+        <Para>In a review of 17 studies, at least 80% of people with a mood disorder could name at least one early symptom before an episode, and sleep disturbance was the most consistent early sign of mania. Early signs of depression were noticed less often.<Cite k="jackson2003" n={n("jackson2003")} /></Para>
+        <Para>Early signs of mania people commonly notice: needing less sleep, more energy, faster speech or racing thoughts, impulsive spending, irritability, overconfidence, and a restless or "bubbling" feeling.<Cite k="dbsaMania" n={n("dbsaMania")} /> Family members often notice hypomania before the person does.<Cite k="nimhPub" n={n("nimhPub")} /></Para>
+        <Para>Early signs of depression are harder to catch because they often look like everyday symptoms slowly getting stronger.<Cite k="morriss2004" n={n("morriss2004")} /></Para>
+        <Para style={{ margin: 0 }}>Everyone's signs are different. Clinicians help people list 4 to 6 personal early signs from past episodes and a mood diary, then write an action plan with named contacts. There is often a window of 2 to 4 weeks between the first signs and losing insight, though some people get only days.<Cite k="morriss2004" n={n("morriss2004")} /> Free tools: the DBSA Wellness Tracker<Cite k="dbsaTracker" n={n("dbsaTracker")} /> or any daily mood journal.<Cite k="nimhPub" n={n("nimhPub")} /></Para>
+      </Card>
+
+      <Card style={{ marginBottom: 20, borderTop: `3px solid ${C.teal}` }}>
+        <Badge color={C.teal}>Self-check, not a diagnosis</Badge>
+        <h3 style={{ fontFamily: fonts.display, fontSize: 21, fontWeight: 700, color: C.text, margin: "10px 0 6px" }}>What am I noticing right now?</h3>
+        <Para>Tick anything that's been true over the past week or two. This doesn't tell you which episode you're in; it suggests what kind of help to reach for. Nothing you tick leaves your browser.</Para>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+          <div><div style={{ fontSize: 12, fontWeight: 700, color: "#c23030", textTransform: "uppercase", letterSpacing: "0.05em", margin: "4px 0 8px", fontFamily: fonts.body }}>Highs</div>
+            {MANIA_SX.map((s, i) => <Check key={i} label={s} on={!!hi[i]} color="#c23030" flip={() => { setHi(p => ({ ...p, [i]: !p[i] })); setDone(false); }} />)}</div>
+          <div><div style={{ fontSize: 12, fontWeight: 700, color: C.blue, textTransform: "uppercase", letterSpacing: "0.05em", margin: "4px 0 8px", fontFamily: fonts.body }}>Lows</div>
+            {DEP_SX.map((s, i) => <Check key={i} label={s} on={!!lo[i]} color={C.blue} flip={() => { setLo(p => ({ ...p, [i]: !p[i] })); setDone(false); }} />)}</div>
+        </div>
+        <div style={{ fontSize: 12, fontWeight: 700, color: C.red, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 8px", fontFamily: fonts.body }}>Any of these?</div>
+        {URGENT.map((s, i) => <Check key={i} label={s} on={!!ur[i]} color={C.red} flip={() => { setUr(p => ({ ...p, [i]: !p[i] })); setDone(false); }} />)}
+        <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+          <Btn onClick={() => setDone(true)}>See what to do</Btn>
+          <Btn variant="outline" onClick={() => { setHi({}); setLo({}); setUr({}); setDone(false); }}>Clear</Btn>
+        </div>
+        {verdict && (
+          <Card style={{ marginTop: 16, borderLeft: `4px solid ${verdict.color}`, background: `${verdict.color}0c` }}>
+            <div style={{ fontFamily: fonts.display, fontSize: 18, fontWeight: 700, color: verdict.color, marginBottom: 6 }}>{verdict.title}</div>
+            <Para style={{ margin: 0 }}>{verdict.text}</Para>
+          </Card>
+        )}
+        <p style={{ fontSize: 11.5, color: C.textLight, margin: "12px 0 0", lineHeight: 1.55, fontFamily: fonts.body }}>Based on when MedlinePlus, DBSA and NIMH advise getting help: call your provider if symptoms get worse, you have side effects, or you aren't taking medication as prescribed; get help right away for mania, thoughts of self-harm, hopelessness, hallucinations, or being unable to care for yourself.<Cite k="medlineplusBipolar" n={n("medlineplusBipolar")} /><Cite k="dbsaMania" n={n("dbsaMania")} /><Cite k="nimhBipolar" n={n("nimhBipolar")} /></p>
+      </Card>
+
+      <Card style={{ background: "#fdf2f2", borderColor: "#e8c4c4", marginBottom: 20 }}>
+        <p style={{ fontSize: 13, color: "#7a3030", lineHeight: 1.6, margin: 0, fontFamily: fonts.body }}><strong>In a crisis:</strong> call or text <strong>988</strong> or chat at 988lifeline.org; DBSA also lists texting "DBSA" to 741741. In a life-threatening situation, call <strong>911</strong> or go to the nearest emergency room.<Cite k="nimhBipolar" n={n("nimhBipolar")} /></p>
+      </Card>
+      <Sources keys={refs} />
+    </Section>
+  );
+}
+
 
 // ═══════════════════════════════════════════════════════════════
 // CBT PAGE
@@ -1297,6 +1654,8 @@ export default function App() {
       {active === "dbt" && <DBTPage />}
       {active === "body" && <BodyPage />}
       {active === "substance" && <SubstancePage />}
+      {active === "episodes" && <EpisodesPage />}
+      {active === "family" && <FamilyPage />}
       {active === "find-help" && <FindHelpPage />}
       {active === "about" && <AboutPage />}
 
